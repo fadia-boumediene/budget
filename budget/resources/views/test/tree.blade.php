@@ -3,171 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-  body {
-  background-color: #f8f9fa;
-}
+    <title>Portfail</title>
 
-.family-tree {
-  text-align: center;
-}
-* {margin: 0; padding: 0;}
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.bunny.net">
 
-.tree ul {
-	padding-top: 20px; position: relative;
-	
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
-}
-
-.tree li {
-	float: left; text-align: center;
-	list-style-type: none;
-	position: relative;
-	padding: 20px 5px 0 5px;
-	
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
-}
-
-/*We will use ::before and ::after to draw the connectors*/
-
-.tree li::before, .tree li::after{
-	content: '';
-	position: absolute; top: 0; right: 50%;
-	border-top: 1px solid #ccc;
-	width: 50%; height: 20px;
-}
-.tree li::after{
-	right: auto; left: 50%;
-	border-left: 1px solid #ccc;
-}
-
-/*We need to remove left-right connectors from elements without 
-any siblings*/
-.tree li:only-child::after, .tree li:only-child::before {
-	display: none;
-}
-
-/*Remove space from the top of single children*/
-.tree li:only-child{ padding-top: 0;}
-
-/*Remove left connector from first child and 
-right connector from last child*/
-.tree li:first-child::before, .tree li:last-child::after{
-	border: 0 none;
-}
-/*Adding back the vertical connector to the last nodes*/
-.tree li:last-child::before{
-	border-right: 1px solid #ccc;
-	border-radius: 0 5px 0 0;
-	-webkit-border-radius: 0 5px 0 0;
-	-moz-border-radius: 0 5px 0 0;
-}
-.tree li:first-child::after{
-	border-radius: 5px 0 0 0;
-	-webkit-border-radius: 5px 0 0 0;
-	-moz-border-radius: 5px 0 0 0;
-}
-
-/*Time to add downward connectors from parents*/
-.tree ul ul::before{
-	content: '';
-	position: absolute; top: 0; left: 50%;
-	border-left: 1px solid #ccc;
-	width: 0; height: 20px;
-}
-
-.tree li a{
-	border: 1px solid #ccc;
-	padding: 5px 10px;
-	text-decoration: none;
-	color: #666;
-	font-family: arial, verdana, tahoma;
-	font-size: 11px;
-	display: inline-block;
-	
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	
-	transition: all 0.5s;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
-}
-
-/*Time for some hover effects*/
-/*We will apply the hover effect the the lineage of the element also*/
-.tree li a:hover, .tree li a:hover+ul li a {
-	background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
-}
-/*Connector styles on hover*/
-.tree li a:hover+ul li::after, 
-.tree li a:hover+ul li::before, 
-.tree li a:hover+ul::before, 
-.tree li a:hover+ul ul::before{
-	border-color:  #94a0b4;
-}
-
-.member {
-  display: inline-block;
-  padding: 5px;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-}
-
-.member:hover {
-  background-color: #e9ecef;
-}
-    </style>
+<link href="{{asset('assets/css/Tree.css')}}" rel="stylesheet"/>
+<link href="{{asset('assets/css/main.css')}}" rel="stylesheet"/>
+<link href="{{asset('assets/bootstrap-5.0.2/css/bootstrap.css')}}" rel="stylesheet"/>
+<link href="{{asset('assets/fontawesome-free/css/all.css')}}" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Styles -->
 </head>
 <body>
-<div class="container family-tree">
+@include('side_bar.side-barV1')
+<!-- Container for Car Cards -->
+<div>
+ {{--@include('progress_step.progress_step')--}}
+ <br>
+ </div>
+
+ <div class="container">
+ <div class="container family-tree">
     <div class="row justify-content-center">
       <div class="col-12 tree">
         <ul>
           <li>
-            <span class="member">Grandparent</span>
-            <ul>
+              <span class="member" id="Portfail">
+
+                <!--  -->
+
+                <div class="col-12 col-sm-6">
+            <div class="card widget-card border-light shadow-sm">
+              <div class="card-body p-4">
+                <div class="row">
+                  <div class="col-8">
+                    <h5 class="card-title widget-card-title mb-3">Portfail</h5>
+                    <h4 class="card-subtitle text-body-secondary m-0">100,820,155 DZ</h4>
+                  </div>
+                  <div class="col-4">
+                    <div class="d-flex justify-content-end">
+                      <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-truck fs-4"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mt-3">
+                      <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
+                      </span>
+                      <div>
+                        @foreach($allport['prgrammes'] as $portf)
+
+                        <p class="fs-7 mb-0">Progamme : {{$portf['id_prog'] }}</p>
+                        @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+                <!--  -->
+            </span>
+            <ul style="display:none;">
+            @foreach($allport['prgrammes'] as $portf)
               <li>
-                <span class="member">Parent 1</span>
-                <ul>
-                  <li><span class="member">Child 1</span></li>
-                  <li><span class="member">Child 2</span></li>
+              <span class="member" id="{{$portf['id_prog']}}">
+                <div class="col-12 col-sm-6">
+            <div class="card widget-card border-light shadow-sm">
+              <div class="card-body p-4">
+                <div class="row">
+                  <div class="col-8">
+                    <h5 class="card-title widget-card-title mb-3">Programme :{{$portf['id_prog']}}</h5>
+                    <h4 class="card-subtitle text-body-secondary m-0"> AE :{{$portf['data']->AE_porg}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> CP :{{$portf['data']->CP_prog}}</h4>
+                  </div>
+                  <div class="col-4">
+                    <div class="d-flex justify-content-end">
+                      <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-truck fs-4"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mt-3">
+                      <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
+                      </span>
+                      <div>
+                      @if(count($portf['sous_program']) !=0) 
+                      @foreach($portf['sous_program'] as $souportf)
+                        @if(!empty($souportf['id_sous_prog']))
+                        <p class="fs-7 mb-0">Sous_Progamme : {{$souportf['id_sous_prog'] }}</p>
+                        @else
+                        <p class="fs-7 mb-0">aucun Sous_Progamme</p>
+                        @endif
+                      @endforeach
+                      @else
+                      <p class="fs-7 mb-0">aucun Sous_Progamme</p>
+                      <br>
+                      @endif
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+              <ul style="display:none">
+                @foreach($portf['sous_program'] as $souportf)
+                <li>
+                <span class="member" id="{{$souportf['id_sous_prog']}}">
+                <div class="col-12 col-sm-6">
+            <div class="card widget-card border-light shadow-sm">
+              <div class="card-body p-4">
+                <div class="row">
+                  <div class="col-8">
+                    <h5 class="card-title widget-card-title mb-3">Sous Programme:{{$souportf['id_sous_prog']}}</h5>
+                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$souportf['data']->AE_sous_porg}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$souportf['data']->CP_sous_prog}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">number :{{count($souportf['Action'])}}</h4>
+                  </div>
+                  <div class="col-4">
+                    <div class="d-flex justify-content-end">
+                      <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-truck fs-4"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mt-3">
+                      <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
+                      </span>
+                      <div>
+                      @foreach($souportf['Action'] as $act)
+                        <p class="fs-7 mb-0">Action : {{$act['num_act'] }}</p>
+                      @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+                
+                <ul style="display:none">
+                @foreach($souportf['Action'] as $act)
+                  <li>
+                <span class="member" id="act-{{$souportf['id_sous_prog']}}">
+                <div class="col-12 col-sm-6">
+            <div class="card widget-card border-light shadow-sm">
+              <div class="card-body p-4">
+                <div class="row">
+                  <div class="col-8">
+                    <h5 class="card-title widget-card-title mb-3">Action: {{$act['num_act'] }}</h5>
+                    <h4 class="card-subtitle text-body-secondary m-0">114,000,000 DZ</h4>
+                  </div>
+                  <div class="col-4">
+                    <div class="d-flex justify-content-end">
+                      <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-truck fs-4"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mt-3">
+                      <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
+                      </span>
+                      <div>
+                      @foreach($act['sous_action'] as $sous_act)
+                        <p class="fs-7 mb-0">Action : </p>
+                      @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+                </li>
+                  @endforeach
+                  <li>
+                  <span class="member">
+                  <a href="{{route('creation.portfail')}}">
+                   <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
+                  </a> 
+                  </li>
                 </ul>
+                @endforeach
+                <li>
+                <span class="member">
+                  <a href="{{route('creation.portfail')}}">
+                   <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
+                  </a> 
+                </li>
+               </ul>
               </li>
-              <li>
-                <span class="member">Parent 2</span>
-                <ul>
-                  <li><span class="member">Child 3</span></li>
-                </ul>
-              </li>
+            @endforeach
+            <li>
+                <span class="member">
+                  <a href="{{route('creation.portfail')}}">
+                   <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
+                  </a> 
+                </li>
             </ul>
           </li>
         </ul>
       </div>
     </div>
   </div>
+ </div>
+
+
+
 </body>
+<script src="{{asset('assets/bootstrap-5.0.2/js/bootstrap.js')}}"></script>
+<script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>
+<script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
 <script>
+  var path=Array();
  document.querySelectorAll('.member').forEach(member => {
-  member.addEventListener('click', function() {
+  member.addEventListener('click', function(event) {
     const children = member.nextElementSibling;
     if (children) {
       if (children.style.display === 'flex') {
         children.style.display = 'none';
+        if(member.id == 'Portfail')
+        {
+          path=Array();
+        }
       } else {
         children.style.display = 'flex';
       }
     }
   });
-});
+  });
+  $(document).ready(function(){
+    $('.member').on('click',function(){
+    id=$(this).attr('id');
+    var index=path.indexOf(id)
+    if( index !== -1)
+    {
+      path.splice(index+1);
+    }
+    else
+    {
+      path.push(id);
+    }
+    var typeact=id.split('-')
+    console.log('-<<'+JSON.stringify(path)+"-->>"+JSON.stringify(typeact))
+    if(typeact[0] =='act')
+    {
+      window.location.href='/testing/Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+typeact[1]+'/'
+    }
+    if(id =='S_ACTION-002' || id =='S_ACTION-001')
+    {
+       window.location.href='/testing/S_Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+path[4]+'/'
+    }
+  })
+})
+
 </script>
 </html>

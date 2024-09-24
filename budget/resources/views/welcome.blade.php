@@ -48,7 +48,7 @@
     <div class="carousel-item active">
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card" >
-        <div class="card-photo-holder" id="create-dir">
+        <div class="card-photo-holder" id="12" id="create-dir">
           <i class="fas fa-plus-circle icon-car"></i>
         </div>
         <div class="card-body">
@@ -59,7 +59,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           {{-- <i class="fas fa-folder-open icon-card"></i> --}}
         </div>
         <div class="card-body">
@@ -70,7 +70,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -86,7 +86,7 @@
     <div class="carousel-item">
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -97,7 +97,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -108,7 +108,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -124,7 +124,7 @@
     <div class="carousel-item">
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -135,7 +135,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -146,7 +146,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -162,7 +162,7 @@
    <div class="carousel-item">
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -173,7 +173,7 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="12">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
@@ -235,7 +235,7 @@ let arrow = document.querySelectorAll(".arrow");
       {
         window.location.href='{{route('form.portfail')}}'
       }else{
-      window.location.href='{{route('home.portfail')}}'}
+      window.location.href='/testing/tree/'+$(this).attr('id')}
     })
   })
 </script>
