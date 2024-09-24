@@ -20,8 +20,8 @@ return new class extends Migration
             $table->float('CP_dpia_nv');
 
             
-            $table->integer('code_operation');
-            $table->foreign('code_operation')->references('code_operation')->on('operations');
+            $table->integer('code_sous_operation');
+            $table->foreign('code_sous_operation')->references('code_sous_operation')->on('sous_operations');
            
             
             $table->integer('id_rp');
