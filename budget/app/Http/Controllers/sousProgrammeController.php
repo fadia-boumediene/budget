@@ -60,8 +60,8 @@ class sousProgrammeController extends Controller
         $SousProgramme->num_sous_prog = intval($request->num_sous_prog);
         $SousProgramme->num_prog = intval($request->id_program);
         $SousProgramme->nom_sous_prog = $request->nom_sous_prog;
-        $SousProgramme->AE_sous_porg = floatval($request->AE_sous_porg);
-        $SousProgramme->CP_sous_prog = floatval($request->CP_sous_prog);
+       /* $SousProgramme->AE_sous_porg = floatval($request->AE_sous_porg);
+        $SousProgramme->CP_sous_prog = floatval($request->CP_sous_prog);*/
         $SousProgramme->date_insert_sousProg = $request->date_insert_sousProg;
         
         $SousProgramme->save();

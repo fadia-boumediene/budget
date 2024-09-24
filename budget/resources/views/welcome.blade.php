@@ -48,7 +48,7 @@
     <div class="carousel-item active">
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card" >
-        <div class="card-photo-holder" id="12" id="create-dir">
+        <div class="card-photo-holder" id="create-dir">
           <i class="fas fa-plus-circle icon-car"></i>
         </div>
         <div class="card-body">
