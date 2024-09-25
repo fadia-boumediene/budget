@@ -5,10 +5,16 @@ use App\Http\Controllers\portfeuilleController;
 use App\Http\Controllers\programmeControlleur;
 use App\Http\Controllers\sousProgrammeController;
 use App\Http\Controllers\opeartionController;
+use App\Models\Portefeuille;
+use App\Models\Programme;
+use App\Models\Action;
+use App\Models\SousProgramme;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $portfs =Portefeuille::get(); 
+   // dd($portfs);
+    return view('welcome',compact('portfs'));
 });
 Route::get('/testing',function (){
 return view('test.carsoule');
@@ -16,6 +22,43 @@ return view('test.carsoule');
 Route::get('/testing/tree',function (){
     return view('test.tree');
     });
+    Route::get('/testing/tree/{id}',function ($id){
+             
+        $por=Portefeuille::findOrFail($id);
+        $progms=Programme::where('num_portefeuil',$id)->get();
+        $allprogram=[];
+        $allsous_prog=[];
+        $allaction=[];
+        foreach($progms as $progm)
+        {
+            $sousprog=SousProgramme::where('num_prog',$progm->num_prog)->get();
+            foreach($sousprog as $sprog)
+            {
+                
+               
+                    $act=Action::where('num_sous_prog',$sprog->num_sous_prog)->get();
+                    
+                    foreach($act as $listact)
+                    {
+                        if(isset($listact))
+                        {
+                        array_push($allaction,['num_act'=>$listact->num_action,'data'=>$listact,'sous_action'=>[]]);
+                    }
+                    }
+                    array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
+                    $allaction=[];
+            }
+            array_push($allprogram,['id_prog'=>$progm->num_prog,'data'=>$progm,'sous_program'=>$allsous_prog]);
+            $allsous_prog=[];
+        }
+        $allport=[
+            'id'=>$id,
+            'prgrammes'=>$allprogram,
+        ];
+        //  dd($allport);
+    // Passer les données à la vue
+    return view('test.tree', compact('allport'));
+        });
  /* Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}/',function ($port,$prog,$sous_prog,$act){
 
 
@@ -33,7 +76,7 @@ Route::get('/testing/tree',function (){
 
 //===============ROUTE PORTEFEUILLE==============================
 Route::controller(portfeuilleController::class)->group(function(){
-    Route::get('/Portfail','affich_portef')->name('home.portfail');
+    Route::get('/Portfail/{id}','affich_portef')->name('home.portfail');
     Route::get('/Form','form_portef')->name('form.portfail'); //afficher formulaire d ajout
     Route::post('/creation','creat_portef')->name('creation.portfail');
 });

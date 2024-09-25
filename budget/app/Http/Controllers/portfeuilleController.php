@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Portefeuille;
+use App\Models\Programme;
+use App\Models\Action;
+use App\Models\SousProgramme;
 class portfeuilleController extends Controller
 {
 
 //===================================================================================
                                 //affichage du portrefeuille
 //===================================================================================
-    function affich_portef()
+    function affich_portef($id)
     {
         // Récupérer tous les portefeuilles de la base de données
           //  $portefeuilles = Portefeuille::all();
-
+        
     // Passer les données à la vue
         return view('Portfail-in.index', /*compact('portefeuilles')*/);
     }
@@ -30,7 +33,7 @@ class portfeuilleController extends Controller
     {
          // Validation des données
          $request->validate([
-            'num_portefeuil' => 'required|unique:portefeuilles,num_portefeuil',
+            'num_portefeuil' => 'required',
             'num_journal' => 'required',
             'nom_journal' => 'required',
             'AE_portef' => 'required',
@@ -57,7 +60,7 @@ class portfeuilleController extends Controller
         $portefeuille->AE_portef = $request->AE_portef;
         $portefeuille->CP_portef = $request->CP_portef;
         $portefeuille->Date_portefeuille = $request->Date_portefeuille;
-        $portefeuille->id_min =1;//periodiquement
+        $portefeuille->id_min =2;//periodiquement
         $portefeuille->save();
 
         if($portefeuille)

@@ -59,22 +59,22 @@
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="{{ $portfs[0]->num_portefeuil}}">
           {{-- <i class="fas fa-folder-open icon-card"></i> --}}
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
+          <h5 class="card-title">Portfail {{ $portfs[0]->num_portefeuil}} de : {{$portfs[0]->Date_portefeuille}}</h5>
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
       </div>
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="{{ $portfs[1]->num_portefeuil}}">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
+          <h5 class="card-title">Portfail {{ $portfs[1]->num_portefeuil}} de : {{$portfs[1]->Date_portefeuille}}</h5>
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
       </div>
@@ -83,108 +83,51 @@
 
 
     <!-- Second Car Card -->
+    @for($i=2 ; $i < count($portfs) ; $i+=3)
     <div class="carousel-item">
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
+      @if(isset($portfs[$i]) && $i < count($portfs))
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="{{$portfs[$i]->num_portefeuil}}">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
+          <h5 class="card-title">Portfail {{$portfs[$i]->num_portefeuil}} de : {{$portfs[$i]->Date_portefeuille}}</h5>
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
       </div>
     </div>
+    @endif
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
+    @if(isset($portfs[$i+1]) && $i+1 < count($portfs))
+   
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="{{$portfs[$i+1]->num_portefeuil}}">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
+        <h5 class="card-title">Portfail {{$portfs[$i+1]->num_portefeuil}} de : {{$portfs[$i+1]->Date_portefeuille}}</h5>
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
       </div>
     </div>
+    @endif
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
+    @if(isset($portfs[$i+2]) && $i+2 < count($portfs))
+    
       <div class="card">
-        <div class="card-photo-holder">
+        <div class="card-photo-holder" id="{{$portfs[$i+2]->num_portefeuil}}">
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
-        </div>
-      </div>
-    </div>
-    </div>
-
-
-    <!-- Third Car Card -->
-    <div class="carousel-item">
-    <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
-      <div class="card">
-        <div class="card-photo-holder">
-          <i class="fas fa-folder-open icon-card"></i>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
-      <div class="card">
-        <div class="card-photo-holder">
-          <i class="fas fa-folder-open icon-card"></i>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
-      <div class="card">
-        <div class="card-photo-holder">
-          <i class="fas fa-folder-open icon-card"></i>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
+        <h5 class="card-title">Portfail {{$portfs[$i+2]->num_portefeuil}} de : {{$portfs[$i+2]->Date_portefeuille}}</h5>
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
       </div>
     </div>
     </div>
-
-
-<!-- Fourrh Car Card -->
-   <div class="carousel-item">
-    <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
-      <div class="card">
-        <div class="card-photo-holder">
-          <i class="fas fa-folder-open icon-card"></i>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
-      <div class="card">
-        <div class="card-photo-holder">
-          <i class="fas fa-folder-open icon-card"></i>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Portfail jj-mm-aaaa</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
-
-    </div>
+    @endif
+    @endfor
     </div>
 
 
@@ -230,12 +173,12 @@ let arrow = document.querySelectorAll(".arrow");
   });*/
   $(document).ready(function(){
     $('.card-photo-holder').on('click',function(){
-      console.log('{{route('home.portfail')}}'+'---'+$(this).attr('id'));
+    //  console.log('{{--route('home.portfail')--}}'+'---'+$(this).attr('id'));
       if($(this).attr('id') == 'create-dir')
       {
         window.location.href='{{route('form.portfail')}}'
       }else{
-      window.location.href='{{route('home.portfail')}}'}
+      window.location.href='/testing/tree/'+$(this).attr('id')}
     })
   })
 </script>
