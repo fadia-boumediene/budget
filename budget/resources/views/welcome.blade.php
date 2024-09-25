@@ -114,7 +114,6 @@
     @endif
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
     @if(isset($portfs[$i+2]) && $i+2 < count($portfs))
-    
       <div class="card">
         <div class="card-photo-holder" id="{{$portfs[$i+2]->num_portefeuil}}">
           <i class="fas fa-folder-open icon-card"></i>
