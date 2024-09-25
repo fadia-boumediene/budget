@@ -60,8 +60,8 @@ class actionController extends Controller
         $action->num_action = intval($request->num_action);
         $action->num_sous_prog = intval($request->id_sous_prog);
         $action->nom_action = $request->nom_action;
-        $action->AE_action = floatval($request->AE_action);
-        $action->CP_action = floatval($request->CP_action);
+      /*  $action->AE_action = floatval($request->AE_action);
+        $action->CP_action = floatval($request->CP_action);*/
         $action->id_ra = 1;//periodiquement
         $action->date_insert_action = $request->date_insert_action;
        

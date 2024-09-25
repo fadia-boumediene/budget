@@ -677,6 +677,7 @@ z-index: 1000;
 {
   display: flex;
   position: fixed;
+  flex-wrap: wrap;
   width: 100%;
   top: 0px;
   background-color: #d3dbff9d;
@@ -685,6 +686,7 @@ z-index: 1000;
 .the-path
 {
   display: flex;
+  flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
