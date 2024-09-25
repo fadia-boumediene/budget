@@ -7,9 +7,17 @@ use App\Models\Portefeuille;
 use App\Models\Programme;
 use App\Models\Action;
 use App\Models\SousProgramme;
+use App\Models\SousAction;
+
+use App\Services\CalculDpia;
 class portfeuilleController extends Controller
 {
+    protected $CalculDpia;
 
+    public function __construct(CalculDpia $CalculDpia)
+    {
+        $this->CalculDpia = $CalculDpia;
+    }
 //===================================================================================
                                 //affichage du portrefeuille
 //===================================================================================
@@ -17,9 +25,73 @@ class portfeuilleController extends Controller
     {
         // Récupérer tous les portefeuilles de la base de données
           //  $portefeuilles = Portefeuille::all();
+         
+          $por=Portefeuille::findOrFail($id);
+          $progms=Programme::where('num_portefeuil',$id)->get();
+          $allprogram=[];
+          $allsous_prog=[];
+          $allaction=[];
+          $allsous_action=[];
+          $resultats=0;
+           $CalculDpia;
+  
         
+  
+         
+  
+  
+          foreach($progms as $progm)
+          {
+              $sousprog=SousProgramme::where('num_prog',$progm->num_prog)->get();
+              foreach($sousprog as $sprog)
+              {
+                  
+                 
+                      $act=Action::where('num_sous_prog',$sprog->num_sous_prog)->get();
+                      
+                      foreach($act as $listact)
+                      {
+                          if(isset($listact))
+                          {
+                              $sous_act=SousAction::where('num_action',$listact->num_action)->get();
+                              foreach($sous_act as $listsousact)
+                              {
+                                  if(isset($listsousact))
+                                  {
+                                     // $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                     
+                                      try {
+                                          $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                      } catch (\Exception $e) {
+                                         
+                                          $resultats="null";
+                                      }
+                                      //dd($resultats);
+                                      array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact,'T2'=>$resultats]);
+                                     
+                                  }
+                              } 
+                          array_push($allaction,['num_act'=>$listact->num_action,'data'=>$listact,'sous_action'=>$allsous_action]);
+                          $allsous_action=[];
+                          }
+                      }
+                      array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
+                      $allaction=[];
+              }
+              array_push($allprogram,['id_prog'=>$progm->num_prog,'data'=>$progm,'sous_program'=>$allsous_prog]);
+              $allsous_prog=[];
+          }
+          $allport=[
+              'id'=>$id,
+              'prgrammes'=>$allprogram,
+          ];
+            dd($allport);
+      // Passer les données à la vue
+      return view('test.tree', compact('allport'));
+
+
     // Passer les données à la vue
-        return view('Portfail-in.index', /*compact('portefeuilles')*/);
+     
     }
     //affichage formulaire
     function form_portef()

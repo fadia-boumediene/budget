@@ -11,6 +11,7 @@ use App\Models\Action;
 use App\Models\SousProgramme;
 use App\Models\SousAction;
 use Illuminate\Support\Facades\Route;
+use App\Services\CalculDpia;
 
 Route::get('/', function () {
     $portfs =Portefeuille::get(); 
@@ -31,6 +32,17 @@ Route::get('/testing/tree',function (){
         $allsous_prog=[];
         $allaction=[];
         $allsous_action=[];
+        $resultats=0;
+         $CalculDpia;
+
+        function __construct(CalculDpia $CalculDpia)
+        {
+            $this->CalculDpia = $CalculDpia;
+        }
+
+       
+
+
         foreach($progms as $progm)
         {
             $sousprog=SousProgramme::where('num_prog',$progm->num_prog)->get();
@@ -49,7 +61,17 @@ Route::get('/testing/tree',function (){
                             {
                                 if(isset($listsousact))
                                 {
-                                    array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact]);
+                                   // $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                   
+                                    try {
+                                        $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                    } catch (\Exception $e) {
+                                       
+                                        $resultats="null";
+                                    }
+                                    
+                                    array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact,'T2'=>$resultats]);
+                                    dd($id.'/'.$progm->num_prog.'/'.$sprog->num_sous_prog.'/'. $listact->num_action.'/'.$listsousact->num_sous_action);
                                 }
                             } 
                         array_push($allaction,['num_act'=>$listact->num_action,'data'=>$listact,'sous_action'=>$allsous_action]);

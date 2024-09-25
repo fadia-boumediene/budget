@@ -182,7 +182,7 @@ let arrow = document.querySelectorAll(".arrow");
       {
         window.location.href='{{route('form.portfail')}}'
       }else{
-      window.location.href='/testing/tree/'+$(this).attr('id')}
+      window.location.href='/Portfail/'+$(this).attr('id')}
     })
   })
 </script>
