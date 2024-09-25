@@ -37,8 +37,8 @@ function create_sous_action(Request $request, $num_action)
     $request->validate([
         'num_sous_action' => 'required',
         'nom_sous_action' => 'required',
-        'AE_sous_action' => 'required',
-        'CP_sous_action' => 'required',
+        /*'AE_sous_action' => 'required',
+        'CP_sous_action' => 'required',*/
         'date_insert_sous_action' => 'required|date',
     ]);
 
@@ -60,8 +60,8 @@ function create_sous_action(Request $request, $num_action)
     $action->num_sous_action = $request->num_sous_action;
     $action->num_action = $num_action;
     $action->nom_sous_action = $request->nom_sous_action;
-    $action->AE_sous_action = $request->AE_sous_action;
-    $action->CP_sous_action = $request->CP_sous_action;
+  /*  $action->AE_sous_action = $request->AE_sous_action;
+    $action->CP_sous_action = $request->CP_sous_action;*/
     $action->date_insert_sous_action = $request->date_insert_sous_action;
     $action->save();
 

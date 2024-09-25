@@ -39,7 +39,8 @@
                 <div class="row">
                   <div class="col-8">
                     <h5 class="card-title widget-card-title mb-3">Portfail</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0">100,820,155 DZ</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> AE :{{$allport['TotalAE']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> CP :{{$allport['TotalCP']}}</h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -80,8 +81,8 @@
                 <div class="row">
                   <div class="col-8">
                     <h5 class="card-title widget-card-title mb-3">Programme :{{$portf['id_prog']}}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0"> AE :{{$portf['data']->AE_porg}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0"> CP :{{$portf['data']->CP_prog}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> AE :{{$portf['TotalAE']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> CP :{{$portf['TotalCP']}}</h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -128,9 +129,8 @@
                 <div class="row">
                   <div class="col-8">
                     <h5 class="card-title widget-card-title mb-3">Sous Programme:{{$souportf['id_sous_prog']}}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$souportf['data']->AE_sous_porg}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$souportf['data']->CP_sous_prog}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0">number :{{count($souportf['Action'])}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$souportf['TotalAE']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$souportf['TotalCP']}}</h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -162,14 +162,19 @@
                 <ul style="display:none">
                 @foreach($souportf['Action'] as $act)
                   <li>
-                <span class="member" id="act-{{$souportf['id_sous_prog']}}">
+                  @if(count($act['sous_action'])>0)
+                  <span class="member" id="{{$souportf['id_sous_prog']}}">
+                  @else
+                  <span class="member" id="act-{{$souportf['id_sous_prog']}}">
+                  @endif
                 <div class="col-12 col-sm-6">
             <div class="card widget-card border-light shadow-sm">
               <div class="card-body p-4">
                 <div class="row">
                   <div class="col-8">
                     <h5 class="card-title widget-card-title mb-3">Action: {{$act['num_act'] }}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0">114,000,000 DZ</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$act['TotalAE']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$act['TotalCP']}}</h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -197,6 +202,59 @@
             </div>
           </div>
         </span>
+            <ul style="display:none;">
+            @foreach($act['sous_action'] as $sous_act)
+                  <li>
+                <span class="member" id="s_act-{{$souportf['id_sous_prog']}}">
+                <div class="col-12 col-sm-6">
+            <div class="card widget-card border-light shadow-sm">
+              <div class="card-body p-4">
+                <div class="row">
+                  <div class="col-8">
+                    <h5 class="card-title widget-card-title mb-3">Sous Action: {{$sous_act['num_act'] }}</h5>
+                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$sous_act['TotalAE']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$sous_act['TotalCP']}}</h4>
+                  </div>
+                  <div class="col-4">
+                    <div class="d-flex justify-content-end">
+                      <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-truck fs-4"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mt-3">
+                      <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
+                      </span>
+                      <div class="Port-info-holder">
+                      @foreach($sous_act['Tports'] as $key=>$values)
+                       <div class="T-holder"> 
+                        <p class="fs-7 mb-0">{{$key}} </p>
+                        <div class="TotalT-holder">
+                          <p>AE : {{$values['totalT'][0]['values']['totalAEt']}} </p>
+                          <p>CP : {{$values['totalT'][0]['values']['totalCPt']}} </p>
+                        </div>
+                        </div>
+                      @endforeach
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+              @endforeach
+              <li>
+                  <span class="member">
+                  <a href="{{route('creation.portfail')}}">
+                   <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
+                  </a> 
+                  </li>
+            </ul>
                 </li>
                   @endforeach
                   <li>
@@ -272,9 +330,9 @@
     {
       window.location.href='/testing/Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+typeact[1]+'/'
     }
-    if(id =='S_ACTION-002' || id =='S_ACTION-001')
+    if(typeact[0] =='s_act')
     {
-       window.location.href='/testing/S_Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+path[4]+'/'
+       window.location.href='/testing/S_Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
     }
   })
 })

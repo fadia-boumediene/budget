@@ -17,7 +17,7 @@ class CalculDpia
         $sous_prog = intval($sous_prog);
         $act = intval($act);
         $s_act = intval($s_act);
-          //dd($port, $prog, $sous_prog, $act);
+       // dd($port, $prog, $sous_prog, $act);
         // récupérer le portefeuille à partir du chemin
         $portefeuille = Portefeuille::where('num_portefeuil',$port)
             ->with([
