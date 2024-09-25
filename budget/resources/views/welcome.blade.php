@@ -58,6 +58,7 @@
       </div>
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
+      @if(isset($portfs[0]))
       <div class="card">
         <div class="card-photo-holder" id="{{ $portfs[0]->num_portefeuil}}">
           {{-- <i class="fas fa-folder-open icon-card"></i> --}}
@@ -66,9 +67,12 @@
           <h5 class="card-title">Portfail {{ $portfs[0]->num_portefeuil}} de : {{$portfs[0]->Date_portefeuille}}</h5>
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
+
       </div>
+      @endif
     </div>
     <div class="col-md-6 col-lg-4 mb-4 card-mar-right">
+    @if(isset($portfs[1]))
       <div class="card">
         <div class="card-photo-holder" id="{{ $portfs[1]->num_portefeuil}}">
           <i class="fas fa-folder-open icon-card"></i>
@@ -78,6 +82,7 @@
           <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
         </div>
       </div>
+      @endif
     </div>
   </div>
 

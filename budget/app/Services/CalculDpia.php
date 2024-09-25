@@ -51,6 +51,14 @@ class CalculDpia
         $totalCpOuvertGlobal=0;
         $totalCpAttenduGlobal=0;
 
+        
+        $totalAeNotifieGlobal=0;
+        $totalAeReporteGlobal=0;
+        $totalAeEngageGlobal=0;
+        $totalCpNotifieGlobal=0;
+        $totalCpReporteGlobal=0;
+        $totalCpConsomeGlobal=0;
+
         // parcourir tous les programmes du portefeuille
         foreach ($portefeuille->Programme as $programme) {
            // dd($programme);
@@ -66,6 +74,13 @@ class CalculDpia
                             $groupeAeAttendu = 0;
                             $groupeCpOuvert = 0;
                             $groupeCpAttendu = 0;
+
+                            $groupeAeReporte = 0;
+                            $groupeAeNotife= 0;
+                            $groupeAeEngage= 0;
+                            $groupeCpReporte = 0;
+                            $groupeCpNotife= 0;
+                            $groupeCpConsome= 0;
                            
                             foreach ($groupe->Operation as $operation) {
                               //  dd($operation);
@@ -74,44 +89,84 @@ class CalculDpia
                                 $operationCPOuvert = 0;
                                 $operationCPAttendu = 0;
 
+                                $operationAeReporte = 0;
+                                $operationAeNotife = 0;
+                                $operationAeEngage= 0;
+                                $operationCPReporte = 0;
+                                $operationCPNotife = 0;
+                                $operationCPConsome = 0;
                            
 
                                     // calculer la somme de chaque sous op 
                                     foreach ($operation->SousOperation as $sousOperation) {
                                         //dd($sousOperation);
+                     /***************************************** T2 ********************************************************** */            
                                         $sousopAeouvert= $sousOperation->AE_ouvert;
                                         $sousopAeattendu= $sousOperation->AE_atendu;
                                          // dd($sousopAeouvert,$sousopAeattendu);
-                                        $sousopCpouvert= $sousOperation->CP_ouvert;
+
+                                         $sousopCpouvert= $sousOperation->CP_ouvert;
                                         $sousopCpattendu= $sousOperation->CP_atendu;
                                       //  dd($sousopCpouvert,$sousopCpattendu);
 
-                                        $totalSousAeGlobal = $sousopAeouvert + $sousopAeattendu; // AE_ouvert + AE_attendu global
-                                        $totalSousCpGlobal = $sousopCpouvert + $sousopCpattendu; // CP_ouvert + CP_attendu global
-                                        //dd($totalSousAeGlobal,$totalSousCpGlobal);
-                                                  
-                                                //calcul l'operation depuis les sous operations
-                                        $operationAeOuvert += $sousOperation->AE_ouvert;
-                                        $operationAeAttendu += $sousOperation->AE_atendu;
-                                        $operationCPOuvert += $sousOperation->CP_ouvert;
-                                        $operationCPAttendu += $sousOperation->CP_atendu;
+                                      $totalSousAeGlobal = $sousopAeouvert + $sousopAeattendu; // AE_ouvert + AE_attendu global
+                                      $totalSousCpGlobal = $sousopCpouvert + $sousopCpattendu; // CP_ouvert + CP_attendu global
+                                      //dd($totalSousAeGlobal,$totalSousCpGlobal);
+                                                
+                                              //calcul l'operation depuis les sous operations
+                                      $operationAeOuvert += $sousOperation->AE_ouvert;
+                                      $operationAeAttendu += $sousOperation->AE_atendu;
+                                      $operationCPOuvert += $sousOperation->CP_ouvert;
+                                      $operationCPAttendu += $sousOperation->CP_atendu;
 
-                                        $totalOPAeGlobal = $operationAeOuvert + $operationAeAttendu; // AE_ouvert + AE_attendu global ligne(horizontale)
-                                        $totalOPCpGlobal = $operationCPOuvert + $operationCPAttendu;
+                                      $totalOPAeGlobal = $operationAeOuvert + $operationAeAttendu; // AE_ouvert + AE_attendu global ligne(horizontale)
+                                      $totalOPCpGlobal = $operationCPOuvert + $operationCPAttendu;
+                                   
+                                      $sousOperationT2[] = [
+                                          "code" => $sousOperation->code_sous_operation,
+                                          "values" => [
+                                              'ae_ouvertsousop' => $sousopAeouvert, 
+                                              'ae_attendusousop' => $sousopAeattendu,
+                                              'cp_ouvertsousop' => $sousopCpouvert,
+                                              'cp_attendsousuop' => $sousopCpattendu,
+                                              'totalAEsousop' => $totalSousAeGlobal,
+                                              'totalCPsousop' => $totalSousCpGlobal,
+                                          ]  ];
+                      
+                                         
+                      /****************************************T3******************************************************************* */
+
+                                       /*  $sousopAereporte= $sousOperation->AE_reporte;
+                                         $sousopAenotifie= $sousOperation->AE_notifie;
+                                         $sousopAeengage= $sousOperation->AE_engage;
+                                        // dd($sousopAeouvert,$sousopAeattendu, $sousopAeattendu);
+
+                                        
+                                      $sousopCpreporte= $sousOperation->CP_reporte;
+                                      $sousopCpnotifie= $sousOperation->CP_notifie;
+                                      $sousopCpconsome= $sousOperation->CP_consome;
+                                     // dd($sousopCpouvert,$sousopCpattendu, $sousopCpattendu);
+                                       
                                      
-                                        $sousOperationT2[] = [
-                                            "code" => $sousOperation->code_sous_operation,
-                                            "values" => [
-                                                'ae_ouvertsousop' => $sousopAeouvert, 
-                                                'ae_attendusousop' => $sousopAeattendu,
-                                                'cp_ouvertsousop' => $sousopCpouvert,
-                                                'cp_attendsousuop' => $sousopCpattendu,
-                                                'totalAEsousop' => $totalSousAeGlobal,
-                                                'totalCPsousop' => $totalSousCpGlobal,
-                                            ]  ];
-                        
-                                           
-                        
+                                       //calcul l'operation depuis les sous operations
+                                       $operationAeReporte += $sousOperation->AE_reporte;
+                                       $operationAeNotife += $sousOperation->AE_notifie;
+                                       $operationAeEngage += $sousOperation->AE_engage;
+                                       $operationCPReporte += $sousOperation->CP_reporte;
+                                       $operationCPNotife += $sousOperation->CP_notifie;
+                                       $operationCPConsome += $sousOperation->CP_consome;
+ 
+
+                                       $sousOperationT3[] = [
+                                           "code" => $sousOperation->code_sous_operation,
+                                           "values" => [
+                                               'ae_sousop' => $sousopAeouvert, 
+                                               'ae_attendusousop' => $sousopAeattendu,
+                                               'cp_ouvertsousop' => $sousopCpouvert,
+                                               'cp_attendsousuop' => $sousopCpattendu,
+                                               'totalAEsousop' => $totalSousAeGlobal,
+                                               'totalCPsousop' => $totalSousCpGlobal,
+                                           ]  ];*/
 
                                     }
                                  
