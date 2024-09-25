@@ -73,8 +73,8 @@ class portfeuilleController extends Controller
                                       {
                                         foreach($resultats as $Tresult)
                                         {
-                                            $AE_All_sous_act+=$Tresult['totalT'][0]['values']['totalAEt'];
-                                            $CP_All_sous_act+=$Tresult['totalT'][0]['values']['totalCPt'];
+                                            $AE_All_sous_act+=$Tresult['total'][0]['values']['totalAE'];
+                                            $CP_All_sous_act+=$Tresult['total'][0]['values']['totalCP'];
                                         }
                                       }
                                       //dd($resultats);
@@ -93,16 +93,20 @@ class portfeuilleController extends Controller
                       }
                       foreach($allaction as $sact)
                               {
-                                $AE_All_act+=$sact['TotalAE'];
-                                $CP_All_act+=$sact['TotalCP'];
+                                $AE_All_sous_prog+=$sact['TotalAE'];
+                                $CP_All_sous_prog+=$sact['TotalCP'];
+                                
                               }
+                              
                       array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
+                    // dd($allsous_prog);
                       $allaction=[];
-              }
+              }  
+              
               foreach($allsous_prog as $sact)
                               {
-                                $AE_All_act+=$sact['TotalAE'];
-                                $CP_All_act+=$sact['TotalCP'];
+                                $AE_All_prog+=$sact['TotalAE'];
+                                $CP_All_prog+=$sact['TotalCP'];
                               }
               array_push($allprogram,['id_prog'=>$progm->num_prog,'TotalAE'=>$AE_All_prog,'TotalCP'=>$CP_All_prog, 'data'=>$progm,'sous_program'=>$allsous_prog]);
               $allsous_prog=[];

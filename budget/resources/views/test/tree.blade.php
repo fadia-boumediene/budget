@@ -192,7 +192,7 @@
                       </span>
                       <div>
                       @foreach($act['sous_action'] as $sous_act)
-                        <p class="fs-7 mb-0">Action : </p>
+                        <p class="fs-7 mb-0">Sous Action :{{$sous_act['num_act']}} </p>
                       @endforeach
                       </div>
                     </div>
@@ -234,8 +234,8 @@
                        <div class="T-holder"> 
                         <p class="fs-7 mb-0">{{$key}} </p>
                         <div class="TotalT-holder">
-                          <p>AE : {{$values['totalT'][0]['values']['totalAEt']}} </p>
-                          <p>CP : {{$values['totalT'][0]['values']['totalCPt']}} </p>
+                          <p>AE : {{$values['total'][0]['values']['totalAE']}} </p>
+                          <p>CP : {{$values['total'][0]['values']['totalCP']}} </p>
                         </div>
                         </div>
                       @endforeach
