@@ -70,7 +70,7 @@ Route::get('/testing/tree',function (){
                                         $resultats="null";
                                     }
                                     
-                                    array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact,'T2'=>$resultats]);
+                                    array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact,'result'=>$resultats]);
                                     dd($id.'/'.$progm->num_prog.'/'.$sprog->num_sous_prog.'/'. $listact->num_action.'/'.$listsousact->num_sous_action);
                                 }
                             } 

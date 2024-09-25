@@ -33,12 +33,15 @@ class portfeuilleController extends Controller
           $allaction=[];
           $allsous_action=[];
           $resultats=0;
-           $CalculDpia;
-  
-        
-  
-         
-  
+           $allresult=0;
+           $AE_All_sous_act=0;
+           $CP_All_sous_act=0;
+           $AE_All_act=0;
+           $CP_All_act=0;
+           $AE_All_sous_prog=0;
+           $CP_All_sous_prog=0;
+           $AE_All_prog=0;
+           $CP_All_prog=0;
   
           foreach($progms as $progm)
           {
@@ -66,26 +69,52 @@ class portfeuilleController extends Controller
                                          
                                           $resultats="null";
                                       }
+                                      if($resultats != "null")
+                                      {
+                                        foreach($resultats as $Tresult)
+                                        {
+                                            $AE_All_sous_act+=$Tresult['totalT'][0]['values']['totalAEt'];
+                                            $CP_All_sous_act+=$Tresult['totalT'][0]['values']['totalCPt'];
+                                        }
+                                      }
                                       //dd($resultats);
-                                      array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact,'T2'=>$resultats]);
-                                     
+                                      array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'TotalAE'=>$AE_All_sous_act,'TotalCP'=>$CP_All_sous_act,'data'=>$listsousact,'Tports'=>$resultats]);
                                   }
+                                 
                               } 
-                          array_push($allaction,['num_act'=>$listact->num_action,'data'=>$listact,'sous_action'=>$allsous_action]);
+                              foreach($allsous_action as $sact)
+                              {
+                                $AE_All_act+=$sact['TotalAE'];
+                                $CP_All_act+=$sact['TotalCP'];
+                              }
+                          array_push($allaction,['num_act'=>$listact->num_action,'TotalAE'=>$AE_All_act,'TotalCP'=>$CP_All_act,'data'=>$listact,'sous_action'=>$allsous_action]);
                           $allsous_action=[];
                           }
                       }
-                      array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
+                      foreach($allaction as $sact)
+                              {
+                                $AE_All_act+=$sact['TotalAE'];
+                                $CP_All_act+=$sact['TotalCP'];
+                              }
+                      array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
                       $allaction=[];
               }
-              array_push($allprogram,['id_prog'=>$progm->num_prog,'data'=>$progm,'sous_program'=>$allsous_prog]);
+              foreach($allsous_prog as $sact)
+                              {
+                                $AE_All_act+=$sact['TotalAE'];
+                                $CP_All_act+=$sact['TotalCP'];
+                              }
+              array_push($allprogram,['id_prog'=>$progm->num_prog,'TotalAE'=>$AE_All_prog,'TotalCP'=>$CP_All_prog, 'data'=>$progm,'sous_program'=>$allsous_prog]);
               $allsous_prog=[];
           }
+       //   dd($por);
           $allport=[
               'id'=>$id,
+              'TotalAE'=>$por->AE_portef,
+              'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-            dd($allport);
+            //   dd($allport);
       // Passer les données à la vue
       return view('test.tree', compact('allport'));
 
