@@ -33,7 +33,13 @@ class CalculDpia
 
         $totalAeT3 = 0;
         $totalCpT3 = 0;
-                                     
+
+        $totalAe = 0; //pour t1 
+        $totalCp = 0;
+                       
+        
+        $totalAet4 = 0; //pour  t4
+        $totalCpt4 = 0;
 
         $groupT2 = [];
         $totalt2= [];
@@ -45,6 +51,17 @@ class CalculDpia
         $operationT3 = [];
         $sousOperationT3 = [];
 
+        //pour t1 
+        $groupT = [];
+        $totalt= [];
+        $operationT = [];
+        $sousOperationT = [];
+
+        //pour t1 
+        $groupT4= [];
+        $totalt4= [];
+        $operationT4 = [];
+        $sousOperationT4 = [];
 
         $totalAeOuvertGlobal=0;
         $totalAeAttenduGlobal=0;
@@ -58,6 +75,8 @@ class CalculDpia
         $totalCpNotifieGlobal=0;
         $totalCpReporteGlobal=0;
         $totalCpConsomeGlobal=0;
+
+
 
         // parcourir tous les programmes du portefeuille
         foreach ($portefeuille->Programme as $programme) {
@@ -81,7 +100,13 @@ class CalculDpia
                             $groupeCpReporte = 0;
                             $groupeCpNotife= 0;
                             $groupeCpConsome= 0;
+
+                            //pour t1 
+                            $groupeAe = 0;
+                            $groupeCp= 0;
                            
+                            $groupeAet4 = 0;
+                            $groupeCpt4 = 0;
                             foreach ($groupe->Operation as $operation) {
                               //  dd($operation);
                                 $operationAeOuvert = 0;
@@ -95,8 +120,13 @@ class CalculDpia
                                 $operationCPReporte = 0;
                                 $operationCPNotife = 0;
                                 $operationCPConsome = 0;
-                           
 
+                               //pour t1
+                                $operationAe = 0;
+                                $operationCP = 0;
+
+                                $operationAet4 = 0;
+                                $operationCPt4 = 0;
                                     // calculer la somme de chaque sous op 
                                     foreach ($operation->SousOperation as $sousOperation) {
                                         //dd($sousOperation);
@@ -121,6 +151,7 @@ class CalculDpia
 
                                       $totalOPAeGlobal = $operationAeOuvert + $operationAeAttendu; // AE_ouvert + AE_attendu global ligne(horizontale)
                                       $totalOPCpGlobal = $operationCPOuvert + $operationCPAttendu;
+
                                       if($sousOperation->code_t2==20000) {
                                         $sousOperationT2[] = [
                                             "code" => $sousOperation->code_sous_operation,
@@ -141,7 +172,7 @@ class CalculDpia
                                          $sousopAereporte= $sousOperation->AE_reporte;
                                          $sousopAenotifie= $sousOperation->AE_notifie;
                                          $sousopAeengage= $sousOperation->AE_engage;
-                                        // dd($sousopAereporte,$sousopAenotifie, $sousopAeengage);
+                                        //dd($sousopAereporte,$sousopAenotifie, $sousopAeengage);
 
                                         
                                       $sousopCpreporte= $sousOperation->CP_reporte;
@@ -171,6 +202,46 @@ class CalculDpia
                                                'cp_consomesousop' => $operationCPConsome,
                                            ]  ];
                                        }
+
+                        /************************************T1********************************************************** */
+
+                                        $sousopAe= $sousOperation->AE_sous_operation;                    
+                                        $sousopcP= $sousOperation->CP_sous_operation;
+                                        //dd($sousopAe,$sousopcP);
+                                
+                                       //calcul l'operation depuis les sous operations
+                                       $operationAe+= $sousOperation->AE_sous_operation;
+                                       $operationCP+= $sousOperation->CP_sous_operation;
+
+                                       if($sousOperation->code_t1==10000) {
+                                        $sousOperationT[] = [
+                                            "code" => $sousOperation->code_sous_operation,
+                                            "values" => [
+                                                'ae_sousop' => $sousopAe, 
+                                                'cp_sousuop' => $sousopcP,
+                                             
+                                            ]  ];
+                                      }
+            /*****************************************T4********************************************************** */
+
+                                          $sousopAet4= $sousOperation->AE_sous_operation;                    
+                                          $sousopcPt4= $sousOperation->CP_sous_operation;
+                                          //dd($sousopAet4,$sousopcPt4);
+                                  
+                                         //calcul l'operation depuis les sous operations
+                                         $operationAet4 += $sousOperation->AE_sous_operation;
+                                         $operationCPt4 += $sousOperation->CP_sous_operation;
+  
+                                         if($sousOperation->code_t4==40000) {
+                                          $sousOperationT4[] = [
+                                              "code" => $sousOperation->code_sous_operation,
+                                              "values" => [
+                                                  'ae_sousop' => $sousopAet4, 
+                                                  'cp_sousuop' => $sousopcPt4,
+                                               
+                                              ]  ];
+                                        }
+                                     
 
                                     }
                                  
@@ -224,7 +295,40 @@ class CalculDpia
                                     $groupeCpConsome += $operationCPConsome;
 
                                     //dd($groupeAeReporte,$groupeAeNotife,$groupeAeEngage , $groupeCpReporte,$groupeCpNotife,$groupeCpConsome);
+       /********************************************************************* T1******************************************************* */
+                                    if($sousOperation->code_t1==10000) {
+                                        $operationT[] = [
+                                            "code" => $operation->code_operation,
+                                            "values" => [
+                                                'ae_op' => $operationAe, 
+                                                'cp_op' => $operationCP,
+                                               
+                                            ]  ]; 
+                                         }
+                                                 // ajouter les valeurs de l'operation au groupe d'op
+                                        $groupeAe += $operationAe;
+                                        $groupeCp += $operationCP;
+                                       // dd($groupeAe,$groupeCp);
+                                     
+        /********************************************************************* T4******************************************************* */
+                                    if($sousOperation->code_t4==40000) {
+                                        $operationT4[] = [
+                                            "code" => $operation->code_operation,
+                                            "values" => [
+                                                'ae_op' => $operationAet4, 
+                                                'cp_op' => $operationCPt4,
+                                               
+                                            ]  ]; 
+                                         }
+                                    
+
+                                            // ajouter les valeurs de l'operation au groupe d'op
+                                        $groupeAet4 += $operationAet4;
+                                        $groupeCpt4 += $operationCPt4;
+                                       // dd($groupeAe,$groupeCp);
+
                                     }
+
                                     if($sousOperation->code_t2==20000) {
                                     $groupT2[] = [
                                         "code" => $groupe->code_grp_operation,
@@ -279,13 +383,47 @@ class CalculDpia
                                     $totalCpT3 = $totalCpReporteGlobal + $totalCpNotifieGlobal+$totalCpConsomeGlobal;
                                     //dd($totalAeT3,$totalCpT3); //total de sous action 
    
-                                                          
+        /*********************************************************************T1***************************************************** ********/        
+                                        if($sousOperation->code_t1==10000) {
+                                            $groupT[] = [
+                                                "code" => $groupe->code_grp_operation,
+                                                "values" => [
+                                                    'ae_grpop' => $groupeAe,
+                                                    'cp_grpop' => $groupeCp,
+
+                                            ]
+                                        ]; 
+                                        // calculer le total ae et cp par colonne 
+                                        $totalAe += $groupeAe;
+                                        $totalCp += $groupeCp;}
+                                        //dd($totalAe,$totalCp);
+
+     /*********************************************************************T1/T4***************************************************** ********/       
+                                        if($sousOperation->code_t4==40000) {
+                                            $groupT4[] = [
+                                                "code" => $groupe->code_grp_operation,
+                                                "values" => [
+                                                    'ae_grpop' => $groupeAet4,
+                                                    'cp_grpop' => $groupeCpt4,
+
+                                            ]
+                                        ]; 
+
+                                    
+                                        // calculer le total ae et cp par colonne 
+                                        $totalAet4 += $groupeAet4;
+                                        $totalCpt4 += $groupeCpt4;}
+                                        //dd($totalAe,$totalCp);
+                                       
+
+                                       
                                 }
                             }
                         }
                     }
                 }
-               
+                //dd(   $groupT);
+                 // dd($totalAe,$totalCp);
                $totalt2[] = [
                     "values" => [
                         'totalAEouvrtvertical'=> $totalAeOuvertGlobal,
@@ -293,8 +431,8 @@ class CalculDpia
                         'totalCPouvrtvertical'=>  $totalCpOuvertGlobal ,
                         'totalCPattenduvertical'=> $totalCpAttenduGlobal ,
 
-                        'totalAEt2' => $totalAeT2,
-                        'totalCPt2' => $totalCpT2,
+                        'totalAE' => $totalAeT2,
+                        'totalCP' => $totalCpT2,
                     ]
 
                     ];
@@ -308,26 +446,54 @@ class CalculDpia
                             'totalCPnotifievertical'=> $totalCpNotifieGlobal ,
                             'totalCPconsomevertical'=> $totalCpConsomeGlobal ,
 
-                            'totalAEt3' => $totalAeT3,
-                            'totalCPt3' => $totalCpT3,
+                            'totalAE' => $totalAeT3,
+                            'totalCP' => $totalCpT3,
                         ]
     
                         ];
+
+                        $totalt[] = [
+                            "values" => [
+                                
+                                'totalAE' => $totalAe,
+                                'totalCP' => $totalCp,
+                            ]
+        
+                            ];
+
+                            $totalt4[] = [
+                                "values" => [
+                                    
+                                    'totalAE' => $totalAet4,
+                                    'totalCP' => $totalCpt4,
+                                ]
+            
+                                ];
 
                      // retourner les résultats
                   
                    
                       return[
-                           'T2'=>['sousOperationT2' => $sousOperationT2,
-                            'operationT2' => $operationT2,
-                            'groupT2' => $groupT2,
-                            'totalT2' => $totalt2,] ,
+                           'T2'=>['sousOperation' => $sousOperationT2,
+                            'operation' => $operationT2,
+                            'group' => $groupT2,
+                            'total' => $totalt2,] ,
 
 
-                           'T3'=>['sousOperationT3' => $sousOperationT3,
-                            'operationT3' => $operationT3,
-                            'groupT3' => $groupT3,
-                            'totalT3' => $totalt3,] 
+                           'T3'=>['sousOperation' => $sousOperationT3,
+                            'operation' => $operationT3,
+                            'group' => $groupT3,
+                            'total' => $totalt3,] ,
+                            
+                            'T1'=>['sousOperation' => $sousOperationT,
+                            'operation' => $operationT,
+                            'group' => $groupT,
+                            'total' => $totalt,] ,
+
+                           'T4'=>['sousOperation' => $sousOperationT4,
+                            'operation' => $operationT4,
+                            'group' => $groupT4,
+                            'total' => $totalt4,] ,
                         ];
                    
                             
@@ -337,3 +503,4 @@ class CalculDpia
                                       
                             }
 }
+ 

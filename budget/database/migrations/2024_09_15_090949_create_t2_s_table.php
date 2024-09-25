@@ -17,6 +17,16 @@ return new class extends Migration
             $table->string('nom_t2_ar');
            
         });
+        DB::table('t2_s')->insert([
+            [
+
+                'code_t2' => 20000,
+                'nom_t2' => 'T2',
+               'nom_t2_ar' => 'الباب 2'
+
+
+            ],
+        ]);
     }
 
     /**

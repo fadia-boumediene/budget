@@ -16,6 +16,17 @@ return new class extends Migration
             $table->string('nom_t4');
             $table->string('nom_t4_ar');
         });
+
+        DB::table('t4_s')->insert([
+            [
+
+                'code_t4' => 40000,
+                'nom_t4' => 'T4',
+               'nom_t4_ar' => 'الباب 4'
+
+
+            ],
+        ]);
     }
 
     /**
