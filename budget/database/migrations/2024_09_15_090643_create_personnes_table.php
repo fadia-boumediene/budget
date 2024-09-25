@@ -54,8 +54,7 @@ return new class extends Migration
                 'Prenom_per' => 'Nour El-Houda',
                 'Nom_ar_per' => 'سايح',
                 'Prenom_ar_per' => 'نور الهودى',
-               'Date_nais' => '1998-
-               -19',
+               'Date_nais' => '1998-02-19',
                'Lieu_nais_ar' => 'الجزائر',
                'Lieu_nais' => 'alger',
                'adress'=>'alger',

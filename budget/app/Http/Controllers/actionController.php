@@ -62,7 +62,7 @@ class actionController extends Controller
         $action->nom_action = $request->nom_action;
       /*  $action->AE_action = floatval($request->AE_action);
         $action->CP_action = floatval($request->CP_action);*/
-        $action->id_ra = 1;//periodiquement
+        $action->id_ra = 5;//periodiquement
         $action->date_insert_action = $request->date_insert_action;
        
         $action->save();

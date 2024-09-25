@@ -136,15 +136,15 @@ class CalculDpia
                                          
                       /****************************************T3******************************************************************* */
 
-                                         $sousopAeouvert= $sousOperation->AE_reporte;
-                                         $sousopAeattendu= $sousOperation->AE_notifie;
-                                         $sousopAeattendu= $sousOperation->AE_engage;
+                                       /*  $sousopAereporte= $sousOperation->AE_reporte;
+                                         $sousopAenotifie= $sousOperation->AE_notifie;
+                                         $sousopAeengage= $sousOperation->AE_engage;
                                         // dd($sousopAeouvert,$sousopAeattendu, $sousopAeattendu);
 
                                         
-                                      $sousopCpouvert= $sousOperation->CP_reporte;
-                                      $sousopCpattendu= $sousOperation->CP_notifie;
-                                      $sousopCpattendu= $sousOperation->CP_consome;
+                                      $sousopCpreporte= $sousOperation->CP_reporte;
+                                      $sousopCpnotifie= $sousOperation->CP_notifie;
+                                      $sousopCpconsome= $sousOperation->CP_consome;
                                      // dd($sousopCpouvert,$sousopCpattendu, $sousopCpattendu);
                                        
                                      
@@ -156,20 +156,17 @@ class CalculDpia
                                        $operationCPNotife += $sousOperation->CP_notifie;
                                        $operationCPConsome += $sousOperation->CP_consome;
  
- 
-                                       $totalOPAeGlobal = $operationAeOuvert + $operationAeAttendu; // AE_ouvert + AE_attendu global ligne(horizontale)
-                                       $totalOPCpGlobal = $operationCPOuvert + $operationCPAttendu;
-                                    
-                                       $sousOperationT2[] = [
+
+                                       $sousOperationT3[] = [
                                            "code" => $sousOperation->code_sous_operation,
                                            "values" => [
-                                               'ae_ouvertsousop' => $sousopAeouvert, 
+                                               'ae_sousop' => $sousopAeouvert, 
                                                'ae_attendusousop' => $sousopAeattendu,
                                                'cp_ouvertsousop' => $sousopCpouvert,
                                                'cp_attendsousuop' => $sousopCpattendu,
                                                'totalAEsousop' => $totalSousAeGlobal,
                                                'totalCPsousop' => $totalSousCpGlobal,
-                                           ]  ];
+                                           ]  ];*/
 
                                     }
                                  
