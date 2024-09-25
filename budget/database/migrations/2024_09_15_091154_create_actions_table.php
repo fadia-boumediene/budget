@@ -15,9 +15,9 @@ return new class extends Migration
             $table->integer('num_action')->primary();
             $table->string('nom_action');
             $table->string('nom_action_ar')->nullable();
-            $table->float('AE_action');
+           /* $table->float('AE_action');
             $table->float('CP_action');
-
+*/
             $table->DateTime('date_insert_action');
             $table->DateTime('date_update_action')->nullable();
 

@@ -30,6 +30,7 @@ class CalculDpia
 
         $totalAeT2 = 0; 
         $totalCpT2 = 0; 
+
         $totalAeT3 = 0;
         $totalCpT3 = 0;
                                      
@@ -38,6 +39,12 @@ class CalculDpia
         $totalt2= [];
         $operationT2 = [];
         $sousOperationT2 = [];
+
+        $groupT3 = [];
+        $totalt3= [];
+        $operationT3 = [];
+        $sousOperationT3 = [];
+
 
         $totalAeOuvertGlobal=0;
         $totalAeAttenduGlobal=0;
