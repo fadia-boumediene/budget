@@ -37,8 +37,8 @@ class sousProgrammeController extends Controller
         $request->validate([
             'num_sous_prog' => 'required',
             'nom_sous_prog' => 'required',
-            'AE_sous_porg' => 'required',
-            'CP_sous_prog' => 'required',
+           /* 'AE_sous_porg' => 'required',
+            'CP_sous_prog' => 'required',*/
             'date_insert_sousProg' => 'required|date',
         ]);
        

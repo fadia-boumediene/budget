@@ -37,8 +37,8 @@ class actionController extends Controller
         $request->validate([
             'num_action' => 'required',
             'nom_action' => 'required',
-            'AE_action' => 'required',
-            'CP_action' => 'required',
+           /* 'AE_action' => 'required',
+            'CP_action' => 'required',*/
             'date_insert_action' => 'required|date',
         ]);
        
