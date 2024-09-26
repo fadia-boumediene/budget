@@ -18,6 +18,15 @@ return new class extends Migration
             $table->foreign('id_nin')->references('id_nin')->on('personnes');
   
         });
+
+        DB::table('respo__actions')->insert([
+            [
+                'id_ra'=>1,
+                'Date_installation_ra' => '2024-02-19',
+                'id_nin' => 1,
+             
+            ],
+        ]);
     }
 
     /**

@@ -18,6 +18,14 @@ return new class extends Migration
             $table->foreign('id_nin')->references('id_nin')->on('personnes');
         });
 
+        DB::table('ministres')->insert([
+            [
+                'id_min'=>1,
+                'Date_installation' => '2024-02-19',
+                'id_nin' => 2,
+             
+            ],
+        ]);
         
     }
 

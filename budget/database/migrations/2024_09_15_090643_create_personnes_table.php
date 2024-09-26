@@ -82,6 +82,25 @@ return new class extends Migration
 
 
             ],
+
+            [
+
+                'id_nin' => 4,
+                'NSS' => 5,
+                'Nom_per' => 'Sidi yakhlef',
+                'Prenom_per' => 'Ayoub',
+                'Nom_ar_per' => 'سيدي يخلف',
+                'Prenom_ar_per' => ' ايوب',
+               'Date_nais' => '1998-02-19',
+               'Lieu_nais_ar' => 'الجزائر',
+               'Lieu_nais' => 'alger',
+               'adress'=>'alger',
+               'adress_ar'=>'الجزائر',
+               'num_tlf'=>668852145,
+               'mail_pro'=>'dev0@mcoomm.gov'
+
+
+            ],
         ]) ;
     }
 
