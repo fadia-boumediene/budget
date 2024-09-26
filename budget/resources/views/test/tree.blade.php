@@ -27,7 +27,7 @@
  <div class="container family-tree">
     <div class="row justify-content-center">
       <div class="col-12 tree">
-        <ul>
+        <ul id="father0">
           <li>
               <span class="member" id="Portfail">
 
@@ -58,7 +58,6 @@
                       </span>
                       <div>
                         @foreach($allport['prgrammes'] as $portf)
-
                         <p class="fs-7 mb-0">Progamme : {{$portf['id_prog'] }}</p>
                         @endforeach
                       </div>
@@ -71,7 +70,7 @@
 
                 <!--  -->
             </span>
-            <ul style="display:none;">
+            <ul id="father1" style="display:none;">
             @foreach($allport['prgrammes'] as $portf)
               <li>
               <span class="member" id="{{$portf['id_prog']}}">
@@ -119,7 +118,7 @@
             </div>
           </div>
         </span>
-              <ul style="display:none">
+              <ul id="father2" style="display:none">
                 @foreach($portf['sous_program'] as $souportf)
                 <li>
                 <span class="member" id="{{$souportf['id_sous_prog']}}">
@@ -159,7 +158,7 @@
           </div>
         </span>
                 
-                <ul style="display:none">
+                <ul id="father3" style="display:none">
                 @foreach($souportf['Action'] as $act)
                   <li>
                   @if(count($act['sous_action'])>0)
@@ -202,7 +201,7 @@
             </div>
           </div>
         </span>
-            <ul style="display:none;">
+            <ul id="father4" style="display:none;">
             @foreach($act['sous_action'] as $sous_act)
                   <li>
                 <span class="member" id="s_act-{{$souportf['id_sous_prog']}}">
@@ -302,10 +301,7 @@
     if (children) {
       if (children.style.display === 'flex') {
         children.style.display = 'none';
-        if(member.id == 'Portfail')
-        {
-          path=Array();
-        }
+       
       } else {
         children.style.display = 'flex';
       }
@@ -319,7 +315,18 @@
     if( index !== -1)
     {
       path.splice(index+1);
-    }
+      console.log('testing path '+JSON.stringify(path.length-1))
+      var idfather="#father"+path.length
+      console.log('t fther'+idfather)
+      let listItemsWithNestedUl = $(''+idfather).find('ul');
+
+// Iterate over and log each of these <li> elements
+listItemsWithNestedUl.each(function(){
+  if ($(this).css('display') === 'flex' && $(this).attr('id') != 'father4') {
+                        // If it's hidden, set display to flex
+                        $(this).css('display', 'none');
+                    }
+});}
     else
     {
       path.push(id);
