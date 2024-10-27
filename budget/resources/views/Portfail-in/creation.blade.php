@@ -45,36 +45,39 @@
                 </h5>
                 <form>
                     <div class="form-group">
-                        <label for="inputText">Ajouter Code Du Portfail</label>
-                        <input type="text" class="form-control" id="num_port" placeholder="Code du portfail">
+                        <label for="num_port">Code du portefeuille</label>
+                        <input type="text" class="form-control" id="num_port" placeholder="Code du portefeuille">
                     </div>
                     <div class="form-group">
-                        <label for="number">Date de creation Portfail</label>
-                        <input type="date" class="form-control" id="date_crt_portf" placeholder="AE">
+                        <label for="date_crt_portf">Date de sortie du portefeuille</label>
+                        <input type="date" class="form-control" id="date_crt_portf" placeholder="Date de sortie">
                     </div>
                     <div class="form-group">
-                        <label for="nomjr">Nom de Journal</label>
-                        <input type="text" class="form-control" id="nom_journ" placeholder="Entre le Nom du journal">
-                        <label for="num_jr">Numero du edition</label>
-                        <input type="text" class="form-control" id="num_journ" placeholder="Entre le numero du journal">
+                        <label for="nom_journ">Nom du Journal</label>
+                        <input type="text" class="form-control" id="nom_journ" placeholder="Entrer le nom du journal">
                     </div>
                     <div class="form-group">
-                        <label for="number">AE</label>
+                        <label for="num_journ">Numéro de l'édition</label>
+                        <input type="text" class="form-control" id="num_journ" placeholder="Entrer le numéro de l'édition">
+                    </div>
+                    <div class="form-group">
+                        <label for="AE_portef">AE</label>
                         <input type="text" class="form-control" id="AE_portef" placeholder="AE">
                     </div>
                     <div class="form-group">
-                        <label for="inputText">CP</label>
+                        <label for="CP_portef">CP</label>
                         <input type="number" class="form-control" id="CP_portef" placeholder="CP">
                     </div>
                     <div class="form-group">
                         <label for="inputFile">Journal scanner</label>
                         <input type="file" class="form-control-file" id="inputFile">
                     </div>
-                  </form>
-                    <button type="submit" class="btn btn-primary" id="add-wallet">
-                        <i class="fas fa-plus"></i> Add
-                    </button>
-                
+                </form>
+                <button type="submit" class="btn btn-primary" id="add-wallet">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+
+
             </div>
         </div>
     </div>
@@ -93,15 +96,16 @@
           <label for="input2">Date insertion :</label>
           <input type="date" class="form-control" id="date_insert_portef">
         </div>
-        <div class="form-group">
+        <!--div class="form-group">
           <label for="inputDate">AE</label>
           <input type="number" class="form-control" id="AE_prog">
         </div>
         <div class="form-group">
           <label for="inputDate">CP</label>
           <input type="number" class="form-control" id="CP_prog">
-        </div>
+        </div-->
         </form>
+
         <br>
         <div id="confirm-holder">
         <button class="btn btn-primary" id="add-prg">Ajouter</button>
@@ -143,6 +147,7 @@
 <script>
   var jsonpath="{{asset('assets/Titre/dataT1.json')}}"
   var path=new Array();
+  var path3=new Array();
 </script>
 <script src="{{asset('assets/bootstrap-5.0.2/js/bootstrap.js')}}"></script>
 <script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>

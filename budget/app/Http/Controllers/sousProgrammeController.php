@@ -29,41 +29,46 @@ class sousProgrammeController extends Controller
     }
 
 //===================================================================================
+                                //DEBUT CHECK
+//===================================================================================
+
+public function check_sous_prog(Request $request)
+{
+    $sousprog = SousProgramme::where('num_sous_prog', $request->num_sous_prog)->first();
+
+    if ($sousprog) {
+        return response()->json([
+            'exists' => true,
+            'nom_sous_prog' => $request->nom_sous_prog,
+            'date_insert_sousProg' => $request->date_insert_sousProg,
+        ]);
+    }
+
+    return response()->json(['exists' => false]);
+}
+//===================================================================================
+                            //FIN CHECK
+//===================================================================================
+
+//===================================================================================
                             // creation du SousProgramme
 //===================================================================================
     function create_sou_prog(Request $request)
     {
         // Validation des données
         $request->validate([
-            'num_sous_prog' => 'required',
+            'num_sous_prog' => 'required|unique:sous_programmes,num_sous_prog',
             'nom_sous_prog' => 'required',
-           /* 'AE_sous_porg' => 'required',
-            'CP_sous_prog' => 'required',*/
             'date_insert_sousProg' => 'required|date',
         ]);
-       
-        // Vérifier si le SousProgramme existe déjà en fonction du numéro et des dates
-        $existing = SousProgramme::where('num_sous_prog', $request->num_sous_prog)
-                             ->whereNotNull('date_insert_sousProg')
-                             ->exists(); // Vérifie s'il y a un enregistrement existant
-                             
-        if ($existing) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Le SousProgramme avec ce numéro existe déjà.',
-                'code' => 404,
-            ]);
-        }
-
+//dd($request);
         // Créer un nouveau SousProgramme
         $SousProgramme = new SousProgramme();
-        $SousProgramme->num_sous_prog = intval($request->num_sous_prog);
-        $SousProgramme->num_prog = intval($request->id_program);
+        $SousProgramme->num_sous_prog = $request->num_sous_prog;
+        $SousProgramme->num_prog = $request->id_program;
         $SousProgramme->nom_sous_prog = $request->nom_sous_prog;
-       /* $SousProgramme->AE_sous_porg = floatval($request->AE_sous_porg);
-        $SousProgramme->CP_sous_prog = floatval($request->CP_sous_prog);*/
         $SousProgramme->date_insert_sousProg = $request->date_insert_sousProg;
-        
+
         $SousProgramme->save();
       //  dd($SousProgramme);
         if ($SousProgramme) {
@@ -79,5 +84,6 @@ class sousProgrammeController extends Controller
                 'code' => 500,
             ]);
         }
-    }
+
+}
 }

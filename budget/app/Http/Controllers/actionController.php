@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Action;
 use Illuminate\Http\Request;
+use App\Models\SousAction;
 
 class actionController extends Controller
 {
@@ -14,6 +15,7 @@ class actionController extends Controller
     {
         // Récupérer les action qui ont le même num_sous_prog
         $action = action::where('num_sous_prog', $num_sous_prog)->get();
+        dd($action);
 
     // Vérifier si des action existent
         if ($action->isEmpty()) {
@@ -29,6 +31,29 @@ class actionController extends Controller
 
 
 //===================================================================================
+                                //DEBUT CHECK
+//===================================================================================
+
+public function check_action(Request $request)
+    {
+        $action = Action::where('num_action', $request->num_action)->first();
+
+        if ($action) {
+            return response()->json([
+                'exists' => true,
+                'nom_action' => $action->nom_action,
+                'date_insert_action' => $action->date_insert_action
+            ]);
+        }
+
+        return response()->json(['exists' => false]);
+    }
+
+//===================================================================================
+                            //FIN CHECK
+//===================================================================================
+
+//===================================================================================
                             // creation de l'action
 //===================================================================================
     function create_action(Request $request)
@@ -37,16 +62,14 @@ class actionController extends Controller
         $request->validate([
             'num_action' => 'required',
             'nom_action' => 'required',
-           /* 'AE_action' => 'required',
-            'CP_action' => 'required',*/
             'date_insert_action' => 'required|date',
         ]);
-       
+        //dd($request);
         // Vérifier si le action existe déjà en fonction du numéro et des dates
-        $existing = Action::where('num_action', $request->num_action)
+        $existing = action::where('num_action', $request->num_action)
                              ->whereNotNull('date_insert_action')
                              ->exists(); // Vérifie s'il y a un enregistrement existant
-                            
+
         if ($existing) {
             return response()->json([
                 'success' => false,
@@ -56,17 +79,16 @@ class actionController extends Controller
         }
 
         // Créer une nouvelle action
-        $action = new Action();
-        $action->num_action = intval($request->num_action);
-        $action->num_sous_prog = intval($request->id_sous_prog);
+        $action = new action();
+        $action->num_action = $request->num_action;
+        $action->num_sous_prog =$request->id_sous_prog;
         $action->nom_action = $request->nom_action;
-      /*  $action->AE_action = floatval($request->AE_action);
-        $action->CP_action = floatval($request->CP_action);*/
+       /* $action->AE_action = $request->AE_action;
+        $action->CP_action = $request->CP_action;*/
         $action->id_ra = 1;//periodiquement
         $action->date_insert_action = $request->date_insert_action;
-       
         $action->save();
-      //  dd(vars: $action);
+
         if ($action) {
             return response()->json([
                 'success' => true,
