@@ -58,6 +58,7 @@
                       </span>
                       <div>
                         @foreach($allport['prgrammes'] as $portf)
+
                         <p class="fs-7 mb-0">Progamme : {{$portf['id_prog'] }}</p>
                         @endforeach
                       </div>
