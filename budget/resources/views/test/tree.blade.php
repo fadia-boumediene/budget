@@ -191,9 +191,21 @@
                         <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
                       </span>
                       <div>
+                      @if(count($act['sous_action'])>0)
                       @foreach($act['sous_action'] as $sous_act)
                         <p class="fs-7 mb-0">Sous Action :{{$sous_act['num_act']}} </p>
                       @endforeach
+                      @else
+                      @foreach($act['Tports'] as $key=>$values)
+                       <div class="T-holder"> 
+                        <p class="fs-7 mb-0">{{$key}} </p>
+                        <div class="TotalT-holder">
+                          <p>AE : {{$values['total'][0]['values']['totalAE']}} </p>
+                          <p>CP : {{$values['total'][0]['values']['totalCP']}} </p>
+                        </div>
+                        </div>
+                      @endforeach
+                      @endif
                       </div>
                     </div>
                   </div>
@@ -296,6 +308,7 @@
 <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
 <script>
   var path=Array();
+  var path3=Array();
  document.querySelectorAll('.member').forEach(member => {
   member.addEventListener('click', function(event) {
     const children = member.nextElementSibling;
@@ -331,6 +344,7 @@ listItemsWithNestedUl.each(function(){
     else
     {
       path.push(id);
+      path.push3(id);
     }
     var typeact=id.split('-')
     console.log('-<<'+JSON.stringify(path)+"-->>"+JSON.stringify(typeact))
@@ -340,7 +354,7 @@ listItemsWithNestedUl.each(function(){
     }
     if(typeact[0] =='s_act')
     {
-       window.location.href='/testing/S_Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
+       window.location.href='/testing/S_action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
     }
   })
 })

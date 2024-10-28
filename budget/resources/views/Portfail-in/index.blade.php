@@ -487,7 +487,7 @@
     }
     if(id =='S_ACTION-002' || id =='S_ACTION-001')
     {
-       window.location.href='/testing/S_Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+path[4]+'/'
+       window.location.href='/testing/S_action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+path[4]+'/'
     }
   })
 })
