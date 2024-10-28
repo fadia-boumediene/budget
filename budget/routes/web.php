@@ -110,6 +110,22 @@ Route::get('/testing/tree',function (){
             });*/
 //Route::get('/Portfail',action: [portfeuilleController::class,'affich_portef'])->name('home.portfail');
 
+Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}/',function ($port,$prog,$sous_prog,$act){
+
+
+
+    return view('Action-in.index',compact('port','prog','sous_prog','act'));
+    });
+
+    //affiche les portes
+   Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}/',function ($port,$prog,$sous_prog,$act,$s_act){
+
+
+
+        return view('Action-in.index',compact('port','prog','sous_prog','act','s_act'));
+        });
+
+
 
 //===============ROUTE PORTEFEUILLE==============================
 Route::controller(portfeuilleController::class)->group(function(){
