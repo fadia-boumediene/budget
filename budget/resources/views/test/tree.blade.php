@@ -163,9 +163,13 @@
                 @foreach($souportf['Action'] as $act)
                   <li>
                   @if(count($act['sous_action'])>0)
+                  @foreach($act['sous_action'] as $sous_act)
+                  @if($sous_act['num_act'] != $act['num_act'])
                   <span class="member" id="{{$souportf['id_sous_prog']}}">
                   @else
                   <span class="member" id="act-{{$souportf['id_sous_prog']}}">
+                  @endif
+                  @endforeach
                   @endif
                 <div class="col-12 col-sm-6">
             <div class="card widget-card border-light shadow-sm">
@@ -190,13 +194,13 @@
                       <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
                         <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
                       </span>
-                      <div>
+                      <div style="display:flex;">
                       @if(count($act['sous_action'])>0)
                       @foreach($act['sous_action'] as $sous_act)
+                      @if($sous_act['num_act'] != $act['num_act'])
                         <p class="fs-7 mb-0">Sous Action :{{$sous_act['num_act']}} </p>
-                      @endforeach
-                      @else
-                      @foreach($act['Tports'] as $key=>$values)
+                       @else
+                       @foreach($sous_act['Tports'] as $key=>$values)
                        <div class="T-holder"> 
                         <p class="fs-7 mb-0">{{$key}} </p>
                         <div class="TotalT-holder">
@@ -204,6 +208,8 @@
                           <p>CP : {{$values['total'][0]['values']['totalCP']}} </p>
                         </div>
                         </div>
+                      @endforeach
+                       @endif 
                       @endforeach
                       @endif
                       </div>
@@ -216,6 +222,7 @@
         </span>
             <ul id="father4" style="display:none;">
             @foreach($act['sous_action'] as $sous_act)
+            @if($sous_act['num_act'] != $act['num_act'])
                   <li>
                 <span class="member" id="s_act-{{$souportf['id_sous_prog']}}">
                 <div class="col-12 col-sm-6">
@@ -259,6 +266,9 @@
             </div>
           </div>
         </span>
+          @else
+          
+          @endif
               @endforeach
               <li>
                   <span class="member">

@@ -1115,3 +1115,30 @@ transition-timing-function: line;
   scale: 0.9;
 }
 /**---------------------- end new ops -----------------------------------*/
+/** ====================== End table Template*/
+.Port-info-holder
+{
+  display: flex;
+  flex-direction: row;
+}
+.T-holder
+{
+  padding-right: 2px;
+  border-right: 1px solid
+}
+.TotalT-holder
+{
+  display: flex;
+  border-top: 1px dotted;
+  margin-right: 3px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.TotalT-holder p
+{
+  margin-left: 3px;
+  border-right: 1px dotted;
+  margin-right: 3px;
+  padding-right: 1px;
+}
