@@ -51,17 +51,16 @@ class portfeuilleController extends Controller
                   
                  
                       $act=Action::where('num_sous_prog',$sprog->num_sous_prog)->get();
-                      
+                  //    dd($act);
                       foreach($act as $listact)
                       {
                           if(isset($listact))
                           {
                               $sous_act=SousAction::where('num_action',$listact->num_action)->get();
-                             // dd(isset($sous_act));
-                              if(isset($sous_act))
+                              //dd($sous_act);
+                              foreach($sous_act as $listsousact)
                               {
-                                foreach($sous_act as $listsousact)
-                              {
+                               
                                   if(isset($listsousact))
                                   {
                                      // $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
@@ -81,36 +80,18 @@ class portfeuilleController extends Controller
                                         }
                                       }
                                       //dd($resultats);
+                                    
                                       array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'TotalAE'=>$AE_All_sous_act,'TotalCP'=>$CP_All_sous_act,'data'=>$listsousact,'Tports'=>$resultats]);
+                                    
                                   }
                                  
-                              }
-                             
+                              } 
                               foreach($allsous_action as $sact)
                               {
                                 $AE_All_act+=$sact['TotalAE'];
                                 $CP_All_act+=$sact['TotalCP'];
                               }
                           array_push($allaction,['num_act'=>$listact->num_action,'TotalAE'=>$AE_All_act,'TotalCP'=>$CP_All_act,'data'=>$listact,'sous_action'=>$allsous_action]);
-                        }
-                        else
-                        {
-                            try {
-                                $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
-                            } catch (\Exception $e) {
-                               
-                                $resultats="null";
-                            }
-                            if($resultats != "null")
-                            {
-                              foreach($resultats as $Tresult)
-                              {
-                                  $AE_All_sous_act+=$Tresult['total'][0]['values']['totalAE'];
-                                  $CP_All_sous_act+=$Tresult['total'][0]['values']['totalCP'];
-                              }
-                            }
-                            array_push($allaction,['num_act'=>$listact->num_action,'TotalAE'=>$AE_All_act,'TotalCP'=>$CP_All_act,'data'=>$listact,'Tports'=>$resultats]);
-                        }
                           $allsous_action=[];
                           }
                       }
@@ -122,7 +103,7 @@ class portfeuilleController extends Controller
                               }
                               
                       array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
-                    // dd($allsous_prog);
+               //      dd($allsous_prog);
                       $allaction=[];
               }  
               
@@ -141,7 +122,7 @@ class portfeuilleController extends Controller
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-              // dd($allport);
+          //    dd($allport);
       // Passer les données à la vue
       return view('test.tree', compact('allport'));
 
