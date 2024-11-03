@@ -57,7 +57,7 @@ class portfeuilleController extends Controller
                           if(isset($listact))
                           {
                               $sous_act=SousAction::where('num_action',$listact->num_action)->get();
-                              dd(isset($sous_act));
+                             // dd(isset($sous_act));
                               if(isset($sous_act))
                               {
                                 foreach($sous_act as $listsousact)
@@ -141,7 +141,7 @@ class portfeuilleController extends Controller
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-               dd($allport);
+              // dd($allport);
       // Passer les données à la vue
       return view('test.tree', compact('allport'));
 
