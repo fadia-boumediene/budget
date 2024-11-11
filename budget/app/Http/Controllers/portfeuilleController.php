@@ -94,7 +94,7 @@ class portfeuilleController extends Controller
                                       }
                                       //dd($resultats);
                                     
-                                      array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'TotalAE'=>$AE_All_sous_act,'TotalCP'=>$CP_All_sous_act,'data'=>$listsousact,'Tports'=>$resultats]);
+                                      array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'init_AE'=>$listsousact->AE_sous_action,'init_CP'=>$listsousact->CP_sous_action,'TotalAE'=>$AE_All_sous_act,'TotalCP'=>$CP_All_sous_act,'data'=>$listsousact,'Tports'=>$resultats]);
                                     
                                   }
                                  
@@ -104,7 +104,7 @@ class portfeuilleController extends Controller
                                 $AE_All_act+=$sact['TotalAE'];
                                 $CP_All_act+=$sact['TotalCP'];
                               }
-                          array_push($allaction,['num_act'=>$listact->num_action,'TotalAE'=>$AE_All_act,'TotalCP'=>$CP_All_act,'data'=>$listact,'sous_action'=>$allsous_action]);
+                          array_push($allaction,['num_act'=>$listact->num_action,'init_AE'=>$listact->AE_action,'init_CP'=>$listact->CP_action,'TotalAE'=>$AE_All_act,'TotalCP'=>$CP_All_act,'data'=>$listact,'sous_action'=>$allsous_action]);
                           $allsous_action=[];
                           }
                       }
@@ -115,7 +115,7 @@ class portfeuilleController extends Controller
                                 
                               }
                               
-                      array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
+                      array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'init_AE'=>$sprog->AE_sous_prog,'init_CP'=>$sprog->CP_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
                //      dd($allsous_prog);
                       $allaction=[];
               }  
@@ -125,7 +125,7 @@ class portfeuilleController extends Controller
                                 $AE_All_prog+=$sact['TotalAE'];
                                 $CP_All_prog+=$sact['TotalCP'];
                               }
-              array_push($allprogram,['id_prog'=>$progm->num_prog,'TotalAE'=>$AE_All_prog,'TotalCP'=>$CP_All_prog, 'data'=>$progm,'sous_program'=>$allsous_prog]);
+              array_push($allprogram,['id_prog'=>$progm->num_prog,'init_AE'=>$progm->AE_prog,'init_CP'=>$progm->CP_prog,'TotalAE'=>$AE_All_prog,'TotalCP'=>$CP_All_prog, 'data'=>$progm,'sous_program'=>$allsous_prog]);
               $allsous_prog=[];
           }
        //   dd($por);
@@ -135,7 +135,7 @@ class portfeuilleController extends Controller
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-          //    dd($allport);
+              dd($allport);
       // Passer les données à la vue
       return view('test.tree', compact('allport'));
 

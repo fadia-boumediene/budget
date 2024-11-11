@@ -319,8 +319,11 @@
 <script>
   var path=Array();
   var path3=Array();
+  var fathers=['fathter1','father2','father3','father4'];
+    
  document.querySelectorAll('.member').forEach(member => {
   member.addEventListener('click', function(event) {
+ 
     const children = member.nextElementSibling;
     if (children) {
       if (children.style.display === 'flex') {
@@ -338,17 +341,18 @@
     var index=path.indexOf(id)
     if( index !== -1)
     {
-      path.splice(index+1);
+      path.splice(index);
       console.log('testing path '+JSON.stringify(path.length-1))
       var idfather="#father"+path.length
       console.log('t fther'+idfather)
-      let listItemsWithNestedUl = $(''+idfather).find('ul');
+      var listItemsWithNestedUl = $(''+idfather).find('ul');
 
 // Iterate over and log each of these <li> elements
 listItemsWithNestedUl.each(function(){
   if ($(this).css('display') === 'flex' && $(this).attr('id') != 'father4') {
                         // If it's hidden, set display to flex
                         $(this).css('display', 'none');
+                        console.log('displaying');
                     }
 });}
     else
