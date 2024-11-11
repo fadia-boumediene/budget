@@ -131,6 +131,7 @@ Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}/',function ($port,$p
 Route::controller(portfeuilleController::class)->group(function(){
     Route::get('/Portfail/{id}','affich_portef')->name('home.portfail');
     Route::get('/Form','form_portef')->name('form.portfail'); //afficher formulaire d ajout
+    Route::get('/creation/from','show_prsuiv')->name('creation.show_prsuiv');
     Route::post('/creation','creat_portef')->name('creation.portfail');
     Route::get('/check-portef','check_portef')->name('check.portfail');
 });

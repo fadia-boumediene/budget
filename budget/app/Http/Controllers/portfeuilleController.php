@@ -18,9 +18,22 @@ class portfeuilleController extends Controller
     {
         $this->CalculDpia = $CalculDpia;
     }
+
+    //================================= Pour suivi Methode =====================//
+
+    function show_prsuiv(Request $request)
+    {
+
+      //  dd($request);
+        $path=$request->all();
+        $leng=count($path);
+        return view('Portfail-in.prsuiv',compact('path','leng'));
+    }
+    //================================= End ====================================//
 //===================================================================================
                                 //affichage du portrefeuille
 //===================================================================================
+
     function affich_portef($id)
     {
         // Récupérer tous les portefeuilles de la base de données
@@ -186,8 +199,14 @@ class portfeuilleController extends Controller
                 'code' => 500,
             ]);
         }
-
+ //affichage formulaire
+ function form_portef()
+ {
+     return view('Portfail-in.creation');
+ }
 
     }
+
+    
 
 }
