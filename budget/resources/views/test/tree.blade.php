@@ -22,7 +22,15 @@
  {{--@include('progress_step.progress_step')--}}
  <br>
  </div>
-
+ @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
  <div class="container">
  <div class="container family-tree">
     <div class="row justify-content-center">
@@ -375,11 +383,17 @@ listItemsWithNestedUl.each(function(){
     console.log('-<<'+JSON.stringify(path)+"-->>"+JSON.stringify(typeact))
     if(typeact[0] =='act')
     {
-      window.location.href='/testing/Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+typeact[1]+'/'
+      $(this).on('click',function(){
+  window.location.href='/testing/Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+typeact[1]+'/'
+      })
+    
     }
     if(typeact[0] =='s_act')
     {
-       window.location.href='/testing/S_action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
+      $(this).on('click',function(){
+     window.location.href='/testing/S_action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
+      })
+   
     }
   })
   $('.add-btn').on('click',function(){
