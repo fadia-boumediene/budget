@@ -892,7 +892,6 @@
                                                                                      _token: $('meta[name="csrf-token"]').attr('content'),
                                                                                      _method: 'POST'
                                                                                  };
-                         
                                                                                  // Envoi de la sous-action via Ajax
                                                                                  $.ajax({
                                                                                      url: '/creationsousAction',

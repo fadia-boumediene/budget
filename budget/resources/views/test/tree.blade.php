@@ -272,7 +272,7 @@
               @endforeach
               <li>
                   <span class="member">
-                  <button class="add-btn" id="1">
+                  <button class="add-btn" id="{{$act['num_act'] }}-act">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                   </button> 
                   </li>
@@ -281,7 +281,7 @@
                   @endforeach
                   <li>
                   <span class="member">
-                  <button class="add-btn" id="2">
+                  <button class="add-btn" id="{{$souportf['id_sous_prog']}}-sprog">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                   </button> 
                   </li>
@@ -289,7 +289,7 @@
                 @endforeach
                 <li>
                 <span class="member">
-                <button class="add-btn" id="3">
+                <button class="add-btn" id=" {{$portf['id_prog']}}-prog">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                 </button> 
                 </li>
@@ -298,7 +298,7 @@
             @endforeach
             <li>
                 <span class="member">
-                <button class="add-btn" id="4">
+                <button class="add-btn" id="{{$allport['id']}}-all">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                   </button> 
                 </li>
@@ -322,13 +322,15 @@
   var fathers=['fathter1','father2','father3','father4'];
     
  document.querySelectorAll('.member').forEach(member => {
-  member.addEventListener('click', function(event) {
+  console.log('father ID \n is'+member.id);
  
+  member.addEventListener('click', function(event) {
+  
     const children = member.nextElementSibling;
     if (children) {
       if (children.style.display === 'flex') {
+     
         children.style.display = 'none';
-       
       } else {
         children.style.display = 'flex';
       }
@@ -338,6 +340,7 @@
   $(document).ready(function(){
     $('.member').on('click',function(){
     id=$(this).attr('id');
+    
     var index=path.indexOf(id)
     if( index !== -1)
     {
@@ -345,14 +348,22 @@
       console.log('testing path '+JSON.stringify(path.length-1))
       var idfather="#father"+path.length
       console.log('t fther'+idfather)
+      if(idfather == '#father1')
+    {
+      console.log('deleting part')
+    }
       var listItemsWithNestedUl = $(''+idfather).find('ul');
 
 // Iterate over and log each of these <li> elements
 listItemsWithNestedUl.each(function(){
   if ($(this).css('display') === 'flex' && $(this).attr('id') != 'father4') {
-                        // If it's hidden, set display to flex
-                        $(this).css('display', 'none');
                         console.log('displaying');
+                    }
+                    else
+                    {
+                      var fap=$(this).attr('id')
+                      if($(this).attr('id') == 'father2')
+                      console.log('display out'+fap )
                     }
 });}
     else
@@ -375,40 +386,8 @@ listItemsWithNestedUl.each(function(){
             var id = $(this).attr("id");
             var indice=id ;
             console.log('i m the level '+indice)
+            window.location.href='/creation/from/'+id;
             var  news;
-            switch(true)
-            {
-              case id=="4":
-                indice=id-4
-                var formapath={"portiel code":path[indice]}
-                console.log('add new programe for portail avec '+typeof(indice)+' eest'+JSON.stringify(formapath))
-                  news=new URLSearchParams(formapath).toString();
-                window.location.href='/creation/from?'+news;
-                break;
-                case id=="3":
-                indice=id-2
-                var formapath={"portiel code":path[0],"Programme":path[indice]}
-                console.log('add new sous_ programe for portailavec '+indice+' eest'+JSON.stringify(formapath))
-                  news=new URLSearchParams(formapath).toString();
-               window.location.href='/creation/from?'+news;
-                break;
-                case id=="2":
-                indice=id
-                var formapath={"portiel code":path[0],"Programme":path[1],"Sous Programme":path[indice]}
-                console.log('add new action for portailavec '+indice+' eest'+JSON.stringify(formapath))
-                  news=new URLSearchParams(formapath).toString();
-                window.location.href='/creation/from?'+news;
-                break;
-                case id == "1":
-                indice=parseInt(id)+2
-                var formapath={"portiel code":path[0],"Programme":path[1],"Sous Programme":path[2],"Action":path[indice]}
-                console.log('add new sous_action for portailavec '+indice+' eest'+formapath.Programme)
-                  news=new URLSearchParams(formapath).toString();
-                window.location.href='/creation/from?'+news;
-                break;
-                default:
-                console.log("No level is select");
-            }
         })
 
 })

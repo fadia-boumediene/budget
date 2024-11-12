@@ -21,13 +21,56 @@ class portfeuilleController extends Controller
 
     //================================= Pour suivi Methode =====================//
 
-    function show_prsuiv(Request $request)
+    function show_prsuiv($path)
     {
-
-      //  dd($request);
-        $path=$request->all();
-        $leng=count($path);
-        return view('Portfail-in.prsuiv',compact('path','leng'));
+        //$path=$request->all();
+       
+        $id=explode('-',$path);
+        $num=$id[0];
+        $cat=$id[1];
+       // dd($id);
+        $paths=[];
+        if($cat == "all")
+        {
+            
+            $por=Portefeuille::findOrFail($num);
+           
+            $paths=['code_port'=>$por->num_portefeuil];
+           
+        }
+       if($cat == 'prog' )
+       {
+        $progms=Programme::where('num_prog',intval($num))->get();
+       // dd($progms);
+        $paths=['code_port'=>$progms[0]->num_portefeuil,'programme'=>$progms[0]->num_prog];
+       // dd($paths);
+       }
+       
+        if($cat == 'sprog')
+        {
+                $sprog=SousProgramme::where('num_sous_prog',intval($num))->first();
+                $progms=Programme::where('num_prog',$sprog->num_prog)   ->first();
+                $paths=['code_port'=>$progms->num_portefeuil,'programme'=>$progms->num_prog,'sous Programme'=>$sprog->num_sous_prog];
+             //    dd($paths);
+        }
+        if($cat == 'act' )
+        {   
+            $act=Action::where('num_action',intval($num))->first();
+            $sprog=SousProgramme::where('num_sous_prog',$act->num_sous_prog)->first();
+            $progms=Programme::where('num_prog',$sprog->num_prog)->first();
+            $paths=['code_port'=>$progms->num_portefeuil,'programme'=>$progms->num_prog,'sous Programme'=>$sprog->num_sous_prog,'Action'=>$act->num_action];
+             //   dd($paths);
+        }
+        $leng=count($paths);
+      //  dd($leng);
+      if($leng > 0)
+      {
+        return view('Portfail-in.prsuiv',compact('paths','leng'));
+      }
+      else
+      {
+        return redirect()->back()->withErrors(['error' => 'Your error message here']);
+      }
     }
     //================================= End ====================================//
 //===================================================================================
@@ -135,7 +178,7 @@ class portfeuilleController extends Controller
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-              dd($allport);
+         //     dd($allport);
       // Passer les données à la vue
       return view('test.tree', compact('allport'));
 

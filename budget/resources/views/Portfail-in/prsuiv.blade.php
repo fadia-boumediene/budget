@@ -20,7 +20,7 @@
       >
 <script>
   var path=[]
-var paths=@json($path);
+var paths=@json($paths);
 console.log('te'+JSON.stringify(path))
 Object.entries(paths).forEach(([code,value])=>{
   path.push(value)
@@ -37,7 +37,7 @@ Object.entries(paths).forEach(([code,value])=>{
  <div class="wallet-path">
     <div class="the-path">
        
-        @foreach($path as $key =>$value)
+        @foreach($paths as $key =>$value)
       <!-- path insert -->
       <div class="pinfo-handle">
       <i class="fas fa-wallet"></i>
@@ -306,7 +306,7 @@ Object.entries(paths).forEach(([code,value])=>{
                         </div>
         </div>
                  @endif
-
+                 <script>var path3=Array()</script>
 <script src="{{asset('assets/bootstrap-5.0.2/js/bootstrap.js')}}"></script>
 <script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>
 <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
