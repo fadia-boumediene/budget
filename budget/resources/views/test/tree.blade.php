@@ -22,7 +22,15 @@
  {{--@include('progress_step.progress_step')--}}
  <br>
  </div>
-
+ @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
  <div class="container">
  <div class="container family-tree">
     <div class="row justify-content-center">
@@ -272,35 +280,35 @@
               @endforeach
               <li>
                   <span class="member">
-                  <a href="{{route('creation.portfail')}}">
+                  <button class="add-btn" id="{{$act['num_act'] }}-act">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
-                  </a> 
+                  </button> 
                   </li>
             </ul>
                 </li>
                   @endforeach
                   <li>
                   <span class="member">
-                  <a href="{{route('creation.portfail')}}">
+                  <button class="add-btn" id="{{$souportf['id_sous_prog']}}-sprog">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
-                  </a> 
+                  </button> 
                   </li>
                 </ul>
                 @endforeach
                 <li>
                 <span class="member">
-                  <a href="{{route('creation.portfail')}}">
+                <button class="add-btn" id=" {{$portf['id_prog']}}-prog">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
-                  </a> 
+                </button> 
                 </li>
                </ul>
               </li>
             @endforeach
             <li>
                 <span class="member">
-                  <a href="{{route('creation.portfail')}}">
+                <button class="add-btn" id="{{$allport['id']}}-all">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
-                  </a> 
+                  </button> 
                 </li>
             </ul>
           </li>
@@ -319,13 +327,18 @@
 <script>
   var path=Array();
   var path3=Array();
+  var fathers=['fathter1','father2','father3','father4'];
+    
  document.querySelectorAll('.member').forEach(member => {
+  console.log('father ID \n is'+member.id);
+ 
   member.addEventListener('click', function(event) {
+  
     const children = member.nextElementSibling;
     if (children) {
       if (children.style.display === 'flex') {
+     
         children.style.display = 'none';
-       
       } else {
         children.style.display = 'flex';
       }
@@ -335,20 +348,30 @@
   $(document).ready(function(){
     $('.member').on('click',function(){
     id=$(this).attr('id');
+    
     var index=path.indexOf(id)
     if( index !== -1)
     {
-      path.splice(index+1);
+      path.splice(index);
       console.log('testing path '+JSON.stringify(path.length-1))
       var idfather="#father"+path.length
       console.log('t fther'+idfather)
-      let listItemsWithNestedUl = $(''+idfather).find('ul');
+      if(idfather == '#father1')
+    {
+      console.log('deleting part')
+    }
+      var listItemsWithNestedUl = $(''+idfather).find('ul');
 
 // Iterate over and log each of these <li> elements
 listItemsWithNestedUl.each(function(){
   if ($(this).css('display') === 'flex' && $(this).attr('id') != 'father4') {
-                        // If it's hidden, set display to flex
-                        $(this).css('display', 'none');
+                        console.log('displaying');
+                    }
+                    else
+                    {
+                      var fap=$(this).attr('id')
+                      if($(this).attr('id') == 'father2')
+                      console.log('display out'+fap )
                     }
 });}
     else
@@ -360,14 +383,27 @@ listItemsWithNestedUl.each(function(){
     console.log('-<<'+JSON.stringify(path)+"-->>"+JSON.stringify(typeact))
     if(typeact[0] =='act')
     {
-      window.location.href='/testing/Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+typeact[1]+'/'
+      $(this).on('click',function(){
+  window.location.href='/testing/Action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+typeact[1]+'/'
+      })
+    
     }
     if(typeact[0] =='s_act')
     {
-       window.location.href='/testing/S_action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
+      $(this).on('click',function(){
+     window.location.href='/testing/S_action/'+path[0]+'/'+path[1]+'/'+path[2]+'/'+path[3]+'/'+typeact[1]+'/'
+      })
+   
     }
   })
-})
+  $('.add-btn').on('click',function(){
+            var id = $(this).attr("id");
+            var indice=id ;
+            console.log('i m the level '+indice)
+            window.location.href='/creation/from/'+id;
+            var  news;
+        })
 
+})
 </script>
 </html>
