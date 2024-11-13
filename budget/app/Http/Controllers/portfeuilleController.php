@@ -113,13 +113,14 @@ class portfeuilleController extends Controller
                           if(isset($listact))
                           {
                               $sous_act=SousAction::where('num_action',$listact->num_action)->get();
-                              //dd($sous_act);
+                                //dd($sous_act);
                               foreach($sous_act as $listsousact)
                               {
                                
                                   if(isset($listsousact))
                                   {
-                                     // $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                    //  $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                    // dd($resultats);
                                      
                                       try {
                                           $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
@@ -178,7 +179,7 @@ class portfeuilleController extends Controller
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-         //     dd($allport);
+         //    dd($allport);
       // Passer les données à la vue
       return view('test.tree', compact('allport'));
 

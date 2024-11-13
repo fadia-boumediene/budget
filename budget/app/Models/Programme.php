@@ -15,7 +15,7 @@ class Programme extends Model
     public $timestamps = false;
 
     protected $fillable = [
-       'num_prog','nom_prog','nom_prog_ar','date_update_portef'
+       'num_prog','nom_prog','nom_prog_ar','date_update_portef','AE_prog','CP_prog'
 ,'id_rp','num_portefeuil','date_insert_portef'
  ];
 
@@ -33,5 +33,10 @@ class Programme extends Model
     public function SousProgramme()
     {
         return $this->hasMany(SousProgramme::class ,'num_prog','num_prog');
+    }
+
+    public function multimedias()
+    {
+        return $this->morphMany(Multimedia::class, 'related');
     }
 }

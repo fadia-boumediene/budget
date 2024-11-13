@@ -257,6 +257,7 @@
                         <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
                       </span>
                       <div class="Port-info-holder">
+                      @if($sous_act['Tports'] != 'null')
                       @foreach($sous_act['Tports'] as $key=>$values)
                        <div class="T-holder"> 
                         <p class="fs-7 mb-0">{{$key}} </p>
@@ -266,6 +267,7 @@
                         </div>
                         </div>
                       @endforeach
+                      @endif
                       </div>
                     </div>
                   </div>
