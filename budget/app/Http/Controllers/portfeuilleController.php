@@ -6,12 +6,19 @@ use Illuminate\Http\Request;
 use App\Models\Portefeuille;
 use App\Models\Programme;
 use App\Models\Action;
-use App\Models\SousProgramme;
+use App\Models\Multimedia;
 use App\Models\SousAction;
+use App\Models\SousProgramme;
+use App\Models\ConstruireDPIA;
+use App\Models\ConstruireDPIC;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 use App\Services\CalculDpia;
 class portfeuilleController extends Controller
 {
+
     protected $CalculDpia;
 
     public function __construct(CalculDpia $CalculDpia)
@@ -24,7 +31,7 @@ class portfeuilleController extends Controller
     function show_prsuiv($path)
     {
         //$path=$request->all();
-       
+
         $id=explode('-',$path);
         $num=$id[0];
         $cat=$id[1];
@@ -32,11 +39,11 @@ class portfeuilleController extends Controller
         $paths=[];
         if($cat == "all")
         {
-            
+
             $por=Portefeuille::findOrFail($num);
-           
+
             $paths=['code_port'=>$por->num_portefeuil];
-           
+
         }
        if($cat == 'prog' )
        {
@@ -45,7 +52,7 @@ class portfeuilleController extends Controller
         $paths=['code_port'=>$progms[0]->num_portefeuil,'programme'=>$progms[0]->num_prog];
        // dd($paths);
        }
-       
+
         if($cat == 'sprog')
         {
                 $sprog=SousProgramme::where('num_sous_prog',intval($num))->first();
@@ -54,7 +61,7 @@ class portfeuilleController extends Controller
              //    dd($paths);
         }
         if($cat == 'act' )
-        {   
+        {
             $act=Action::where('num_action',intval($num))->first();
             $sprog=SousProgramme::where('num_sous_prog',$act->num_sous_prog)->first();
             $progms=Programme::where('num_prog',$sprog->num_prog)->first();
@@ -81,7 +88,7 @@ class portfeuilleController extends Controller
     {
         // Récupérer tous les portefeuilles de la base de données
           //  $portefeuilles = Portefeuille::all();
-         
+
           $por=Portefeuille::findOrFail($id);
           $progms=Programme::where('num_portefeuil',$id)->get();
           $allprogram=[];
@@ -98,14 +105,17 @@ class portfeuilleController extends Controller
            $CP_All_sous_prog=0;
            $AE_All_prog=0;
            $CP_All_prog=0;
-  
+
+           // $tesitng = SousAction::with(['GroupOperation.Operation'])->get();
+          //  dd($tesitng);
+
           foreach($progms as $progm)
           {
               $sousprog=SousProgramme::where('num_prog',$progm->num_prog)->get();
               foreach($sousprog as $sprog)
               {
-                  
-                 
+
+
                       $act=Action::where('num_sous_prog',$sprog->num_sous_prog)->get();
                   //    dd($act);
                       foreach($act as $listact)
@@ -113,35 +123,41 @@ class portfeuilleController extends Controller
                           if(isset($listact))
                           {
                               $sous_act=SousAction::where('num_action',$listact->num_action)->get();
-                              //dd($sous_act);
+                            //  dd($sous_act);
                               foreach($sous_act as $listsousact)
                               {
-                               
+
                                   if(isset($listsousact))
                                   {
-                                     // $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
-                                     
-                                      try {
+                                     $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
+                                    // dd($resultats);
+                                      /*try {
                                           $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
                                       } catch (\Exception $e) {
-                                         
+
                                           $resultats="null";
-                                      }
-                                      if($resultats != "null")
+                                      }*/
+                                      if(isset($resultats))
                                       {
                                         foreach($resultats as $Tresult)
                                         {
+                                           // dd($Tresult);
                                             $AE_All_sous_act+=$Tresult['total'][0]['values']['totalAE'];
                                             $CP_All_sous_act+=$Tresult['total'][0]['values']['totalCP'];
                                         }
+
                                       }
-                                      //dd($resultats);
-                                    
+                                      else
+                                        {
+                                            $resultats=[];
+                                        }
+                                     // dd($resultats);
+
                                       array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'init_AE'=>$listsousact->AE_sous_action,'init_CP'=>$listsousact->CP_sous_action,'TotalAE'=>$AE_All_sous_act,'TotalCP'=>$CP_All_sous_act,'data'=>$listsousact,'Tports'=>$resultats]);
-                                    
+
                                   }
-                                 
-                              } 
+
+                              }
                               foreach($allsous_action as $sact)
                               {
                                 $AE_All_act+=$sact['TotalAE'];
@@ -155,14 +171,14 @@ class portfeuilleController extends Controller
                               {
                                 $AE_All_sous_prog+=$sact['TotalAE'];
                                 $CP_All_sous_prog+=$sact['TotalCP'];
-                                
+
                               }
-                              
+
                       array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'init_AE'=>$sprog->AE_sous_prog,'init_CP'=>$sprog->CP_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
                //      dd($allsous_prog);
                       $allaction=[];
-              }  
-              
+              }
+
               foreach($allsous_prog as $sact)
                               {
                                 $AE_All_prog+=$sact['TotalAE'];
@@ -178,13 +194,13 @@ class portfeuilleController extends Controller
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-         //     dd($allport);
+         //    dd($allprogram[1]['sous_program'][2]);
       // Passer les données à la vue
-      return view('test.tree', compact('allport'));
+      return view('Portfail-in.index', compact('allport'));
 
 
     // Passer les données à la vue
-     
+
     }
     //affichage formulaire
     function form_portef()
@@ -192,34 +208,58 @@ class portfeuilleController extends Controller
         return view('Portfail-in.creation');
     }
 //===================================================================================
+                                //DEBUT CHECK
+//===================================================================================
+
+public function check_portef(Request $request)
+{
+    // Validation de la requête
+    $request->validate([
+        'num_portefeuil' => 'required',
+        'Date_portefeuille' => 'required|date'
+    ]);
+
+    // Concatenation du numéro de portefeuille avec l'année
+    $num = $request->num_portefeuil;
+
+    // Vérification si le portefeuille existe dans la base de données
+    $portefeuille = Portefeuille::where('num_portefeuil', $num)->first();
+
+    if ($portefeuille) {
+        return response()->json([
+            'exists' => true,
+            'nom_journal' => $portefeuille->nom_journal,
+            'num_journal' => $portefeuille->num_journal,
+            'AE_portef' => $portefeuille->AE_portef,
+            'CP_portef' => $portefeuille->CP_portef,
+            'Date_portefeuille' => $portefeuille->Date_portefeuille,
+        ]);
+    }
+
+    return response()->json(['exists' => false]);
+}
+
+//===================================================================================
+                                //FIN CHECK
+//===================================================================================
+//===================================================================================
                                 // creation du portefeuille
 //===================================================================================
     function creat_portef(Request $request)
     {
+
          // Validation des données
          $request->validate([
-            'num_portefeuil' => 'required',
+            //'file' => 'required|file|mimes:jpg,png,pdf|max:2048', // Validation du fichier
             'num_journal' => 'required',
             'nom_journal' => 'required',
             'AE_portef' => 'required',
             'CP_portef' => 'required',
             'Date_portefeuille' => 'required|date',
         ]);
-
-        // Vérifier si le portefeuille existe déjà
-        $existing = Portefeuille::where('num_portefeuil', $request->num_port)->first();
-
-        if ($existing) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Le portefeuille avec ce numéro existe déjà.',
-                'code'=>404,
-            ]);
-        }
-
-        // Créer un nouveau portefeuille
-        $portefeuille = new Portefeuille();
-        $portefeuille->num_portefeuil = intval($request->num_portefeuil);
+        //si le portefeuiille existe donc le modifier
+        $portefeuille = Portefeuille::where('num_portefeuil', $request->num_portefeuil)->first();
+        if ($portefeuille) {
         $portefeuille->nom_journal = $request->nom_journal;
         $portefeuille->num_journal = $request->num_journal;
         $portefeuille->AE_portef = $request->AE_portef;
@@ -228,11 +268,119 @@ class portfeuilleController extends Controller
         $portefeuille->id_min =1;//periodiquement
         $portefeuille->save();
 
+
+/*
+
+// Enregistrer le fichier et le lier au portefeuille
+if ($request->hasFile('file')) {
+    dd($request);
+    // Vérifier si le fichier est valide
+    if ($request->file('file')->isValid()) {
+        // Stocker le fichier dans le dossier `public/files/portefeuilles` et obtenir le chemin
+        $path = $request->file('file')->store('public/files/portefeuilles');
+        $filePath = Storage::url($path);
+
+        // Récupérer les informations du fichier
+        $nomFichier = $request->file('file')->getClientOriginalName();
+        $fileType = $request->file('file')->getClientOriginalExtension();
+        $fileSize = $request->file('file')->getSize();
+
+        // Créer un nouvel enregistrement dans `multimedia`
+        $media = new Multimedia();
+        $media->nom_fichier = $nomFichier;
+        $media->filepath = $filePath;
+        $media->filetype = $fileType;
+        $media->size = $fileSize;
+        $media->description = $request->input('description', ''); // Ajoutez une description si fournie
+        //$media->uploaded_by = auth()->id(); // ID de l'utilisateur connecté
+        $media->uploaded_by = 1; // ID de l'utilisateur connecté, ou utilisez `auth()->id()` si disponible
+        $media->related_id = $portefeuille->num_portefeuil; // Lier l'ID du portefeuille
+        $media->related_name = "portefeuille"; // pour distinguer les fichiers liés
+
+        // Sauvegarder le fichier dans la base de données
+        $media->save();
+
+        return response()->json(['message' => 'Fichier enregistré avec succès.']);
+    } else {
+        return response()->json(['error' => 'Le fichier téléchargé est invalide.'], 400);
+    }
+} else
+    return response()->json(['error' => 'Aucun fichier n\'a été téléchargé.'], 400);
+*/
+
+
+return response()->json([
+    'success' => true,
+    'message' => 'Portefeuille ajouté ou modifié avec succès.',
+    'code' => 404,
+]);
+
+}else{
+    //dd($request);
+
+        // Créer un nouveau portefeuille
+        $portefeuille = new Portefeuille();
+        $portefeuille->num_portefeuil = $request->num_portefeuil;
+        $portefeuille->nom_journal = $request->nom_journal;
+        $portefeuille->num_journal = $request->num_journal;
+        $portefeuille->AE_portef = $request->AE_portef;
+        $portefeuille->CP_portef = $request->CP_portef;
+        $portefeuille->Date_portefeuille = $request->Date_portefeuille;
+        $portefeuille->id_min =1;//periodiquement
+        $portefeuille->save();
+
+  /*
+          // Enregistrer le fichier et le lier au portefeuille
+    if ($request->hasFile('file')) {
+        // Stocker le fichier dans le dossier `public/files` et obtenir le chemin
+        $path = $request->file('file')->store('public/files/portefeuilles');
+        $filePath = Storage::url($path);
+
+        // Récupérer les informations du fichier
+        $nomFichier = $request->file('file')->getClientOriginalName();
+        $fileType = $request->file('file')->getClientOriginalExtension();
+        $fileSize = $request->file('file')->getSize();
+
+        // Créer un nouvel enregistrement dans `multimedia`
+        $media = new Multimedia();
+        $media->nom_fichier = $nomFichier;
+        $media->filepath = $filePath;
+        $media->filetype = $fileType;
+        $media->size = $fileSize;
+        $media->description = $request->input('description', ''); // Ajoutez une description si fournie
+        //$media->uploaded_by = auth()->id(); // ID de l'utilisateur connecté
+        $media->uploaded_by = 1; // ID de l'utilisateur connecté
+        $media->related_id = $portefeuille->num_portefeuil; // Lier l'ID du portefeuille
+        $media->related_name = "portefeuille"; // pour distinguer
+
+        // Sauvegarder le fichier dans la base de données
+        $media->save();
+
+        return response()->json(['message' => 'Fichier enregistré avec succès.']);
+    }else
+        return response()->json(['error' => 'Aucun fichier n\'a été téléchargé.'], 400);
+    */
+
+        //creation de la table  construireDPic
+      
+
+        //dd( $DPIC);
+    }
         if($portefeuille)
         {
+            $DPIC = new ConstruireDPIC();
+
+            $DPIC->date_creation_dpic = $portefeuille->Date_portefeuille; // elle prend la date de creation du portfeuille
+    
+            $DPIC->AE_dpic_nv = $portefeuille->AE_portef;
+            $DPIC->CP_dpic_nv = $portefeuille->CP_portef;
+    
+            $DPIC->id_rff = 1; //apres elle sera avec auth:user il prend le compte qui est deja authentifié
+            $DPIC->id_rp = 1;
+            $DPIC->save();
             return response()->json([
                 'success' => true,
-                'message' => 'Portefeuille ajouté avec succès.',
+                'message' => 'Portefeuille ajouté ou modifié avec succès.',
                 'code' => 200,
             ]);
         } else {
@@ -242,14 +390,108 @@ class portfeuilleController extends Controller
                 'code' => 500,
             ]);
         }
- //affichage formulaire
- function form_portef()
- {
-     return view('Portfail-in.creation');
- }
+
 
     }
+//======================================================================================
+                                // FIN creation du portefeuille
+//===================================================================================
 
-    
+//======================================================================================
+                                // Modification du portefeuille
+//===================================================================================
+function update_portef(Request $request)
+{
 
+     // Validation des données
+     $request->validate([
+        'num_journal' => 'required',
+        'nom_journal' => 'required',
+        'AE_portef' => 'required',
+        'CP_portef' => 'required',
+        'Date_portefeuille' => 'required|date',
+    ]);
+
+
+    // Récupérer la ligne de la table en fonction de 'numsouaction'
+    $portefeuille = Portefeuille::where('num_portefeuil', $request->num_portefeuil)->first();
+    $portefeuille = new Portefeuille();
+    $portefeuille->nom_journal = $request->nom_journal;
+    $portefeuille->num_journal = $request->num_journal;
+    $portefeuille->AE_portef = $request->AE_portef;
+    $portefeuille->CP_portef = $request->CP_portef;
+    $portefeuille->Date_portefeuille = $request->Date_portefeuille;
+    $portefeuille->id_min =1;//periodiquement
+    $portefeuille->save();
+
+    if($portefeuille)
+        {
+            return response()->json([
+                'success' => true,
+                'message' => 'Portefeuille modifié avec succès.',
+                'code' => 200,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de l\'ajout du portefeuille.',
+                'code' => 500,
+            ]);
+        }
+}
+//======================================================================================
+                                // FIN Modification du portefeuille/ upload fille pdf
+//===================================================================================
+public function uploadPDF(Request $request)
+{
+    $request->validate([
+        'pdf_file' => 'mimes:pdf,jpg,jpeg,png|max:2048', // Limite à 2 MB
+        'related_id' => 'required'
+     ]); 
+
+
+        // Valider le fichier PDF
+       
+          
+           
+           $file = $request->file('pdf_file');
+           $path = $file->store('pdf_files', 'public'); // Enregistre dans storage/app/public/pdf_files
+        //  dd($file);
+          // Insérer les détails dans la base de données (table multimedia)
+          $media= DB::table('multimedia')->insert([
+              'nom_fichier' => $file->getClientOriginalName(),
+              'filepath' => $path,
+              'filetype' => $file->getClientMimeType(),
+              'size' => $file->getSize(),
+              'uploaded_by' => 1, // Assurez-vous que l'utilisateur est connecté
+              'related_id' => $request->input('related_id'),
+
+          ]);
+          //dd($media);
+
+          // Enregistrer le fichier PDF
+          if ($request->hasFile('pdf_file')) {
+
+
+             if($media)
+             {
+             // dd($media);
+              return response()->json([
+                'code'=>200,
+                'message' => 'Fichier téléchargé avec succès.']);
+             }
+            else
+             {
+          //  dd($media);
+             return response()->json(['message' => 'Aucun fichier sélectionné.','code'=>400], 400);
+
+             }
+
+
+
+       } else {
+            return response()->json(['message' => 'Aucun fichier sélectionné.'], 400);
+          }
+     
+}
 }

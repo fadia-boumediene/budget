@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sous_programmes', function (Blueprint $table) {
-            $table->integer('num_sous_prog')->primary();
+            $table->string('num_sous_prog')->primary();
             $table->string('nom_sous_prog');
             $table->string('nom_sous_prog_ar')->nullable();
-           /* $table->float('AE_sous_porg');
+            $table->float('AE_sous_prog');
             $table->float('CP_sous_prog');
-*/
+
             $table->DateTime('date_insert_sousProg');
             $table->DateTime('date_update_sousProg')->nullable();
 
 
 
-            $table->integer('num_prog');
+            $table->string('num_prog');
             $table->foreign('num_prog')->references('num_prog')->on('programmes');
 
         });

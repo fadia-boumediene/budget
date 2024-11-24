@@ -16,9 +16,11 @@ class ConstruireDPIA extends Model
 
     protected $fillable = [
        'id_dpia','date_creation_dpia','date_modification_dpia','motif_dpia','AE_dpia_nv'
-,'CP_dpia_nv','code_sous_operation','id_rp','id_ra'
+,'CP_dpia_nv','code_sous_operation','id_rp','id_ra','AE_ouvert_dpia','AE_atendu_dpia','CP_ouvert_dpia','CP_atendu_dpia','AE_reporte_dpia','AE_notifie_dpia'
+,'AE_engage_dpia','CP_reporte_dpia','CP_notifie_dpia','CP_consome_dpia'
  ];
-   
+ 
+
  
     public function Respo_Action()
     {
@@ -35,3 +37,4 @@ class ConstruireDPIA extends Model
         return $this->belongsTo(Respo_Prog::class,'id_rp','id_rp');
     }
 }
+ 

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('Lieu_nais_ar');
             $table->string('adress');
             $table->string('adress_ar');
-            $table->integer('num_tlf');
+            $table->string('num_tlf');
             $table->string('mail_pro');
 
         });
@@ -41,7 +41,7 @@ return new class extends Migration
                'Lieu_nais_ar' => 'الجزائر',
                'adress'=>'alger',
                'adress_ar'=>'الجزائر',
-               'num_tlf'=>65852145,
+               'num_tlf'=>'65852145',
                'mail_pro'=>'dev@mcomm.gov'
 
 
@@ -59,7 +59,7 @@ return new class extends Migration
                'Lieu_nais' => 'alger',
                'adress'=>'alger',
                'adress_ar'=>'الجزائر',
-               'num_tlf'=>66852145,
+               'num_tlf'=>'66852145',
                'mail_pro'=>'dev0@mcomm.gov'
 
 
@@ -77,7 +77,7 @@ return new class extends Migration
                'Lieu_nais' => 'alger',
                'adress'=>'alger',
                'adress_ar'=>'الجزائر',
-               'num_tlf'=>67852145,
+               'num_tlf'=>'67852145',
                'mail_pro'=>'dev1@mcomm.gov'
 
 
@@ -96,8 +96,27 @@ return new class extends Migration
                'Lieu_nais' => 'alger',
                'adress'=>'alger',
                'adress_ar'=>'الجزائر',
-               'num_tlf'=>668852145,
+               'num_tlf'=>'668852145',
                'mail_pro'=>'dev0@mcoomm.gov'
+
+
+            ],
+
+            [
+
+                'id_nin' => 5,
+                'NSS' => 6,
+                'Nom_per' => 'Tami',
+                'Prenom_per' => 'Abd el hak',
+                'Nom_ar_per' => 'طامي ',
+                'Prenom_ar_per' => ' عبد الحق',
+               'Date_nais' => '1998-03-19',
+               'Lieu_nais_ar' => 'الجزائر',
+               'Lieu_nais' => 'alger',
+               'adress'=>'alger',
+               'adress_ar'=>'الجزائر',
+               'num_tlf'=>'6688521455',
+               'mail_pro'=>'dev0@mcooomm.gov'
 
 
             ],

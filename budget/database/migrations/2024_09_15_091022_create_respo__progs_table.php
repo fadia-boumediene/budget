@@ -22,7 +22,7 @@ return new class extends Migration
             [
                 'id_rp'=>1,
                 'Date_installation_rp' => '2024-02-19',
-                'id_nin' => 3,
+                'id_nin' => 5,
              
             ],
         ]);

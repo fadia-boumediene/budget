@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nom_t1_ar');
            
         });
-    
+
         DB::table('t1_s')->insert([
             [
 

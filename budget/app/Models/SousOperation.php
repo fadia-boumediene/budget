@@ -11,7 +11,7 @@ class SousOperation extends Model
     protected $table = 'sous_operations';
     protected $primaryKey = 'code_sous_operation';
     public $incrementing = false;
-    protected $keyType = 'integer';
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [

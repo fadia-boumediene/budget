@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('group_operations', function (Blueprint $table) {
-            $table->integer('code_grp_operation')->primary();
-            $table->string('nom_grp_operation');
-            $table->string('nom_grp_operation_ar')->nullable();
+            $table->string('code_grp_operation')->primary();
+            $table->longText('nom_grp_operation');
+            $table->longText('nom_grp_operation_ar')->nullable();
 
 
             $table->DateTime('date_insert_grp_operation');
             $table->DateTime('date_update_grp_operation')->nullable();
 
 
-            $table->integer('num_sous_action');
+            $table->string('num_sous_action');
             $table->foreign('num_sous_action')->references('num_sous_action')->on('sous_actions');
 
         });

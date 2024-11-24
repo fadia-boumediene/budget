@@ -11,7 +11,7 @@ class Operation extends Model
     protected $table = 'operations';
     protected $primaryKey = 'code_operation';
     public $incrementing = false;
-    protected $keyType = 'integer';
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [

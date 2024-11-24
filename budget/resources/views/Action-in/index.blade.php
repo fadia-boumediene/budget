@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content=" {{csrf_token()}}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ACTION</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -11,9 +13,9 @@
 <link href="{{asset('assets/bootstrap-5.0.2/css/bootstrap.css')}}" rel="stylesheet"/>
 <link href="{{asset('assets/fontawesome-free/css/all.css')}}" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-<link 
-        rel="stylesheet" 
-        href="https://unpkg.com/@patternfly/patternfly/patternfly.css" 
+<link
+        rel="stylesheet"
+        href="https://unpkg.com/@patternfly/patternfly/patternfly.css"
         crossorigin="anonymous"
       >
 </head>
@@ -94,8 +96,8 @@
                     <i class="fas fa-door-closed T-icon icon icon-card"></i>
                     <i class="fas fa-door-open hover-icon icon icon-card"></i>
                     <p class="card-title-T">Titre Port 1</p>
-                    <p class="card-description-T">AE 190,000 DZ.</p>
-                    <p class="card-description-T">CP 100,000 DZ.</p>
+                    <p class="card-description-T">AE : {{$resultats['T1']['total'][0]['values']['totalAE']}} DZ</p>
+                    <p class="card-description-T">CP : {{$resultats['T1']['total'][0]['values']['totalCP']}} DZ</p>
                   </div>
                 </div>
                 </div>
@@ -105,8 +107,8 @@
                   <i class="fas fa-door-closed T-icon icon icon-card"></i>
                   <i class="fas fa-door-open hover-icon icon icon-card"></i>
                     <p class="card-title-T">Titre Port 2</p>
-                    <p class="card-description-T">AE 220,000 DZ.</p>
-                    <p class="card-description-T">CP 180,000 DZ.</p>
+                    <p class="card-description-T">AE : {{$resultats['T2']['total'][0]['values']['totalAE']}} DZ</p>
+                    <p class="card-description-T">CP : {{$resultats['T2']['total'][0]['values']['totalCP']}} DZ</p>
                   </div>
                 </div>
                 </div>
@@ -116,20 +118,20 @@
                   <i class="fas fa-door-closed T-icon icon icon-card"></i>
                   <i class="fas fa-door-open hover-icon icon icon-card"></i>
                     <p class="card-title-T">Titre Port 3</p>
-                    <p class="card-description-T">AE 150,000 DZ.</p>
-                    <p class="card-description-T">CP 100,000 DZ.</p>
+                    <p class="card-description-T">AE : {{$resultats['T3']['total'][0]['values']['totalAE']}} DZ</p>
+                    <p class="card-description-T">CP : {{$resultats['T3']['total'][0]['values']['totalCP']}} DZ</p>
                   </div>
                 </div>
                 </div>
                 <div class="TP-handle" id="T_port4">
-               
+
                 <div class="card-T">
                   <div class="container-card bg-yellow-box">
                   <i class="fas fa-door-closed T-icon icon icon-card"></i>
                   <i class="fas fa-door-open hover-icon icon icon-card"></i>
                     <p class="card-title-T">Titre Port 4</p>
-                    <p class="card-description-T">AE 180,000 DZ.</p>
-                    <p class="card-description-T">CP 180,000 DZ.</p>
+                    <p class="card-description-T">AE : {{$resultats['T4']['total'][0]['values']['totalAE']}} DZ</p>
+                    <p class="card-description-T">CP : {{$resultats['T4']['total'][0]['values']['totalCP']}} DZ</p>
                   </div>
                 </div>
                 </div>
@@ -155,7 +157,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Titre 1</h5>
-                    <p class="card-text">Description pour Titre 1.</p>
+                    <p class="card-text"> DEPENSES  DE PERSONNEL</p>
                     <button class="btn btn-primary" id="T1">Vers Tableau Operation</button>
                 </div>
             </div>
@@ -170,7 +172,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Titre 2</h5>
-                    <p class="card-text">Description pour Titre 2.</p>
+                    <p class="card-text" style="text-align:center;">DEPENSES DE FONCTIONNEMENT DES SERVICES </p>
                     <button class="btn btn-primary" id="T2">Vers Tableau Operation</button>
                 </div>
             </div>
@@ -185,7 +187,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Titre 3</h5>
-                    <p class="card-text">Description pour Titre 3.</p>
+                    <p class="card-text">DEPENSES D'INVESTISSEMENT </p>
                     <button class="btn btn-primary" id="T3" >Vers Tableau Operation</button>
                 </div>
             </div>
@@ -200,7 +202,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Titre 4</h5>
-                    <p class="card-text">Description pour Titre 4.</p>
+                    <p class="card-text"> DEPENSES DE TRANSFERT  </p>
                     <button class="btn btn-primary" id="T4">Vers Les Operation</button>
                 </div>
             </div>
@@ -221,5 +223,10 @@
   var jsonpath2="{{asset('assets/Titre/dataT2.json')}}"
   var jsonpath3="{{asset('assets/Titre/dataT3.json')}}"
   var jsonpath4="{{asset('assets/Titre/dataT4.json')}}"
+  @if(isset($s_act))
+  var path3=['{{$port}}','{{$prog}}','{{$sous_prog}}','{{$act}}','{{$s_act}}']
+  @else
+  var path3=['{{$port}}','{{$prog}}','{{$sous_prog}}','{{$act}}']
+  @endif
 </script>
 </html>

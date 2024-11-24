@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('construire_d_p_i_c_s', function (Blueprint $table) {
-            $table->integer('id_dpic')->primary();
+            $table->integer('id_dpic')->primary()->autoIncrement();
             $table->Date('date_creation_dpic');
     
-            $table->float('AE_dpic_nv');
-            $table->float('CP_dpic_nv');
+            $table->float('AE_dpic_nv')->nullable();
+            $table->float('CP_dpic_nv')->nullable();
 
             
             $table->integer('id_rff');

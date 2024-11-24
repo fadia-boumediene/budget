@@ -15,27 +15,27 @@ $(document).ready(function(){
             var inputValue = $(this).val();
 
             // Check if the input is not empty
-            if (inputValue.trim() === "") 
+            if (inputValue.trim() === "")
              {
                 isEmpty = true;
                 indice++;
              }
-       
+
 
         if (isEmpty) {
             if(indice < 2)
             {
-            alert("Veuillez remplir tous les champs obligatoires.");
+            alert("Veuillez remplir tous les champs obligatoires");
             }
             $(this).css('box-shadow','0 0 0 0.25rem rgb(255 0 0 / 47%)')
         }
     });
-      
+
 
 
     if(id == "add-prg3")
     {
-      
+
       let userResponse = confirm('Voulez-vous ajouter une sous-action pour cette action ?');
                                     if (userResponse) {
                                         // Récupération des informations de l'action
@@ -44,6 +44,8 @@ $(document).ready(function(){
                                         var nom_act = $('#nom_act').val();
                                         var num_act = $('#num_act').val();
                                         var dat_inst = $('#date_insert_action').val();
+                                        var AE_act = $('#AE_act').val()
+                                        var CP_act = $('#CP_act').val()
                                         var id_sou_prog = path[2];
                                         var numaction_year = num_act + id_sou_prog;
                                         var nexthop = '<div class="pinfo-handle">' +
@@ -60,6 +62,8 @@ $(document).ready(function(){
                                             nom_action: nom_act,
                                             date_insert_action: dat_inst,
                                             id_sous_prog: path[2],
+                                            AE_act: AE_act,
+                                            CP_act: CP_act,
                                             //id_prog: path[1],
                                             //id_porte: path[0],
                                             _token: $('meta[name="csrf-token"]').attr('content'),
@@ -76,36 +80,36 @@ $(document).ready(function(){
                                                     // Ajout du numéro de l'action au chemin
                                                     path.push(numaction_year);
                                                     path3.push(num_act);
-                                                  
+
                                                     console.log('A path: ' + JSON.stringify(path));
                                                     $('#confirm-holder_act').empty()
                                                     $('#confirm-holder_act').append('<i class="fas fa-wrench"></i>')
                                                     // Création du formulaire pour la sous-action après l'ajout de l'action
                                                     var prg4 = `<div class="form-container">
                                                            <form>
-                                                            <div class="form-group">
-                                                            <label for="num_sous_act">N°Sous ACTION</label>
-                                                            <input type="text" class="form-control" id="num_sous_act" placeholder="Donner le code Sous ACTION">
+                                                             <div class="form-group">
+                                                            <label for="num_sous_act">Code de Sous ACTION</label>
+                                                            <input type="text" class="form-control" id="num_sous_act" placeholder="Entrer le Code  de Sous ACTION">
                                                            </div>
                                                             <div class="form-group">
-                                                                <label for="nom_sous_act">Nom Sous ACTION</label>
-                                                            <input type="text" class="form-control" id="nom_sous_act" placeholder="Donner le Nom Sous ACTION">
+                                                                 <label for="date_insert_sou_action">Date du Journal</label>
+                                                                 <input type="date" class="form-control" id="date_insert_sou_action">
+                                                               </div>
+                                                            <div class="form-group">
+                                                                <label for="nom_sous_act">Nom de  Sous ACTION</label>
+                                                            <input type="text" class="form-control" id="nom_sous_act" placeholder=Entrer le Nom  de Sous ACTION">
                                                             </div>
                                                                <div class="form-group">
                                                                 <label for="AE_sous_act">AE pour Sous Action</label>
-                                                                <input type="number" class="form-control" id="AE_sous_act">
+                                                                <input type="number" class="form-control" id="AE_sous_act" placeholder=" Entrer AE  Sous Action">
                                                             </div>
                                                             <div class="form-group">
                                                               <label for="CP_sous_act">CP pour Sous Action</label>
-                                                            <input type="number" class="form-control" id="CP_sous_act">
-                                                               </div>
-                                                               <div class="form-group">
-                                                                 <label for="date_insert_sou_action">Date Journal</label>
-                                                                 <input type="date" class="form-control" id="date_insert_sou_action">
+                                                            <input type="number" class="form-control" id="CP_sous_act" placeholder="Entrer CP  Sous Action">
                                                                </div>
                                                                </form>
                                                                <br>
-                                                               <button class="btn btn-primary" id="add-prg4">Ajouter Sous Action</button>
+                                                               <button class="btn btn-primary" id="add-prg4">Ajouter </button>
                                                                </div>`;
 
                                                     // Insertion du formulaire pour la sous-action dans le DOM
@@ -118,6 +122,8 @@ $(document).ready(function(){
                                                         var nom_sous_act = $('#nom_sous_act').val();
                                                         var num_sous_act = $('#num_sous_act').val();
                                                         var dat_inst = $('#date_insert_sou_action').val();
+                                                        var AE_sous_act = $('#AE_sous_act').val()
+                                                        var CP_sous_act = $('#CP_sous_act').val()
                                                         var numaction_year = path[3];
                                                         var numsousaction_year = num_sous_act + numaction_year;
                                                         // Création du formData pour la sous-action
@@ -126,10 +132,8 @@ $(document).ready(function(){
                                                             nom_sous_action: nom_sous_act,
                                                             date_insert_sous_action: dat_inst,
                                                             num_act: path[3],
-                                                            //id_sous_act: path[2],
-                                                            //id_prog: path[1],
-                                                           // id_porte: path[0],
-                                                            //year: year,
+                                                            AE_sous_act: AE_sous_act,
+                                                            CP_sous_act: CP_sous_act,
                                                             _token: $('meta[name="csrf-token"]').attr('content'),
                                                             _method: 'POST'
                                                         };
@@ -147,18 +151,18 @@ $(document).ready(function(){
 
                                                                     // Redirection vers la page suivante après l'ajout de la sous-action
                                                                     alert('testing')
-                                                                    window.location.href = 'testing/S_action/' + path.join('/');
+                                                                    window.location.href = '/testing/S_action/' + path.join('/');
                                                                 }
                                                             },
                                                             error: function (response) {
-                                                                alert('Erreur lors de l\'ajout de la sous-action.');
+                                                                alert('Erreur lors de l\'ajout de la sous-action');
                                                             }
                                                         });
                                                     });
                                                 }
                                             },
                                             error: function (response) {
-                                                alert('Erreur lors de l\'ajout de l\'action.');
+                                                alert('Erreur lors de l\'ajout de l\'action');
                                             }
                                         });
                                     } else {
@@ -166,6 +170,8 @@ $(document).ready(function(){
                                         var nom_act = $('#nom_act').val();
                                         var num_act = $('#num_act').val();
                                         var dat_inst = $('#date_insert_action').val();
+                                        var AE_act = $('#AE_act').val()
+                                        var CP_act = $('#CP_act').val()
                                         var id_sou_prog = path[2];
                                         var numaction_year = num_act + id_sou_prog;
 
@@ -174,8 +180,8 @@ $(document).ready(function(){
                                             nom_action: nom_act,
                                             date_insert_action: dat_inst,
                                             id_sous_prog: id_sou_prog,
-                                            //id_prog: path[1],
-                                            //id_porte: path[0],
+                                            AE_act: AE_act,
+                                            CP_act: CP_act,
                                             _token: $('meta[name="csrf-token"]').attr('content'),
                                             _method: 'POST'
                                         };
@@ -193,15 +199,61 @@ $(document).ready(function(){
                                                 }
                                             },
                                             error: function (response) {
-                                                alert('Erreur lors de l\'ajout de l\'action.');
+                                                alert('Erreur lors de l\'ajout de l\'action');
                                             }
                                         });
                                     }
 
     }
+    if(id == "add-prg4")
+    {
+
+        console.log('inside sous_action')
+        var nom_sous_act = $('#nom_s_act').val();
+        var num_sous_act = $('#num_s_act').val();
+        var dat_inst = $('#date_insert_action').val();
+        var AE_sous_act = $('#AE_sous_act').val()
+        var CP_sous_act = $('#CP_sous_act').val()
+        var numaction_year = path[3];
+        var numsousaction_year = num_sous_act + numaction_year;
+        console.log('this '+numaction_year+'new pa'+numsousaction_year)
+        // Création du formData pour la sous-action
+        var formdata_sous_act = {
+            num_sous_action: numsousaction_year,
+            nom_sous_action: nom_sous_act,
+            date_insert_sous_action: dat_inst,
+            num_act: path[3],
+            AE_sous_act: AE_sous_act,
+            CP_sous_act: CP_sous_act,
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            _method: 'POST'
+        };
+
+        // Envoi de la sous-action via Ajax
+        $.ajax({
+            url: '/creationsousAction',
+            type: 'POST',
+            data: formdata_sous_act,
+            success: function (response) {
+                if (response.code === 200 || response.code === 404) {
+                    path.push(numsousaction_year);
+                    path3.push(num_sous_act);
+                    console.log('path: ' + JSON.stringify(path));
+
+                    // Redirection vers la page suivante après l'ajout de la sous-action
+                    alert('testing')
+                    window.location.href = '/testing/S_action/' + path.join('/');
+                }
+            },
+            error: function (response) {
+                alert('Erreur lors de l\'ajout de la sous-action');
+            }
+        });
+
+    }
     if(id == "add-prg2")
     {
-      var parent=$(this).parent() 
+      var parent=$(this).parent()
       var sou_prog = $('#num_sousProg').val()
                     var nom_sou_prog = $('#nom_sousProg').val();
                     var dat_sou_prog = $('#date_insert_sousProg').val()
@@ -247,7 +299,7 @@ $(document).ready(function(){
 }
     if(id == "add-prg1")
     {
-     
+
       var id_prog = $('#num_prog').val();
     var nom_prog = $('#nom_prog').val();
     var Ae_prog = $('#AE_prog').val();
@@ -284,7 +336,7 @@ $(document).ready(function(){
                 path.push(numprog_year);
                 $('.the-path').append(nexthop)
                 console.log('testing'+numprog_year);
-              
+
                parent.empty();
                parent.append('<i class="fas fa-wrench"></i>')
                document.getElementById("creati-sous_prog").style.display="block";
@@ -297,5 +349,5 @@ $(document).ready(function(){
     })
   }
     })
-    
+
 })

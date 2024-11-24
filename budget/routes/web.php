@@ -1,5 +1,12 @@
 <?php
 
+use App\Models\Portefeuille;
+use App\Models\Programme;
+use App\Models\Action;
+use App\Models\SousProgramme;
+
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\portfeuilleController;
 use App\Http\Controllers\programmeControlleur;
 use App\Http\Controllers\sousProgrammeController;
@@ -9,131 +16,22 @@ use App\Http\Controllers\groupOperationController;
 use App\Http\Controllers\opeartionController;
 use App\Http\Controllers\SousOperationController;
 
-use App\Models\Portefeuille;
-use App\Models\Programme;
-use App\Models\Action;
-use App\Models\SousProgramme;
-use App\Models\SousAction;
-use Illuminate\Support\Facades\Route;
-use App\Services\CalculDpia;
-
 Route::get('/', function () {
-    $portfs =Portefeuille::get(); 
-   // dd($portfs);
+ $portfs =Portefeuille::get();
     return view('welcome',compact('portfs'));
 });
 Route::get('/testing',function (){
 return view('test.carsoule');
 });
-Route::get('/testing/tree',function (){
-    return view('test.tree');
-    });
-    Route::get('/testing/tree/{id}',function ($id){
-             
-        $por=Portefeuille::findOrFail($id);
-        $progms=Programme::where('num_portefeuil',$id)->get();
-        $allprogram=[];
-        $allsous_prog=[];
-        $allaction=[];
-        $allsous_action=[];
-        $resultats=0;
-         $CalculDpia;
-
-        function __construct(CalculDpia $CalculDpia)
-        {
-            $this->CalculDpia = $CalculDpia;
-        }
-
-       
-
-
-        foreach($progms as $progm)
-        {
-            $sousprog=SousProgramme::where('num_prog',$progm->num_prog)->get();
-            foreach($sousprog as $sprog)
-            {
-                
-               
-                    $act=Action::where('num_sous_prog',$sprog->num_sous_prog)->get();
-                    
-                    foreach($act as $listact)
-                    {
-                        if(isset($listact))
-                        {
-                            $sous_act=SousAction::where('num_action',$listact->num_action)->get();
-                            foreach($sous_act as $listsousact)
-                            {
-                                if(isset($listsousact))
-                                {
-                                   // $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
-                                   
-                                    try {
-                                        $resultats = $this->CalculDpia->calculdpiaFromPath($id, $progm->num_prog, $sprog->num_sous_prog, $listact->num_action,$listsousact->num_sous_action);
-                                    } catch (\Exception $e) {
-                                       
-                                        $resultats="null";
-                                    }
-                                    
-                                    array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'data'=>$listsousact,'result'=>$resultats]);
-                                    dd($id.'/'.$progm->num_prog.'/'.$sprog->num_sous_prog.'/'. $listact->num_action.'/'.$listsousact->num_sous_action);
-                                }
-                            } 
-                        array_push($allaction,['num_act'=>$listact->num_action,'data'=>$listact,'sous_action'=>$allsous_action]);
-                        $allsous_action=[];
-                        }
-                    }
-                    array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
-                    $allaction=[];
-            }
-            array_push($allprogram,['id_prog'=>$progm->num_prog,'data'=>$progm,'sous_program'=>$allsous_prog]);
-            $allsous_prog=[];
-        }
-        $allport=[
-            'id'=>$id,
-            'prgrammes'=>$allprogram,
-        ];
-          dd($allport);
-    // Passer les données à la vue
-    return view('test.tree', compact('allport'));
-        });
-  Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}/',function ($port,$prog,$sous_prog,$act){
-
-
-
-        return view('Action-in.index',compact('port','prog','sous_prog','act'));
-        });
-      /* Route::get('/testing/S_Action/{port}/{prog}/{sous_prog}/{act}/{s_act}/',function ($port,$prog,$sous_prog,$act,$s_act){
-
-
-
-            return view('Action-in.index',compact('port','prog','sous_prog','act','s_act'));
-            });*/
-//Route::get('/Portfail',action: [portfeuilleController::class,'affich_portef'])->name('home.portfail');
-
-Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}/',function ($port,$prog,$sous_prog,$act){
-
-
-
-    return view('Action-in.index',compact('port','prog','sous_prog','act'));
-    });
-
-    //affiche les portes
-   Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}/',function ($port,$prog,$sous_prog,$act,$s_act){
-
-
-
-        return view('Action-in.index',compact('port','prog','sous_prog','act','s_act'));
-        });
-
-
-
 //===============ROUTE PORTEFEUILLE==============================
 Route::controller(portfeuilleController::class)->group(function(){
     Route::get('/Portfail/{id}','affich_portef')->name('home.portfail');
     Route::get('/Form','form_portef')->name('form.portfail'); //afficher formulaire d ajout
-    Route::get('/creation/from/{path}','show_prsuiv')->name('creation.show_prsuiv');
     Route::post('/creation','creat_portef')->name('creation.portfail');
+    Route::get('/creation/from/{path}','show_prsuiv')->name('creation.show_prsuiv');
     Route::get('/check-portef','check_portef')->name('check.portfail');
+    Route::get('/update-portef','update_portef')->name('update.portfail');
+    Route::post('/upload-pdf', 'uploadPDF')->name('upload.pdf');
 });
 
 //===============ROUTE PROGRAMME==============================
@@ -168,16 +66,42 @@ Route::controller(sousActionController::class)->group(function(){
 
 //===============ROUTE GROUPE D'OPERATIONS==============================
 Route::controller(groupOperationController::class)->group(function(){
-    Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}/{T}', 'insertDPA');
+   Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}/{T}', 'insertDPA');
 
 });
 
 //===============ROUTE  OPERATION==============================
 Route::controller(opeartionController::class)->group(function(){
-    Route::get('/testing/S_Action/{port}/{prog}/{sous_prog}/{act}/{s_act}', 'calculerEtEnvoyer');
+    Route::get('/testing/Ss_Action/{port}/{prog}/{sous_prog}/{act}/{s_act}', 'calculerEtEnvoyer');
+    Route::get('/testing/S_action/{port}/{s_act}/{T}', 'afficherDPIA');
+
+
+
+    Route::get('/testing/S_action/{s_act}', 'afficherDPIAWithoutT');
+    Route::get('/testing/codeSousOperation/{s_act}', 'checkSousOperationExist');
    // Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}', 'calculerEtEnvoyer');
 });
 
 //===============ROUTE SOUS OPERATION==============================
 Route::controller(sousOperationController::class)->group(function(){
+    Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}','AffichePortsAction');
+    Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}','AffichePortsSousAct');
+    Route::get('/testing/pdf','impressionpdf');
 });
+
+
+/*Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}/',function ($port,$prog,$sous_prog,$act){
+
+
+
+        return view('Action-in.index',compact('port','prog','sous_prog','act'));
+        });
+
+        //affiche les portes
+       Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}/',function ($port,$prog,$sous_prog,$act,$s_act){
+
+
+
+            return view('Action-in.index',compact('port','prog','sous_prog','act','s_act'));
+            });
+*/

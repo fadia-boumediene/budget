@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sous_operations', function (Blueprint $table) {
-            $table->integer('code_sous_operation')->primary();
-            $table->string('nom_sous_operation');
-            $table->string('nom_sous_operation_ar');
+            $table->string('code_sous_operation')->primary();
+            $table->longText('nom_sous_operation');
+            $table->longText('nom_sous_operation_ar')->nullable();
             $table->float('AE_sous_operation')->nullable(); //si t1 ou t4
             $table->float('CP_sous_operation')->nullable();//si t1 ou t4
 
@@ -47,7 +47,7 @@ return new class extends Migration
             $table->integer('code_t4')->nullable();
             $table->foreign('code_t4')->references('code_t4')->on('t4_s');
 
-            $table->integer('code_operation');
+            $table->string('code_operation');
             $table->foreign('code_operation')->references('code_operation')->on('operations');
 
         });

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('operations', function (Blueprint $table) {
-            $table->integer('code_operation')->primary();
-            $table->string('nom_operation');
-            $table->string('nom_operation_ar');
-            
+            $table->string('code_operation')->primary();
+            $table->longText('nom_operation');
+            $table->longText('nom_operation_ar')->nullable();
+
 
             $table->DateTime('date_insert_operation');
             $table->DateTime('date_update_operation')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
 
 
 
-            $table->integer('code_grp_operation');
+            $table->string('code_grp_operation');
             $table->foreign('code_grp_operation')->references('code_grp_operation')->on('group_operations');
 
         });

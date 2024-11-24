@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Portfail</title>
+        <title>Portefeuille</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -29,16 +29,23 @@
  {{--@include('progress_step.progress_step')--}}
  <br>
  </div>
-
+ @php
+ $j=1;
+ @endphp
 <div class="container">
 
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
 
   <div class="carousel-indicators">
+
     <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    @for($i=2 ; $i < count($portfs) ; $i+=3)
+
+    <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="{{$j}}" aria-label="Slide {{$j}}"></button>
+    @php
+    $j++;
+    @endphp
+  @endfor
   </div>
   <div class="row justify-content-center">
 
@@ -52,8 +59,9 @@
           <i class="fas fa-plus-circle icon-car"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Creation un nouvel Portfail de année</h5>
-          <p class="card-text">Sela Pour demarrage Creation des portfail de Chaque année.</p>
+        <h5 class="card-title">Création d'un nouveau portefeuille pour l'année</h5>
+        <p class="card-text">Cela permet de démarrer la création des portefeuilles pour chaque année.</p>
+
         </div>
       </div>
     </div>
@@ -61,13 +69,13 @@
       @if(isset($portfs[0]))
       <div class="card">
         <div class="card-photo-holder" id="{{ $portfs[0]->num_portefeuil}}">
-          {{-- <i class="fas fa-folder-open icon-card"></i> --}}
+           <i class="fas fa-folder-open icon-card"></i> 
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail {{ $portfs[0]->num_portefeuil}} de : {{$portfs[0]->Date_portefeuille}}</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
-        </div>
+        <h5 class="card-title">Portefeuille {{ $portfs[0]->num_portefeuil }} du : {{$portfs[0]->Date_portefeuille}}</h5>
+        <p class="card-text">Cela permet de consulter et d'effectuer des mouvements ou des transactions depuis le portefeuille.</p>
 
+        </div>
       </div>
       @endif
     </div>
@@ -78,8 +86,8 @@
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail {{ $portfs[1]->num_portefeuil}} de : {{$portfs[1]->Date_portefeuille}}</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
+          <h5 class="card-title">Portefeuille {{ $portfs[1]->num_portefeuil}} du : {{$portfs[1]->Date_portefeuille}}</h5>
+          <p class="card-text">Cela permet de consulter et d'effectuer des mouvements ou des transactions depuis le portefeuille.</p>
         </div>
       </div>
       @endif
@@ -97,8 +105,8 @@
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Portfail {{$portfs[$i]->num_portefeuil}} de : {{$portfs[$i]->Date_portefeuille}}</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
+          <h5 class="card-title">Portefeuille {{$portfs[$i]->num_portefeuil}} du : {{$portfs[$i]->Date_portefeuille}}</h5>
+          <p class="card-text">Cela permet de consulter et d'effectuer des mouvements ou des transactions depuis le portefeuille.</p>
         </div>
       </div>
     </div>
@@ -111,8 +119,8 @@
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-        <h5 class="card-title">Portfail {{$portfs[$i+1]->num_portefeuil}} de : {{$portfs[$i+1]->Date_portefeuille}}</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
+        <h5 class="card-title">Portefeuille {{$portfs[$i+1]->num_portefeuil}} du : {{$portfs[$i+1]->Date_portefeuille}}</h5>
+        <p class="card-text">Cela permet de consulter et d'effectuer des mouvements ou des transactions depuis le portefeuille.</p>
         </div>
       </div>
     </div>
@@ -124,8 +132,8 @@
           <i class="fas fa-folder-open icon-card"></i>
         </div>
         <div class="card-body">
-        <h5 class="card-title">Portfail {{$portfs[$i+2]->num_portefeuil}} de : {{$portfs[$i+2]->Date_portefeuille}}</h5>
-          <p class="card-text">Sela Pour Consulté et faire des movement ou bien transaction Depuis portfail</p>
+        <h5 class="card-title">Portefeuille {{$portfs[$i+2]->num_portefeuil}} du : {{$portfs[$i+2]->Date_portefeuille}}</h5>
+        <p class="card-text">Cela permet de consulter et d'effectuer des mouvements ou des transactions depuis le portefeuille.</p>
         </div>
       </div>
     </div>

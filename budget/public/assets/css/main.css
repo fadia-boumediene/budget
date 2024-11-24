@@ -554,6 +554,10 @@ html, body {
   display: none;
   opacity: 0;
 }
+.card .card-body {
+  flex: 1 1 auto;
+  padding: 1.5rem 1.5rem;
+}
 .card-body button:hover
 {
   background-color: #FFA000;
@@ -670,7 +674,7 @@ height: 100%;
   position: fixed;
 top: 25%;
 left: 35%;
-width: 25%;
+width: 30%;
 z-index: 1000;
 }
 .wallet-path
@@ -699,7 +703,7 @@ z-index: 1000;
   /*width: 250px;*/
   background-color: #FFC107;
   height: 40px;
-  border-radius: 40%;
+  border-radius: 10px;
   margin: 5px;
 }
 .pinfo-handle p
@@ -776,6 +780,29 @@ z-index: 1000;
   100% {
     opacity: 0; /* Green */
 }
+}
+@keyframes alerting {
+
+  0%{
+    box-shadow: 3px 3px 15px 5px rgb(237 11 11);
+  }
+  25%{
+    box-shadow: 3px 3px 5px rgb(237 11 11 / 90%);
+  }
+  50%{
+    box-shadow: 3px 3px 5px rgb(237 11 11/ 60%);
+  }
+  75%
+  {
+    box-shadow: 3px 3px 5px rgb(237 11 11/ 80%);
+  }
+  100%
+  {
+    box-shadow: 3px 3px 5px rgb(237 11 11);
+  }
+}
+.alert_func{
+  animation: alerting 1s linear infinite;
 }
 .grid-T{
   width: 500px;
@@ -1103,8 +1130,20 @@ transition-timing-function: line;
   font-size: 16px;
   max-width: 470px;
 }
+.Port-info-holder
+{
+  display: flex;
 
-
+}
+.T-holder
+{
+  border-right: 1px dotted;
+  margin-right: 5px ;
+}
+.T-holder p
+{
+  border-bottom: 1px dotted;
+}
 /** ====================== End table Template*/
 
 /***-------------------- this for the button new ops ---------------------*/
@@ -1114,31 +1153,84 @@ transition-timing-function: line;
   cursor: pointer;
   scale: 0.9;
 }
+.add-btn
+{
+    border-radius: 20%;
+    border: 1px dotted gold;
+}
+.mem-add
+{
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+#AE_T4
+{
+  width: 100px;
+}
+#AE_T1
+{
+  width: 100px;
+}
+.grid-container .card-body
+{
+  display: flex
+;
+    flex-direction: column;
+    height: 190px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0px 5px 10px;
+}
+.carousel-inner .card-body
+{
+  height: 150px;
+}
 /**---------------------- end new ops -----------------------------------*/
-/** ====================== End table Template*/
-.Port-info-holder
+/*------------------------- print button --------------------------------*/
+.float-export
 {
-  display: flex;
-  flex-direction: row;
+  position: fixed;
+  bottom: 5px;
+  background-color: #fff5f5;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
 }
-.T-holder
+.float-export:hover
 {
-  padding-right: 2px;
-  border-right: 1px solid
+  box-shadow: rgba(187, 149, 44, 0.35) 0 -25px 18px -14px inset,rgba(187, 185, 44, 0.25) 0 1px 2px,rgba(187, 113, 44, 0.25) 0 2px 4px,rgba(187, 44, 111, 0.25) 0 4px 8px,rgba(187, 125, 44, 0.25) 0 8px 16px,rgba(187, 154, 44, 0.25) 0 16px 32px;
 }
-.TotalT-holder
+.folder-box {
+  position: absolute;
+  text-align: center;
+  display: inline-block;
+  padding: 10px 20px;
+  right: 5%;
+  bottom: 5%;
+  color: rgb(255, 166, 0);
+  font-size: 50px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(-30px);
+  }
+  60% {
+      transform: translateY(-15px);
+  }
+}
+.folder-box:hover
 {
-  display: flex;
-  border-top: 1px dotted;
-  margin-right: 3px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  scale: 1.2;
+  animation: bounce 1s;
 }
-.TotalT-holder p
-{
-  margin-left: 3px;
-  border-right: 1px dotted;
-  margin-right: 3px;
-  padding-right: 1px;
-}
+/***------------------------------ end --------------------***/

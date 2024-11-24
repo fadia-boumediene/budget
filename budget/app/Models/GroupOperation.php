@@ -11,7 +11,7 @@ class GroupOperation extends Model
     protected $table = 'group_operations';
     protected $primaryKey = 'code_grp_operation';
     public $incrementing = false; 
-    protected $keyType = 'integer'; 
+    protected $keyType = 'string'; 
     public $timestamps = false;
 
     protected $fillable = [

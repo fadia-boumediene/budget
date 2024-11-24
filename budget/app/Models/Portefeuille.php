@@ -28,4 +28,9 @@ class Portefeuille extends Model
     {
         return $this->hasMany(Programme::class,'num_portefeuil','num_portefeuil');
     }
+
+    public function multimedias()
+    {
+        return $this->morphMany(Multimedia::class, 'related');
+    }
 }

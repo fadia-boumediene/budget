@@ -44,4 +44,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+// un user peut uploder plusieurs fichier
+    public function multimedias()
+    {
+        return $this->morphMany(Multimedia::class, 'related');
+    }
 }
+

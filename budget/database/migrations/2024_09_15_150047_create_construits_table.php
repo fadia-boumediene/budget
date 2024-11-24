@@ -16,15 +16,15 @@ return new class extends Migration
 
             $table->integer('id_extrait');
             $table->foreign('id_extrait')->references('id_extrait')->on('extrait__d_p_i_c_s');
-           
-            
+
+
             $table->integer('id_rff');
             $table->foreign('id_rff')->references('id_rff')->on('r_f_f_s');
-           
-            
-            $table->integer('num_action');
+
+
+            $table->string('num_action');
             $table->foreign('num_action')->references('num_action')->on('actions');
-           
+
         });
     }
 

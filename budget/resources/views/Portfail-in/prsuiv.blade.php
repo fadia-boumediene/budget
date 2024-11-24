@@ -60,37 +60,38 @@ Object.entries(paths).forEach(([code,value])=>{
    
     </div>
   </div>
+  <div id="progam-handle">
   @if($leng == 4)
   <div class="form-container" id="creati-sous_act">
                         <form >
                         <div class="form-group">
-                        <label for="input1">N° Sous_ACTION</label>
-                        <input type="text" class="form-control" id="num_s_act" placeholder="Donnee Nom ACTION">
+                        <label for="input1">Code de Sous ACTION</label>
+                        <input type="text" class="form-control" id="num_s_act" placeholder="Entrer le Code de sous ACTION">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom Sous_ACTION</label>
-                        <input type="text" class="form-control" id="nom_s_act" placeholder="Donnee Nom ACTION">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_action">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom de Sous ACTION</label>
+                        <input type="text" class="form-control" id="nom_s_act" placeholder="Entrer le Nom de sous ACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
-                        <label for="input1">AE pour Sous_ACTION</label>
-                        <input type="number" class="form-control" id="AE_s_act" placeholder="Donnee Nom Programme">
+                        <label for="input1">AE pour Sous ACTION</label>
+                        <input type="number" class="form-control" id="AE_s_act" placeholder="Entrer AE sous Action ">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Sous_ACTION</label>
-                        <input type="number" class="form-control" id="CP_s_act" placeholder="Donnee Nom Programme">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_action">
+                        <input type="number" class="form-control" id="CP_s_act" placeholder="Entrer CP sous Action">
                         </div>
                         </form>
                         <br>
                         <div id="confirm-holder">
-                        <button class="btn btn-primary" id="add-prg3">Ajouter</button>
+                        <button class="btn btn-primary" id="add-prg4">Ajouter</button>
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
                  @endif
@@ -99,24 +100,24 @@ Object.entries(paths).forEach(([code,value])=>{
   <div class="form-container" id="creati-act">
                         <form >
                         <div class="form-group">
-                        <label for="input1">N° ACTION</label>
-                        <input type="text" class="form-control" id="num_act" placeholder="Donnee Nom ACTION">
+                        <label for="input1">Code d'ACTION</label>
+                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code d'ACTION">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom ACTION</label>
-                        <input type="text" class="form-control" id="nom_act" placeholder="Donnee Nom ACTION">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_action">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom d'ACTION</label>
+                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom d'ACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Action</label>
-                        <input type="number" class="form-control" id="AE_act" placeholder="Donnee Nom ACTION">
+                        <input type="number" class="form-control" id="AE_act" placeholder="Entrer AE Action">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Action</label>
-                        <input type="number" class="form-control" id="CP_act" placeholder="Donnee Nom ACTION">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_action">
+                        <input type="number" class="form-control" id="CP_act" placeholder="Entrer CP Action">
                         </div>
                         </form>
                         <br>
@@ -125,7 +126,7 @@ Object.entries(paths).forEach(([code,value])=>{
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
                  @endif
@@ -135,24 +136,24 @@ Object.entries(paths).forEach(([code,value])=>{
 
                  <form >
                         <div class="form-group">
-                        <label for="input1">N° Sous_Programme</label>
-                        <input type="text" class="form-control" id="num_sousProg" placeholder="Donnee Nom Sous_Programme">
+                        <label for="input1">Code du Sous Programme</label>
+                        <input type="text" class="form-control" id="num_sousProg" placeholder="Entrer le  Code du Sous Programme">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom Sous_Programme</label>
-                        <input type="text" class="form-control" id="nom_sousProg" placeholder="Donnee Nom Sous_Programme">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_sousProg">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom du Sous Programme</label>
+                        <input type="text" class="form-control" id="nom_sousProg" placeholder="Entrer le Nom du Sous Programme">
                         </div>
                         <div class="form-group" id="ElAE_act">
-                        <label for="input1">AE pour Sous_Programme</label>
-                        <input type="number" class="form-control" id="AE_sousProg" placeholder="Donnee Nom Sous_Programme">
+                        <label for="input1">AE pour Sous Programme</label>
+                        <input type="number" class="form-control" id="AE_sousProg" placeholder="Entrer AE sous Programme">
                         </div>
                         <div class="form-group" id="ElCP_act">
-                        <label for="input1">CP pour Sous_Programme</label>
-                        <input type="number" class="form-control" id="CP_sousProg" placeholder="Donnee Nom Sous_Programme">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_sousProg">
+                        <label for="input1">CP pour Sous Programme</label>
+                        <input type="number" class="form-control" id="CP_sousProg" placeholder="Entrer CP sous Programme">
                         </div>
                         </form>
                         <br>
@@ -161,31 +162,31 @@ Object.entries(paths).forEach(([code,value])=>{
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
     </div>                    
     <div class="form-container" id="creati-act" style="display:none">
-                        <form >
+    <form >
                         <div class="form-group">
-                        <label for="input1">N° ACTION</label>
-                        <input type="text" class="form-control" id="num_act" placeholder="Donnee Nom ACTION">
+                        <label for="input1">Code d'ACTION</label>
+                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code d'ACTION">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom ACTION</label>
-                        <input type="text" class="form-control" id="nom_act" placeholder="Donnee Nom ACTION">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_action">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom d'ACTION</label>
+                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom d'ACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Action</label>
-                        <input type="number" class="form-control" id="AE_act" placeholder="Donnee Nom Programme">
+                        <input type="number" class="form-control" id="AE_act" placeholder="Entrer AE Action">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Action</label>
-                        <input type="number" class="form-control" id="CP_act" placeholder="Donnee Nom Programme">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_action">
+                        <input type="number" class="form-control" id="CP_act" placeholder="Entrer CP Action">
                         </div>
                         </form>
                         <br>
@@ -194,10 +195,9 @@ Object.entries(paths).forEach(([code,value])=>{
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
-        </div>
                  @endif
 
 
@@ -207,24 +207,24 @@ Object.entries(paths).forEach(([code,value])=>{
 
                  <form>
                         <div class="form-group">
-                        <label for="input1">N° Programme</label>
-                        <input type="text" class="form-control" id="num_prog" placeholder="Donnee Nom Programme">
+                        <label for="input1">Code du Programme</label>
+                        <input type="text" class="form-control" id="num_prog" placeholder="Entrer le Code du Programme">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom Programme</label>
-                        <input type="text" class="form-control" id="nom_prog" placeholder="Donnee Nom Programme">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_portef">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom du Programme</label>
+                        <input type="text" class="form-control" id="nom_prog" placeholder="Entrer le Nom du Programme">
                         </div>
                         <div class="form-group" id="ElAE_act">
-                        <label for="input1">AE pour Programme</label>
-                        <input type="number" class="form-control" id="AE_prog" placeholder="Donnee Nom Programme">
+                        <label for="input1">AE pour le Programme</label>
+                        <input type="number" class="form-control" id="AE_prog" placeholder="Entrer AE sous Programme">
                         </div>
                         <div class="form-group" id="ElCP_act">
-                        <label for="input1">CP pour Programme</label>
-                        <input type="number" class="form-control" id="AE_prog" placeholder="Donnee Nom Sous_Programme">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_portef">
+                        <label for="input1">CP pour le Programme</label>
+                        <input type="number" class="form-control" id="AE_prog" placeholder="Entrer CP sous Programme">
                         </div>
                         </form>
                         <br>
@@ -233,84 +233,84 @@ Object.entries(paths).forEach(([code,value])=>{
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
     </div>                    
                 
   <div class="form-container" id="creati-sous_prog" style="display:none">
 
-                 <form >
+  <form >
                         <div class="form-group">
-                        <label for="input1">N° Sous_Programme</label>
-                        <input type="text" class="form-control" id="num_sousProg" placeholder="Donnee Nom Sous_Programme">
+                        <label for="input1">Code du Sous Programme</label>
+                        <input type="text" class="form-control" id="num_sousProg" placeholder="Entrer le  Code du Sous Programme">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom Sous_Programme</label>
-                        <input type="text" class="form-control" id="nom_sousProg" placeholder="Donnee Nom Sous_Programme">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_sousProg">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom du Sous Programme</label>
+                        <input type="text" class="form-control" id="nom_sousProg" placeholder="Entrer le Nom du Sous Programme">
                         </div>
                         <div class="form-group" id="ElAE_act">
-                        <label for="input1">AE pour Sous_Programme</label>
-                        <input type="number" class="form-control" id="AE_sousProg" placeholder="Donnee Nom Sous_Programme">
+                        <label for="input1">AE pour Sous Programme</label>
+                        <input type="number" class="form-control" id="AE_sousProg" placeholder="Entrer AE sous Programme">
                         </div>
                         <div class="form-group" id="ElCP_act">
-                        <label for="input1">CP pour Sous_Programme</label>
-                        <input type="number" class="form-control" id="CP_sousProg" placeholder="Donnee Nom Sous_Programme">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_sousProg">
+                        <label for="input1">CP pour Sous Programme</label>
+                        <input type="number" class="form-control" id="CP_sousProg" placeholder="Entrer CP sous Programme">
                         </div>
                         </form>
                         <br>
-                        <div id="confirm-holder_sprog">
+                        <div id="confirm-holder">
                         <button class="btn btn-primary" id="add-prg2">Ajouter</button>
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
-    </div>                    
+    </div>                           
     <div class="form-container" id="creati-act" style="display:none">
                         <form >
                         <div class="form-group">
-                        <label for="input1">N° ACTION</label>
-                        <input type="text" class="form-control" id="num_act" placeholder="Donnee Nom ACTION">
+                        <label for="input1">Code d'ACTION</label>
+                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code d'ACTION">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom ACTION</label>
-                        <input type="text" class="form-control" id="nom_act" placeholder="Donnee Nom ACTION">
+                        <label for="inputDate">Date du Journal</label>
+                        <input type="date" class="form-control" id="date_insert_action">
+                        </div>
+                        <div class="form-group">
+                        <label for="input1">Nom d'ACTION</label>
+                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom d'ACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Action</label>
-                        <input type="number" class="form-control" id="AE_act" placeholder="Donnee Nom Programme">
+                        <input type="number" class="form-control" id="AE_act" placeholder="Entrer AE Action">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Action</label>
-                        <input type="number" class="form-control" id="CP_act" placeholder="Donnee Nom Programme">
-                        </div>
-                        <div class="form-group">
-                        <label for="inputDate">Date Journal</label>
-                        <input type="date" class="form-control" id="date_insert_action">
+                        <input type="number" class="form-control" id="CP_act" placeholder="Entrer CP Action">
                         </div>
                         </form>
                         <br>
-                        <div id="confirm-holder_act">
+                        <div id="confirm-holder">
                         <button class="btn btn-primary" id="add-prg3">Ajouter</button>
                         <hr>
                         <div class="file-handle">
                         <input type="file" class="form-control" id="file">
-                        <button class="btn btn-primary">Journal</button>
+                        <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
-        </div>
                  @endif
+                 </div>
                  <script>var path3=Array()</script>
 <script src="{{asset('assets/bootstrap-5.0.2/js/bootstrap.js')}}"></script>
 <script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>
 <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
 <script src="{{asset('assets/js/prousuiv.js')}}"></script>
- </body>
+ </body> 
 
 </html>
