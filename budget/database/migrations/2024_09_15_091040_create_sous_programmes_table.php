@@ -15,11 +15,7 @@ return new class extends Migration
             $table->string('num_sous_prog')->primary();
             $table->string('nom_sous_prog');
             $table->string('nom_sous_prog_ar')->nullable();
-<<<<<<< HEAD
             $table->float('AE_sous_prog');
-=======
-           $table->float('AE_sous_porg');
->>>>>>> 663e38df250acaae8a9aa004b07ea890c49201c3
             $table->float('CP_sous_prog');
 
             $table->DateTime('date_insert_sousProg');

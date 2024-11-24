@@ -15,11 +15,7 @@ return new class extends Migration
             $table->string('num_prog')->primary();
             $table->string('nom_prog');
             $table->string('nom_prog_ar')->nullable();
-<<<<<<< HEAD
             $table->float('AE_prog');
-=======
-           $table->float('AE_porg');
->>>>>>> 663e38df250acaae8a9aa004b07ea890c49201c3
             $table->float('CP_prog');
 
             $table->Date('date_insert_portef');
