@@ -6,40 +6,60 @@
     <title>Liste </title>
     <style>
         table {
-            width: 100%;
             border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
+            width: 100%;
         }
         th, td {
+            border: 1px solid #000;
             padding: 8px;
-            text-align: left;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            background-color: #e7f4e4;
+        }
+        .bold {
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Liste </h1>
+    <h1>LES CREDITS DES DEPENSES DE PERSONNEL : </h1>
 
     <table>
         <thead>
             <tr>
-                <th>Code Sous-Operation</th>
-                <th>Code T1</th>
+                <th>Code</th>
+                <th>T1. DEPENSES DE PERSONNEL</th>
+                <th colspan="2">Code {{ $sousProgramme->num_sous_prog }} - Sous Programme {{ $sousProgramme->nom_sous_prog }}</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
                 <th>AE Sous-Operation</th>
                 <th>CP Sous-Operation</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($sousopera as $sousopera)
-                <tr>
-                    <td>{{$sousopera->code_sous_operation}}</td>
-                    <td>{{$sousopera->code_t1}}</td>
-                    <td>{{$sousopera->AE_sous_operation}}</td>
-                    <td>{{$sousopera->CP_sous_operation}}</td>
-                </tr>
-            @endforeach
-        </tbody>
+      
+        @foreach (['T1', 'T2', 'T3', 'T4'] as $t)
+            @if (isset($resultats[$t]))
+                @foreach ($resultats[$t]['sousOperation'] as $sousOperation)
+                    <tr>
+                        <td>{{ $sousOperation['code'] }}</td>
+                        <td>{{ $operations[substr($sousOperation['code'], 0, 5)] ?? 'Nom introuvable' }}</td>
+                        <td>{{ $sousOperation['values']['ae_sousop'] ?? 'N/A' }}</td>
+                        <td>{{ $sousOperation['values']['cp_sousuop'] ?? 'N/A' }}</td>
+                    </tr>
+
+                   
+                @endforeach
+            @endif
+        @endforeach
+    </tbody>
     </table>
 </body>
+
 </html>

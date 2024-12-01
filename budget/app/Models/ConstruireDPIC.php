@@ -10,7 +10,7 @@ class ConstruireDPIC extends Model
     use HasFactory;
     protected $table = 'construire_d_p_i_c_s';
     protected $primaryKey = 'id_dpic';
-    public $incrementing = false; 
+    public $incrementing = true; 
     protected $keyType = 'integer'; 
     public $timestamps = false;
 

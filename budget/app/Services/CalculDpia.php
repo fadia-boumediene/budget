@@ -14,14 +14,14 @@ class CalculDpia
             throw new \Exception("Le chemin n'est pas valide");
         }*/
        // dd($port);
-        $port = intval($port);
+       /* $port = intval($port);
        // dd($port);
         $prog = intval($prog);
         $sous_prog = intval($sous_prog);
         $act = intval($act);
-        $s_act = intval($s_act);
+        $s_act = ($s_act);*/
       
-      // dd($port, $prog, $sous_prog, $act);
+      //dd($port, $prog, $sous_prog, $act,$s_act);
       
       $portefeuille = Portefeuille::where('num_portefeuil', $port)
         ->whereHas('Programme.SousProgramme.Action.SousAction', function ($query) use ($s_act) {
@@ -85,7 +85,7 @@ if (!empty($portefeuille)) {
     ->first(); // Pour récupérer un seul résultat*/
 
         //dd($portefeuille->Programme->get()->SousProgramme->get()->Action->get()->SousAction->get()->GroupOperation->get()); 
-      // dd( $portefeuille);
+     // dd( $portefeuille);
         if (!$portefeuille) {
             throw new \Exception("Portefeuille introuvable");
         }
@@ -193,7 +193,7 @@ if (!empty($portefeuille)) {
                                     $operationCPt4 = 0;
                                         // calculer la somme de chaque sous op
                                         foreach ($operation->SousOperation as $sousOperation) {
-                                          //  dd($sousOperation);
+                                          //dd($sousOperation);
                          /***************************************** T2 ********************************************************** */
                                             $sousopAeouvert= $sousOperation->AE_ouvert;
                                             $sousopAeattendu= $sousOperation->AE_atendu;

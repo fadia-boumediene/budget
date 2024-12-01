@@ -23,6 +23,13 @@ class programmeControlleur extends Controller
             'message' => 'Aucun programme trouvé pour ce programme.',
         ]);
     }
+    else{
+        return response()->json([
+            'success' => true,
+            'result'=>$programmes,
+            'message' => 'Aucun programme trouvé pour ce programme.',
+        ]);
+    }
 
     // Retourner les programmes à la vue
         return view('Portfail-in.index', compact('programmes'));
@@ -38,7 +45,7 @@ class programmeControlleur extends Controller
     $request->validate([
         'num_prog' => 'required',
     ]);
-
+    //dd($request->num_prog);
         $prog = programme::where('num_prog', $request->num_prog)->first();
 
         if ($prog) {
@@ -75,7 +82,7 @@ class programmeControlleur extends Controller
             $programme->nom_prog = $request->nom_prog;
             $programme->AE_prog=floatval($request->ae_prog);
             $programme->CP_prog=floatval($request->cp_prog);
-            $programme->date_insert_portef = $request->date_insert_portef;
+            $programme->date_update_portef = $request->date_update_portef;
             $programme->save();
             //dd($programme);
             return response()->json([

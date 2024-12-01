@@ -36,7 +36,7 @@ Object.entries(paths).forEach(([code,value])=>{
  </div>
  <div class="wallet-path">
     <div class="the-path">
-       
+
         @foreach($paths as $key =>$value)
       <!-- path insert -->
       <div class="pinfo-handle">
@@ -52,12 +52,12 @@ Object.entries(paths).forEach(([code,value])=>{
 
       <!-- this part for all froms at same-->
 
-    
+
 
       <!-- end -->
 
        @endforeach
-   
+
     </div>
   </div>
   <div id="progam-handle">
@@ -78,11 +78,11 @@ Object.entries(paths).forEach(([code,value])=>{
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Sous ACTION</label>
-                        <input type="number" class="form-control" id="AE_s_act" placeholder="Entrer AE sous Action ">
+                        <input type="number" class="form-control" id="AE_sous_act" placeholder="Entrer AE sous Action ">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Sous_ACTION</label>
-                        <input type="number" class="form-control" id="CP_s_act" placeholder="Entrer CP sous Action">
+                        <input type="number" class="form-control" id="CP_sous_act" placeholder="Entrer CP sous Action">
                         </div>
                         </form>
                         <br>
@@ -165,7 +165,7 @@ Object.entries(paths).forEach(([code,value])=>{
                         <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
-    </div>                    
+    </div>
     <div class="form-container" id="creati-act" style="display:none">
     <form >
                         <div class="form-group">
@@ -236,8 +236,8 @@ Object.entries(paths).forEach(([code,value])=>{
                         <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
-    </div>                    
-                
+    </div>
+
   <div class="form-container" id="creati-sous_prog" style="display:none">
 
   <form >
@@ -271,7 +271,7 @@ Object.entries(paths).forEach(([code,value])=>{
                         <button class="btn btn-primary">Ajouter le Journal</button>
                         </div>
                         </div>
-    </div>                           
+    </div>
     <div class="form-container" id="creati-act" style="display:none">
                         <form >
                         <div class="form-group">
@@ -306,11 +306,14 @@ Object.entries(paths).forEach(([code,value])=>{
                         </div>
                  @endif
                  </div>
-                 <script>var path3=Array()</script>
+                 <script>
+                 var path3=Array()
+                 </script>
 <script src="{{asset('assets/bootstrap-5.0.2/js/bootstrap.js')}}"></script>
 <script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>
 <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
-<script src="{{asset('assets/js/prousuiv.js')}}"></script>
- </body> 
+<script src="{{asset('assets/js/prousuiv.js')}}">
+</script>
+ </body>
 
 </html>

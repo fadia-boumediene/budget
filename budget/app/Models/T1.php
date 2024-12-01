@@ -22,6 +22,10 @@ class T1 extends Model
     {
         return $this->hasMany(SousOperation::class,'code_t1');
     }
+    public function initPorts()
+    {
+        return $this->hasMany(initPort::class,'code_t1');
+    }
 }
 
    

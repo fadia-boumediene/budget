@@ -11,7 +11,7 @@ class SousAction extends Model
     protected $table = 'sous_actions';
     protected $primaryKey = 'num_sous_action';
     public $incrementing = false; 
-    protected $keyType = 'integer'; 
+    protected $keyType = 'string'; 
     public $timestamps = false;
 
     protected $fillable = [

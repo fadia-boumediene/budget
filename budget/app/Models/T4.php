@@ -21,5 +21,11 @@ class T4 extends Model
     public function SousOperation()
     {
         return $this->hasMany(SousOperation::class,'code_t3');
+ 
+    }
+
+    public function initPorts()
+    {
+        return $this->hasMany(initPort::class,'code_t3');
     }
 }

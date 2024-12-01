@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('extrait__d_p_i_c_s', function (Blueprint $table) {
             $table->integer('id_extrait')->primary();
-            $table->date('Date_extrait');
+            $table->DateTime('Date_extrait');
             $table->integer('delai');
         });
     }

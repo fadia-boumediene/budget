@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('portefeuilles', function (Blueprint $table) {
             $table->string('num_portefeuil')->primary();
-            $table->Date('Date_portefeuille');
+            $table->DateTime('Date_portefeuille');
             $table->string('nom_journal');
-            $table->integer('num_journal');
+            $table->string('num_journal');
             $table->float('AE_portef');
             $table->float('CP_portef');
             $table->integer('id_min');

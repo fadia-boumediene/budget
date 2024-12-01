@@ -58,8 +58,8 @@
                         <input type="text" class="form-control" id="nom_journ" placeholder="Entrer le nom du journal">
                     </div>
                     <div class="form-group">
-                        <label for="num_journ">Numéro de l'édition</label>
-                        <input type="text" class="form-control" id="num_journ" placeholder="Entrer le numéro de l'édition">
+                        <label for="num_journ">Référence du journal</label>
+                        <input type="text" class="form-control" id="num_journ" placeholder="Entrer la Référence du journal">
                     </div>
                     <div class="form-group">
                         <label for="AE_portef">AE pour Portefeuille</label>
@@ -159,7 +159,5 @@
 <script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>
 <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}"></script>
 <script src="{{asset('assets/js/main.js')}}"></script>
-
-
 </body>
 </html>

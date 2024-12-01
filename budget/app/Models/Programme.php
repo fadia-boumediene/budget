@@ -11,7 +11,7 @@ class Programme extends Model
     protected $table = 'programmes';
     protected $primaryKey = 'num_prog';
     public $incrementing = false;
-    protected $keyType = 'integer';
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [
@@ -33,6 +33,11 @@ class Programme extends Model
     public function SousProgramme()
     {
         return $this->hasMany(SousProgramme::class ,'num_prog','num_prog');
+    }
+
+    public function Article()
+    {
+        return $this->hasMany(Article::class ,'num_prog','num_prog');
     }
 
     public function multimedias()

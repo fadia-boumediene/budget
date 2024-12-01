@@ -34,7 +34,7 @@
  @endphp
 <div class="container">
 
-<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="">
 
   <div class="carousel-indicators">
 

@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\portfeuilleController;
 use App\Http\Controllers\programmeControlleur;
 use App\Http\Controllers\sousProgrammeController;
+use App\Http\Controllers\initPortController;
 use App\Http\Controllers\actionController;
-use App\Http\Controllers\SousActionController;
+use App\Http\Controllers\sousActionController;
 use App\Http\Controllers\groupOperationController;
 use App\Http\Controllers\opeartionController;
-use App\Http\Controllers\SousOperationController;
+use App\Http\Controllers\sousOperationController;
+use App\Http\Controllers\modificationController;
 
 Route::get('/', function () {
  $portfs =Portefeuille::get();
@@ -36,17 +38,24 @@ Route::controller(portfeuilleController::class)->group(function(){
 
 //===============ROUTE PROGRAMME==============================
 Route::controller( programmeControlleur::class)->group(function(){
-    Route::get('/Programme','affich_prog')->name('home.programme');
+    Route::get('/Programme/{num_portefeuil}','affich_prog')->name('home.programme');
     Route::post('/creationProg','creat_prog')->name('creation.programme');
     Route::get('/check-prog','check_prog')->name('check.prog');
+
 
 });
 
 //===============ROUTE SOUS PROGRAMME==============================
 Route::controller(sousProgrammeController::class)->group(function(){
-    Route::get('/SousProgramme','affich_sou_prog')->name('home.sousProgramme');
+    Route::get('/SousProgramme/{num_prog}','affich_sou_prog')->name('home.sousProgramme');
     Route::post('/creationSousProg','create_sou_prog')->name('creation.souProgramme');
     Route::get('/check-sousprog','check_sous_prog')->name('check.sousprog');
+
+});
+
+//===============ROUTE PORTE INITIALE==============================
+Route::controller(initPortCntroller::class)->group(function(){
+    Route::post('/creationPort','create_port')->name('creation.porte');
 
 });
 
@@ -80,14 +89,21 @@ Route::controller(opeartionController::class)->group(function(){
     Route::get('/testing/S_action/{s_act}', 'afficherDPIAWithoutT');
     Route::get('/testing/codeSousOperation/{s_act}', 'checkSousOperationExist');
    // Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}', 'calculerEtEnvoyer');
-   Route::get('/testing/S_action/{s_act}/{T}', 'afficherDPIA');
 });
 
 //===============ROUTE SOUS OPERATION==============================
 Route::controller(sousOperationController::class)->group(function(){
     Route::get('/testing/Action/{port}/{prog}/{sous_prog}/{act}','AffichePortsAction');
     Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}','AffichePortsSousAct');
-    Route::get('/testing/pdf','impressionpdf');
+    Route::get('/testing/{port}/{prog}/{sous_prog}/{act}/{s_act}/pdf','impressionpdf');
+    Route::get('/testing/{port}/{prog}/{sous_prog}/{act}/pdf','impressionpdf');
+});
+//===============ROUTE modification==============================
+Route::controller(modificationController::class)->group(function(){
+    Route::post('/update','updateSousOperation');
+    Route::post('/updateModif','insertModif');
+
+
 });
 
 

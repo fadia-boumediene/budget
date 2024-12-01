@@ -189,7 +189,6 @@
                       @foreach($act['sous_action'] as $sous_act)
                         <p class="fs-7 mb-0">Action : </p>
                       @endforeach
-                      @endif
                       </div>
                     </div>
                   </div>

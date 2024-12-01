@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Portefeuille;
 use App\Models\Programme;
@@ -32,7 +33,7 @@ class portfeuilleController extends Controller
     {
         //$path=$request->all();
 
-        $id=explode('-',$path);
+        $id=explode('_',$path);
         $num=$id[0];
         $cat=$id[1];
        // dd($id);
@@ -88,7 +89,7 @@ class portfeuilleController extends Controller
     {
         // Récupérer tous les portefeuilles de la base de données
           //  $portefeuilles = Portefeuille::all();
-
+          $art=Article::get();
           $por=Portefeuille::findOrFail($id);
           $progms=Programme::where('num_portefeuil',$id)->get();
           $allprogram=[];
@@ -187,7 +188,7 @@ class portfeuilleController extends Controller
               array_push($allprogram,['id_prog'=>$progm->num_prog,'init_AE'=>$progm->AE_prog,'init_CP'=>$progm->CP_prog,'TotalAE'=>$AE_All_prog,'TotalCP'=>$CP_All_prog, 'data'=>$progm,'sous_program'=>$allsous_prog]);
               $allsous_prog=[];
           }
-       //   dd($por);
+          //dd($art);
           $allport=[
               'id'=>$id,
               'TotalAE'=>$por->AE_portef,
@@ -196,7 +197,7 @@ class portfeuilleController extends Controller
           ];
          //    dd($allprogram[1]['sous_program'][2]);
       // Passer les données à la vue
-      return view('Portfail-in.index', compact('allport'));
+      return view('Portfail-in.index', compact('allport','art'));
 
 
     // Passer les données à la vue
@@ -268,47 +269,6 @@ public function check_portef(Request $request)
         $portefeuille->id_min =1;//periodiquement
         $portefeuille->save();
 
-
-/*
-
-// Enregistrer le fichier et le lier au portefeuille
-if ($request->hasFile('file')) {
-    dd($request);
-    // Vérifier si le fichier est valide
-    if ($request->file('file')->isValid()) {
-        // Stocker le fichier dans le dossier `public/files/portefeuilles` et obtenir le chemin
-        $path = $request->file('file')->store('public/files/portefeuilles');
-        $filePath = Storage::url($path);
-
-        // Récupérer les informations du fichier
-        $nomFichier = $request->file('file')->getClientOriginalName();
-        $fileType = $request->file('file')->getClientOriginalExtension();
-        $fileSize = $request->file('file')->getSize();
-
-        // Créer un nouvel enregistrement dans `multimedia`
-        $media = new Multimedia();
-        $media->nom_fichier = $nomFichier;
-        $media->filepath = $filePath;
-        $media->filetype = $fileType;
-        $media->size = $fileSize;
-        $media->description = $request->input('description', ''); // Ajoutez une description si fournie
-        //$media->uploaded_by = auth()->id(); // ID de l'utilisateur connecté
-        $media->uploaded_by = 1; // ID de l'utilisateur connecté, ou utilisez `auth()->id()` si disponible
-        $media->related_id = $portefeuille->num_portefeuil; // Lier l'ID du portefeuille
-        $media->related_name = "portefeuille"; // pour distinguer les fichiers liés
-
-        // Sauvegarder le fichier dans la base de données
-        $media->save();
-
-        return response()->json(['message' => 'Fichier enregistré avec succès.']);
-    } else {
-        return response()->json(['error' => 'Le fichier téléchargé est invalide.'], 400);
-    }
-} else
-    return response()->json(['error' => 'Aucun fichier n\'a été téléchargé.'], 400);
-*/
-
-
 return response()->json([
     'success' => true,
     'message' => 'Portefeuille ajouté ou modifié avec succès.',
@@ -329,52 +289,16 @@ return response()->json([
         $portefeuille->id_min =1;//periodiquement
         $portefeuille->save();
 
-  /*
-          // Enregistrer le fichier et le lier au portefeuille
-    if ($request->hasFile('file')) {
-        // Stocker le fichier dans le dossier `public/files` et obtenir le chemin
-        $path = $request->file('file')->store('public/files/portefeuilles');
-        $filePath = Storage::url($path);
-
-        // Récupérer les informations du fichier
-        $nomFichier = $request->file('file')->getClientOriginalName();
-        $fileType = $request->file('file')->getClientOriginalExtension();
-        $fileSize = $request->file('file')->getSize();
-
-        // Créer un nouvel enregistrement dans `multimedia`
-        $media = new Multimedia();
-        $media->nom_fichier = $nomFichier;
-        $media->filepath = $filePath;
-        $media->filetype = $fileType;
-        $media->size = $fileSize;
-        $media->description = $request->input('description', ''); // Ajoutez une description si fournie
-        //$media->uploaded_by = auth()->id(); // ID de l'utilisateur connecté
-        $media->uploaded_by = 1; // ID de l'utilisateur connecté
-        $media->related_id = $portefeuille->num_portefeuil; // Lier l'ID du portefeuille
-        $media->related_name = "portefeuille"; // pour distinguer
-
-        // Sauvegarder le fichier dans la base de données
-        $media->save();
-
-        return response()->json(['message' => 'Fichier enregistré avec succès.']);
-    }else
-        return response()->json(['error' => 'Aucun fichier n\'a été téléchargé.'], 400);
-    */
-
-        //creation de la table  construireDPic
-      
-
-        //dd( $DPIC);
     }
         if($portefeuille)
         {
             $DPIC = new ConstruireDPIC();
 
             $DPIC->date_creation_dpic = $portefeuille->Date_portefeuille; // elle prend la date de creation du portfeuille
-    
+
             $DPIC->AE_dpic_nv = $portefeuille->AE_portef;
             $DPIC->CP_dpic_nv = $portefeuille->CP_portef;
-    
+
             $DPIC->id_rff = 1; //apres elle sera avec auth:user il prend le compte qui est deja authentifié
             $DPIC->id_rp = 1;
             $DPIC->save();
@@ -447,13 +371,13 @@ public function uploadPDF(Request $request)
     $request->validate([
         'pdf_file' => 'mimes:pdf,jpg,jpeg,png|max:2048', // Limite à 2 MB
         'related_id' => 'required'
-     ]); 
+     ]);
 
 
         // Valider le fichier PDF
-       
-          
-           
+
+
+
            $file = $request->file('pdf_file');
            $path = $file->store('pdf_files', 'public'); // Enregistre dans storage/app/public/pdf_files
         //  dd($file);
@@ -492,6 +416,6 @@ public function uploadPDF(Request $request)
        } else {
             return response()->json(['message' => 'Aucun fichier sélectionné.'], 400);
           }
-     
+
 }
 }

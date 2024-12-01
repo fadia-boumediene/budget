@@ -11,7 +11,7 @@ class Action extends Model
     protected $table = 'actions';
     protected $primaryKey = 'num_action';
     public $incrementing = false;
-    protected $keyType = 'integer';
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [

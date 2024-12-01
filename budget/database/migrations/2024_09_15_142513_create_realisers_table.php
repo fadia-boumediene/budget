@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('realisers', function (Blueprint $table) {
           
             $table->integer('id_realiser')->primary();
-            $table->date('Date_realiser');
+            $table->DateTime('Date_realiser');
             $table->float('AE_old_realiser');
             $table->float('CP_old_realiser');
             $table->float('AE_nv_realiser');

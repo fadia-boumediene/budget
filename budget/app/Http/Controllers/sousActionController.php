@@ -91,7 +91,7 @@ function create_sousaction(Request $request)
 }
 else{
         //si la sous action existe donc la modifier
-        dd($request);
+        //dd($request);
         $sousAction = SousAction::where('num_sous_action', $request->num_sous_action)->first();
     if ($sousAction) {
         $sousAction->nom_sous_action = $request->nom_sous_action;

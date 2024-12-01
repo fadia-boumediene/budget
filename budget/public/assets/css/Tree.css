@@ -104,7 +104,7 @@
   
   .member {
     display: inline-block;
-    padding: 5px;
+    padding: 15px;
     cursor: pointer;
     background: #fff;
     border: 1px solid #dee2e6;
@@ -114,6 +114,24 @@
   .member:hover {
     background-color: #e9ecef;
   }
+
+  .update-handl
+  {
+    text-align: left;
+    top: 20px;
+    left: 15px;
+    z-index: 100;
+  }
+  .update-handl:hover
+  {
+
+    width: 20px;
+    height: 25px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px 2px #999;
+    cursor: pointer;
+  }
+
   /**---- card items*/
 
 
@@ -223,3 +241,124 @@
   }
 
   /**--- ----*/
+
+/* --------------- under file loader for justification finale CSS ----------------------- */
+.button-70 {
+  background-image: linear-gradient(#0dccea, #0d70ea);
+  border: 0;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, .3) 0 5px 15px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: Montserrat,sans-serif;
+  font-size: .9em;
+  margin: 5px;
+  padding: 10px 15px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.setit-back
+{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: #29292952;
+}
+.confirm-justfie
+{
+width: 100% ;
+position: fixed;
+bottom: 0px;
+display: flex;
+flex-wrap: nowrap;
+flex-direction: row-reverse;
+justify-content: space-between;
+justify-items: flex-end;
+align-items: flex-end;
+}
+.confirm-file-handle
+{
+  width: 100%;
+    display: flex;
+    background-color: #999;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    background-color: #999;
+}
+.modif-handler
+{
+  overflow: auto;
+  position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 45%;
+    height: 66%;
+    background-color: aliceblue;
+    padding: 15px;
+    border-radius: 30px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+.modif-handler::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.Tchecks
+{
+  display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.Tfields
+{
+  display: flex
+;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.Tfields div input
+{
+  padding-top: 5px;
+  width: 100px;
+}
+.Tfields input
+{
+  width: 20px;
+  height: 25px;
+}
+.modif-contiant
+{ display: none;
+  top: 0px;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+.setit-insert
+{
+    display: block;
+    background-color: #0000003d;
+    z-index: 0;
+}
+.edit-zone
+{
+  position: relative;
+    z-index: 10000;
+    width: 110px;
+    display: contents;
+}
+.hr-vert
+{
+  width: 2px; height: 100px; background-color: black; margin: 0 10px;
+}
+.Tenv-inpt-handle
+{
+  width: 150px;
+}

@@ -468,6 +468,10 @@ html, body {
   }
   }
   /**  ------ */
+  #carouselExample .carousel-indicators button
+  {
+    background-color: #000;
+  }
   @media (max-width: 767px) {
 		.carousel-inner .carousel-item > div {
 			display: none;
@@ -671,11 +675,18 @@ height: 100%;
 }
 .wallet-handle
 {
-  position: fixed;
+overflow: scroll;
+position: fixed;
 top: 25%;
 left: 35%;
 width: 30%;
+height: 60%;
 z-index: 1000;
+scrollbar-width: none; /* Firefox */
+-ms-overflow-style: none; /* IE 10+ */
+}
+.wallet-handle::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 .wallet-path
 {
@@ -1195,7 +1206,7 @@ transition-timing-function: line;
 {
   position: fixed;
   bottom: 5px;
-  background-color: #fff5f5;
+  background-color:   #fff5f5;
   width: 100px;
   height: 100px;
   border-radius: 50px;
@@ -1232,5 +1243,10 @@ transition-timing-function: line;
 {
   scale: 1.2;
   animation: bounce 1s;
+}
+.ports_init
+{
+  display: flex;
+  flex-direction: row;
 }
 /***------------------------------ end --------------------***/

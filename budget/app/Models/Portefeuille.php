@@ -11,7 +11,7 @@ class Portefeuille extends Model
     protected $table = 'portefeuilles';
     protected $primaryKey = 'num_portefeuil';
     public $incrementing = false;
-    protected $keyType = 'integer';
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [

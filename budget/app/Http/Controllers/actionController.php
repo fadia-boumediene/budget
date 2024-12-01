@@ -68,7 +68,8 @@ public function check_action(Request $request)
         ]);
         //si l action existe donc le modifier
         $action = action::where('num_action', $request->num_action)->first();
-        //dd($action);
+        $sousaction = sousaction::where('num_sous_action', $request->num_action)->first();
+        //dd($sousaction);
     if ($action) {
         $action->nom_action = $request->nom_action;
         $action->AE_action=floatval($request->AE_act);
@@ -76,6 +77,14 @@ public function check_action(Request $request)
         $action->id_ra = 1;//periodiquement
         $action->date_insert_action = $request->date_insert_action;
         $action->save();
+
+        if ($sousaction) {
+            $sousaction->nom_sous_action = $request->nom_action;
+            $sousaction->AE_sous_action=floatval($request->AE_act);
+            $sousaction->CP_sous_action=floatval($request->CP_act);
+            $sousaction->date_insert_sous_action = $request->date_insert_action;
+            $sousaction->save();
+        }
 
 
               // Enregistrer le fichier et le lier au portefeuille
