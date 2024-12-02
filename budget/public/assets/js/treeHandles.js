@@ -15,6 +15,8 @@ $(document).ready(function(){
   let selectTret ='T0';
   let  selectedHobby='t'
   let selectedret ='0';
+  var prognum='';
+  var sousprogbum='';
   var progs={};
   var sousProgs={};
     $('.update-handl').on('click',function(){
@@ -32,16 +34,19 @@ $(document).ready(function(){
            if(response.exists)
            {
             $('#id_sprog_modif').text(response.nom_prog);
+            prognum=response.num_prog
             $.ajax({
-              url:'/Programme/'+port,
+              url:'/allaction/'+port,
               type:'GET',
               success:function(response)
               {
-                if(response.success)
+                if(response.exists)
                 {
-                  progs=response.result
-                  response.result.forEach(element => {
-                    $('#id_cible').append("<option value="+element.num_prog+">"+element.nom_prog+"</option>")
+                  progs=response.programs
+                  
+                  response.actions.forEach(element => {
+                    console.log('append'+JSON.stringify(element.actions) )
+                    $('#id_cible').append("<option value="+element.actions.actions_num+">"+element.actions.actions_name+"</option>")
                   });
                 
                 }
@@ -59,16 +64,20 @@ $(document).ready(function(){
                 if(response.exists)
                 {
                 $('#id_sprog_modif').text(response.nom_sous_prog);
+                sousprogbum=response.num_sous_prog
+                prognum=response.num_prog
                 $.ajax({
-                  url:'/SousProgramme/'+response.num_prog,
+                  url:'/allaction/'+port,
                   type:'GET',
                   success:function(response)
                   {
-                    if(response.success)
+                    if(response.exists)
                     {
-                      sousProgs= response.result;
-                      response.result.forEach(element => {
-                        $('#id_cible').append("<option value="+element.num_sous_prog+">"+element.nom_sous_prog+"</option>")
+                      sousProgs=response.sous_programs
+                      
+                      response.actions.forEach(element => {
+                        console.log('append'+JSON.stringify(element.actions) )
+                        $('#id_cible').append("<option value="+element.actions.actions_num+">"+element.actions.actions_name+"</option>")
                       });
                     
                     }
@@ -102,6 +111,7 @@ $(document).ready(function(){
       $('.float-export').css('display','block');
       $('#id_cible').empty()
       $('#id-retire').empty()
+      window.location.reload();
     })
     $('#button-70').on('click',function(){
   $('.float-export').css('display','block'); 
@@ -180,21 +190,21 @@ $(document).ready(function(){
     $('.add-envoi').append(chose);
     if(Object.keys(progs).length !=0)
     {
-      
+   
      progs.forEach(element=>{
-      $('#id-retire').append("<option value="+element.num_prog+">"+element.nom_prog+"</option>")
+      $('#id-retire').append("<option value="+element.programs.progs_num+">"+element.programs.progs_name+"</option>")
      }) 
     }
     else
     {
       if(Object.keys(sousProgs).length !=0)
       {
+
         sousProgs.forEach(element=>{
-          $('#id-retire').append("<option value="+element.num_sous_prog+">"+element.nom_sous_prog+"</option>")
+          $('#id-retire').append("<option value="+element.sous_programs.sous_progs_num+">"+element.sous_programs.sous_progs_name+"</option>")
          }) 
       }
     }
-    $('#id-retire')
     var choseT ='<div class="form-group">'+
     ' <label for="input1">Tport Reterie montant</label>'+
     '<select class="form-control" id="id-T-retire">'+
@@ -289,7 +299,6 @@ $('#button-71').on('click',function(){
   {
     cmpt=true;
   }
-  
   var data={
     ref:$('#id').val(),
      AE_T1:AE_T1,
@@ -305,6 +314,8 @@ $('#button-71').on('click',function(){
      CP_env_T:$('#CP_env_T').val(),
      Sous_prog_env:selectedret,
      type:selectedHobby,
+     prognum:prognum,
+     sousprogbum:sousprogbum,
      cible:$('#id_cible').val(),
      status:cmpt, 
   }

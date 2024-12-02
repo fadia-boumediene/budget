@@ -17,7 +17,6 @@ use App\Http\Controllers\groupOperationController;
 use App\Http\Controllers\opeartionController;
 use App\Http\Controllers\sousOperationController;
 use App\Http\Controllers\modificationController;
-
 Route::get('/', function () {
  $portfs =Portefeuille::get();
     return view('welcome',compact('portfs'));
@@ -71,6 +70,7 @@ Route::controller(actionController::class)->group(function(){
 //===============ROUTE SOUS ACTION==============================
 Route::controller(sousActionController::class)->group(function(){
     Route::post('/creationsousAction','create_sousaction')->name('creation.sousaction');
+    Route::get('/allaction/{numport}','allact')->name('action.lists');
 });
 
 //===============ROUTE GROUPE D'OPERATIONS==============================
@@ -104,6 +104,9 @@ Route::controller(modificationController::class)->group(function(){
     Route::post('/updateModif','insertModif');
 
 
+});
+Route::controller(initPortController::class)->group(function(){
+    Route::post('/init_ports','create_sou_prog')->name('init.ports');
 });
 
 

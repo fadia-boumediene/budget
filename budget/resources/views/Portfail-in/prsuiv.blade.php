@@ -100,16 +100,16 @@ Object.entries(paths).forEach(([code,value])=>{
   <div class="form-container" id="creati-act">
                         <form >
                         <div class="form-group">
-                        <label for="input1">Code d'ACTION</label>
-                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code d'ACTION">
+                        <label for="input1">Code dACTION</label>
+                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code dACTION">
                         </div>
                         <div class="form-group">
                         <label for="inputDate">Date du Journal</label>
                         <input type="date" class="form-control" id="date_insert_action">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom d'ACTION</label>
-                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom d'ACTION">
+                        <label for="input1">Nom dACTION</label>
+                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom dACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Action</label>
@@ -155,6 +155,29 @@ Object.entries(paths).forEach(([code,value])=>{
                         <label for="input1">CP pour Sous Programme</label>
                         <input type="number" class="form-control" id="CP_sousProg" placeholder="Entrer CP sous Programme">
                         </div>
+                        <div class="ports_init">
+                        <div class="form-group">
+                                 <label for="input1">T1 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T1_AE_sous_prog"   placeholder="Entrer T1 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T1_CP_sous_prog"   placeholder="Entrer T1 CP Sous Programme">
+                                 </div>
+                                 <div class="form-group">
+                                 <label for="input1">T2 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T2_AE_sous_prog"   placeholder="Entrer T2 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T2_CP_sous_prog"   placeholder="Entrer T2 CP Sous Programme">
+                                 </div>
+                                 <div class="form-group">
+                                 <label for="input1">T3 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T3_AE_sous_prog"   placeholder="Entrer T3 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T3_CP_sous_prog"   placeholder="Entrer T3 CP Sous Programme">
+                                 </div>
+                                 <div class="form-group">
+                                 <label for="input1">T4 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T4_AE_sous_prog"   placeholder="Entrer T4 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T4_CP_sous_prog"   placeholder="Entrer T4 CP Sous Programme">
+                                 </div>
+                               
+                                 </div>
                         </form>
                         <br>
                         <div id="confirm-holder">
@@ -169,16 +192,16 @@ Object.entries(paths).forEach(([code,value])=>{
     <div class="form-container" id="creati-act" style="display:none">
     <form >
                         <div class="form-group">
-                        <label for="input1">Code d'ACTION</label>
-                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code d'ACTION">
+                        <label for="input1">Code dACTION</label>
+                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code dACTION">
                         </div>
                         <div class="form-group">
                         <label for="inputDate">Date du Journal</label>
                         <input type="date" class="form-control" id="date_insert_action">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom d'ACTION</label>
-                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom d'ACTION">
+                        <label for="input1">Nom dACTION</label>
+                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom dACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Action</label>
@@ -261,6 +284,29 @@ Object.entries(paths).forEach(([code,value])=>{
                         <label for="input1">CP pour Sous Programme</label>
                         <input type="number" class="form-control" id="CP_sousProg" placeholder="Entrer CP sous Programme">
                         </div>
+                        <div class="ports_init">
+                        <div class="form-group">
+                                 <label for="input1">T1 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T1_AE_sous_prog"   placeholder="Entrer T1 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T1_CP_sous_prog"   placeholder="Entrer T1 CP Sous Programme">
+                                 </div>
+                                 <div class="form-group">
+                                 <label for="input1">T2 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T2_AE_sous_prog"   placeholder="Entrer T2 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T2_CP_sous_prog"   placeholder="Entrer T2 CP Sous Programme">
+                                 </div>
+                                 <div class="form-group">
+                                 <label for="input1">T3 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T3_AE_sous_prog"   placeholder="Entrer T3 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T3_CP_sous_prog"   placeholder="Entrer T3 CP Sous Programme">
+                                 </div>
+                                 <div class="form-group">
+                                 <label for="input1">T4 pour Sous Programme</label>
+                                 <input type="number" class="form-control" id="T4_AE_sous_prog"   placeholder="Entrer T4 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T4_CP_sous_prog"   placeholder="Entrer T4 CP Sous Programme">
+                                 </div>
+                                 
+                                 </div>
                         </form>
                         <br>
                         <div id="confirm-holder">
@@ -275,16 +321,16 @@ Object.entries(paths).forEach(([code,value])=>{
     <div class="form-container" id="creati-act" style="display:none">
                         <form >
                         <div class="form-group">
-                        <label for="input1">Code d'ACTION</label>
-                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code d'ACTION">
+                        <label for="input1">Code dACTION</label>
+                        <input type="text" class="form-control" id="num_act" placeholder="Entrer le Code dACTION">
                         </div>
                         <div class="form-group">
                         <label for="inputDate">Date du Journal</label>
                         <input type="date" class="form-control" id="date_insert_action">
                         </div>
                         <div class="form-group">
-                        <label for="input1">Nom d'ACTION</label>
-                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom d'ACTION">
+                        <label for="input1">Nom dACTION</label>
+                        <input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom dACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Action</label>

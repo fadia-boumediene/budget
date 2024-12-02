@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Portefeuille;
 use App\Models\Programme;
 use App\Models\Action;
-use App\Models\Multimedia;
+
 use App\Models\SousAction;
 use App\Models\SousProgramme;
+use App\Models\Multimedia;
 use App\Models\ConstruireDPIA;
 use App\Models\ConstruireDPIC;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,15 @@ class portfeuilleController extends Controller
     {
         $this->CalculDpia = $CalculDpia;
     }
+
+
+
+//============================ Creating Table =============================//
+
+
+
+
+
 
     //================================= Pour suivi Methode =====================//
 

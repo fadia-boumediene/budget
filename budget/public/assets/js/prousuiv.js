@@ -1,4 +1,34 @@
 console.log('testing'+JSON.stringify(path))
+function upload_file(id_file,id_relat)
+{
+
+   let formDataFa = new FormData();
+   formDataFa.append('pdf_file', $('#'+id_file)[0].files[0]);
+   formDataFa.append('related_id',id_relat);
+   $.ajax({
+       url:'/upload-pdf',
+       type:'POST',
+       data:formDataFa,
+       processData: false,
+       contentType: false,
+       headers: {
+           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
+       },
+       success:function(response)
+       {
+           if(response.code)
+           {
+          return response.code
+         }
+           else
+           {
+               return response.message;
+           }
+       }
+   })
+
+}
+
 $(document).ready(function(){
     $('input').focus(function() {
         $(this).removeAttr('style');
@@ -279,6 +309,28 @@ $(document).ready(function(){
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         _method: 'POST'
                     }
+                    var formatinitports=
+                    {
+                       num_sous_prog: numsouprog_year,
+                       code_t1:10000,
+                       AE_init_t1:$('#T1_AE_sous_prog').val(),
+                       CP_init_t1:$('#T1_CP_sous_prog').val(),
+
+                       code_t2:20000,
+                       AE_init_t2:$('#T2_AE_sous_prog').val(),
+                       CP_init_t2:$('#T2_CP_sous_prog').val(),
+
+                       code_t3:30000,
+                       AE_init_t3:$('#T3_AE_sous_prog').val(),
+                       CP_init_t3:$('#T3_CP_sous_prog').val(),
+                    
+                       code_t4:40000,
+                       AE_init_t4:$('#T4_AE_sous_prog').val(),
+                       CP_init_t4:$('#T4_CP_sous_prog').val(),
+                       date_init:dat_sou_prog,
+                       _token: $('meta[name="csrf-token"]').attr('content'),
+                       _method: 'POST'
+                    }
                     console.log('data' + JSON.stringify(formdatasou_prog))
                     $.ajax({
                         url: '/creationSousProg',
@@ -287,12 +339,33 @@ $(document).ready(function(){
                         success: function (response) {
                             if (response.code == 200 || response.code == 404)
                              {
-                             alert(response.message)
-                             path.push(numsouprog_year);
-                             $('.the-path').append(nexthop)
-                             parent.empty();
-                             parent.append('<i class="fas fa-wrench"></i>')
-                              document.getElementById("creati-act").style.display="block";
+                                if(upload_file('file',numsouprog_year) == 200)
+                                    {
+                                    
+                                        alert(response.message)
+                                    }
+                                $.ajax({
+                                    url:'/init_ports',
+                                    type:'POST',
+                                    data:formatinitports,
+                                    success:function(response)
+                                    {
+                                        if(response.code == 200)
+                                        {
+                                            alert(response.message)
+                                            path.push(numsouprog_year);
+                                            $('.the-path').append(nexthop)
+                                            parent.empty();
+                                            parent.append('<i class="fas fa-wrench"></i>')
+                                             document.getElementById("creati-act").style.display="block";
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    }
+                                })
+                           
                             // path3.push(id_prog);
                               }
     }

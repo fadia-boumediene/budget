@@ -73,7 +73,7 @@ public function check_sous_prog(Request $request)
             'nom_sous_prog' => 'required',
             'date_insert_sousProg' => 'required|date',
         ]);
-        //dd($request->num_sous_prog);
+       // dd($request->num_sous_prog);
  //si le portefeuiille existe donc le modifier
  $SousProgramme = SousProgramme::where('num_sous_prog', $request->num_sous_prog)->first();
  if ($SousProgramme) {

@@ -28,6 +28,7 @@ function create_sou_prog(Request $request)
         'CP_init_t4' => 'required',
 
     ]);
+    //dd($request);
     //dd(floatval(floatval($request->AE_init_t1)));
 
     $initPort = new initPort();

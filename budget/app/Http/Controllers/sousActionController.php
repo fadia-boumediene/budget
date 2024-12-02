@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Portefeuille;
+use App\Models\Programme;
+use App\Models\Action;
+
 use App\Models\SousAction;
+use App\Models\SousProgramme;
 use Illuminate\Http\Request;
 
 class sousActionController extends Controller
@@ -25,6 +30,64 @@ public function affich_sous_action($num_action)
 
 // Retourner les action à la vue
     return view('Action-in.index', compact('SousAction'));
+}
+
+
+// ======================= get all action of portfial ===============================///
+
+
+function allact($numport)
+{
+    $allaction=[];
+    $allsous_prog=[];
+    $all_prog=[];
+    $progms=Programme::where("num_portefeuil",$numport)->get();
+    foreach($progms as $progm)
+    {
+        $sousprog=SousProgramme::where('num_prog',$progm->num_prog)->get();
+        foreach($sousprog as $sprog)
+        {
+
+
+                $act=Action::where('num_sous_prog',$sprog->num_sous_prog)->get();
+            //    dd($act);
+                foreach($act as $listact)
+                {
+                    if(isset($listact))
+                    {
+                        $sous_act=SousAction::where('num_action',$listact->num_action)->get();
+                      //  dd($sous_act);
+                        foreach($sous_act as $listsousact)
+                        {
+
+                            if(isset($listsousact))
+                            {
+                            
+                                array_push($allaction,['actions'=>['actions_num'=>$listsousact->num_sous_action,"actions_name"=>$listsousact->nom_sous_action]]);
+
+                            }
+
+                        }
+                    }
+                }   
+                array_push($allsous_prog,['sous_programs'=>['sous_progs_num'=>$sprog->num_sous_prog,"sous_progs_name"=>$sprog->nom_sous_prog]]);
+            }
+            array_push($all_prog,['programs'=>['progs_num'=>$progm->num_prog,"progs_name"=>$progm->nom_prog]]); 
+        }
+      //  dd($allaction,$allsous_prog,$all_prog); 
+        if(count($allaction)>0)
+        {
+        return response()->json([
+            'exists' => true,
+            'actions'=>$allaction,
+            'sous_programs'=>$allsous_prog,
+            'programs'=>$all_prog,
+        ]);
+        }
+        else
+        {
+            response()->json(['exists' => false]);
+        }
 }
 
 
