@@ -17,9 +17,8 @@ class SousProgramme extends Model
 
     protected $fillable = [
       'num_sous_prog','nom_sous_prog','nom_sous_prog_ar','AE_sous_prog','CP_sous_prog'
-,'date_insert_sousProg','date_update_sousProg','num_prog'
+,'date_insert_sousProg','date_update_sousProg','num_prog','AE_sousprog_NONREPARTIS','CP_sousprog_NONREPARTIS'
 ];
-
 
     public function Programme()
     {
@@ -31,9 +30,9 @@ class SousProgramme extends Model
         return $this->hasMany(Action::class,'num_sous_prog','num_sous_prog');
     }
 
-    public function Article()
+    public function ModificationT()
     {
-        return $this->hasMany(Article::class,'num_sous_prog','num_sous_prog');
+        return $this->hasMany(ModificationT::class,'num_sous_prog','num_sous_prog');
     }
 
     public function multimedias()

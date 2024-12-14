@@ -18,10 +18,11 @@ return new class extends Migration
             $table->float('AE_sous_prog');
             $table->float('CP_sous_prog');
 
-            $table->DateTime('date_insert_sousProg');
+            $table->Date('date_insert_sousProg');
             $table->DateTime('date_update_sousProg')->nullable();
 
-
+            $table->float('AE_sousprog_NONREPARTIS')->default(0.0);
+            $table->float('CP_sousprog_NONREPARTIS')->default(0.0);
 
             $table->string('num_prog');
             $table->foreign('num_prog')->references('num_prog')->on('programmes');

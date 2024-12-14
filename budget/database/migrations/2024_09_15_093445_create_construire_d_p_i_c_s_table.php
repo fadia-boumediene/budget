@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('construire_d_p_i_c_s', function (Blueprint $table) {
             $table->integer('id_dpic')->primary()->autoIncrement();
-            $table->DateTime('date_creation_dpic');
-    
+            $table->Date('date_creation_dpic');
+            $table->DateTime('date_modification_dpic');
             $table->float('AE_dpic_nv')->nullable();
             $table->float('CP_dpic_nv')->nullable();
 

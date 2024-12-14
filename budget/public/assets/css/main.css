@@ -647,6 +647,13 @@ background-color: #f0f0f0e7;
 -moz-box-shadow: 2px 4px 40px -6px rgba(255,162,0,1);
 box-shadow: 2px 4px 40px -6px rgba(255,162,0,1);
 }
+.heilighter
+{
+  background-color: #f3a909ef;
+-webkit-box-shadow: 0px 1px 40px 20px rgba(255,162,0,1);
+-moz-box-shadow: 0px 1px 40px 20px rgba(255,162,0,1);
+box-shadow: 0px 1px 40px 20px rgba(255,162,0,1);
+}
 /***----------------- css for the Creation DPIC and DPIA**/
 #progam-handle
 {
@@ -684,6 +691,10 @@ height: 60%;
 z-index: 1000;
 scrollbar-width: none; /* Firefox */
 -ms-overflow-style: none; /* IE 10+ */
+}
+.wallet-hide
+{
+  display: none;
 }
 .wallet-handle::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
@@ -1150,6 +1161,7 @@ transition-timing-function: line;
 {
   border-right: 1px dotted;
   margin-right: 5px ;
+  width: 25rem;
 }
 .T-holder p
 {
@@ -1248,5 +1260,65 @@ transition-timing-function: line;
 {
   display: flex;
   flex-direction: row;
+}
+/*----------------------- insert sous Operation handles --------------------------**/
+.Tsop_handler
+{
+  text-align: center;
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background-color: #00000052;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.Tsop_handler_h
+{
+  display: none;
+}
+.Tsop_add_handle
+{
+    display: block;
+    background-color: whitesmoke;
+    width: 70%;
+    border-radius: 15px 15px 15px 15px;
+    padding: 10px;
+}
+.Tsop_btn_handle
+{
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+}
+#Tport-vals
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.T4
+{
+  flex-direction: column;
+}
+.modif-icon-hndl
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.modif-icon-hndl svg
+{
+font-size: 48px;
+}
+.mall5
+{
+  margin: 5px;
+  border-radius: 10px 10px 10px 10px;
 }
 /***------------------------------ end --------------------***/

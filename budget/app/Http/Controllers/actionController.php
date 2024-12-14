@@ -37,7 +37,7 @@ class actionController extends Controller
 public function check_action(Request $request)
     {
         $action = Action::where('num_action', $request->num_action)->first();
-
+        //dd($request);
         if ($action) {
             return response()->json([
                 'exists' => true,
@@ -75,14 +75,14 @@ public function check_action(Request $request)
         $action->AE_action=floatval($request->AE_act);
         $action->CP_action=floatval($request->CP_act);
         $action->id_ra = 1;//periodiquement
-        $action->date_insert_action = $request->date_insert_action;
+        $action->date_update_action = now();
         $action->save();
 
         if ($sousaction) {
             $sousaction->nom_sous_action = $request->nom_action;
             $sousaction->AE_sous_action=floatval($request->AE_act);
             $sousaction->CP_sous_action=floatval($request->CP_act);
-            $sousaction->date_insert_sous_action = $request->date_insert_action;
+            $sousaction->date_update_sous_action = now();
             $sousaction->save();
         }
 
@@ -90,20 +90,22 @@ public function check_action(Request $request)
               // Enregistrer le fichier et le lier au portefeuille
                 /*...
                                                     */
+         $num_sousact = sousaction::where('num_action', $request->num_action)->first();
+         if ($action) {
+             return response()->json([
+                 'num_sous_action' => $num_sousact ? $num_sousact->num_sous_action : null,
+                 'success' => true,
+                 'message' => 'Action ajouté avec succès.',
+                 'code' => 404,
+             ]);
+         } else {
+             return response()->json([
+                 'success' => false,
+                 'message' => 'Erreur lors de l\'ajout de l\'action.',
+                 'code' => 500,
+             ]);
+         }
 
-        if ( $action) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Action ajouté avec succès.',
-                'code' => 404,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de l\'ajout de l\'action.',
-                'code' => 500,
-            ]);
-        }
 
     }
         else{

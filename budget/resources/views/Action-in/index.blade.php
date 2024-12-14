@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 <link href="{{asset('assets/css/main.css')}}" rel="stylesheet"/>
+<link href="{{asset('assets/css/tableTemplat-new.css')}}" rel="stylesheet"/>
 <link href="{{asset('assets/bootstrap-5.0.2/css/bootstrap.css')}}" rel="stylesheet"/>
 <link href="{{asset('assets/fontawesome-free/css/all.css')}}" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -138,7 +139,7 @@
         </div>
         <hr>
         <div class="table-T-handle">
-            <table class="container-T" id="T-tables" style="width:97%;">
+            <table class="responsive-table" id="T-tables">
             <thead>
 	         </thead>
 	<tbody>
@@ -210,6 +211,26 @@
     </div>
  </div>
 
+    <div class="Tsop_handler Tsop_handler_h">
+      <div class="Tsop_add_handle">
+          <form>
+          <div class="form-group">
+            <label for="desp">Dispositive ou bien la description</label>
+            <input type="text" class="form-control" id="dispo" placeholder="Entrer La description">
+          </div>
+          <div class="form-group" id="Tport-vals">
+            
+          </div>
+          
+          </form>
+          <div class="Tsop_btn_handle">
+            <div><button  class="btn btn-primary" id="ajt"> Ajouter </button></div>
+            <div><button  class="btn btn-primary" id="cancel_ops"> Cancel </button></div>
+          </div>
+     </div>
+    </div>
+
+
     </div>
    </div>
 </body>
@@ -223,10 +244,19 @@
   var jsonpath2="{{asset('assets/Titre/dataT2.json')}}"
   var jsonpath3="{{asset('assets/Titre/dataT3.json')}}"
   var jsonpath4="{{asset('assets/Titre/dataT4.json')}}"
+  var yearport="{{$years}}"
   @if(isset($s_act))
   var path3=['{{$port}}','{{$prog}}','{{$sous_prog}}','{{$act}}','{{$s_act}}']
   @else
   var path3=['{{$port}}','{{$prog}}','{{$sous_prog}}','{{$act}}']
   @endif
+  $(document).ready(function(){
+    $('.Tsop_handler').on('dblclick',function(){
+      console.log('click')
+      $(this).addClass('Tsop_handler_h');
+      $('#Tport-vals').removeClass('T4')
+      $('#Tport-vals').empty()
+    })
+  })
 </script>
 </html>

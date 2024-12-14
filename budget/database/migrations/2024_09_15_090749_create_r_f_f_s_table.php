@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('r_f_f_s', function (Blueprint $table) {
             $table->integer('id_rff')->primary();
-            $table->DateTime('Date_installation_rff');
+            $table->Date('Date_installation_rff');
             $table->integer('id_nin');
             $table->foreign('id_nin')->references('id_nin')->on('personnes');
         });
