@@ -385,12 +385,12 @@
                                             //  console.log('all table'+JSON.stringify(value_chng))
                                             cell.text(newText);
                                             if(!exist){
-                                                if(clickid == 'AE_T1')
+                                                if(clickid == 'AE_T1' || clickid == 'AE_T4')
                                                 {
                                                     ae=newText
                                                     cp=0
                                                 }
-                                                else
+                                                if(clickid == 'CP_T1' || clickid == 'CP_T4')
                                                 {
                                                     ae=0
                                                     cp=newText
@@ -480,6 +480,7 @@
                                                    $('.change_app').empty()
                                                   
                                                 //dataupdate=[];
+                                                click = 0;
                                             })
                                         }
                                         else {
@@ -1673,7 +1674,7 @@
                              })
                          }
 
-                             var headT = '<tr>' +
+                             var headT = '<tr class="row100 head">' +
                                  '<th ><h1>Code</h1></th>' +
                                  '<th ><h1>T Description</h1></th>' +
                                  '<th><h1>AE</h1></th>' +

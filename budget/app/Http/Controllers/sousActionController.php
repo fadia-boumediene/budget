@@ -64,9 +64,7 @@ function allact($numport)
                             {
                             
                                 array_push($allaction,['actions'=>['actions_num'=>$listsousact->num_sous_action,"actions_name"=>$listsousact->nom_sous_action]]);
-
                             }
-
                         }
                     }
                 }   
