@@ -1141,6 +1141,7 @@
          cp_notifie: data.cp_notifie,
          cp_consome: data.cp_consome,
          dispo:data.disp,
+         intitule:data.intituel,
          descr:data.descrp,
          //id_sous_action: id_sous_action,
          _token: $('meta[name="csrf-token"]').attr('content'),

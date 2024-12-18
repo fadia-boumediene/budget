@@ -737,8 +737,10 @@ elseif ($T == 2) {
                             // insertion T3
 //===================================================================================
 elseif ($T==3) {
-    dd($request);
+   // dd($request);
        // Récupérer les données du formulaire
+       $desc=$request->input('descr');
+       $intil=$request->input('intitule');
        $aeDataReporte = $request->input('ae_reporte');
       // dd($aeDataReporte);
        $aeDataNotifie = $request->input('ae_notifie');
@@ -772,10 +774,11 @@ elseif ($T==3) {
           $nom = $item['nom'] ?? '';*/
        // Parcourir les éléments du fichier JSON
 
-
+foreach ($intil as $code => $value) {
+        # code...
        if(strlen($code) > 5)
     {
-        $dispo_name=$nom[$code]."_".$disp[$code];
+        $dispo_name=$desc[$code]."_".$desc[$code]."_".$intil[$code];
         $codeOrg=explode('-',$code);
         $finalcode=$code;
         $code=$codeOrg[0];
@@ -783,7 +786,7 @@ elseif ($T==3) {
         $codeOp = floor($code / 100) * 100;
         $codeGp = floor($code / 1000) * 1000;
         // Insertion dans la table sousoperation
-      //  dd("$codeGp","$codeOp",$code,$finalcode);
+        dd("$codeGp","$codeOp",$code,$finalcode);
         $codeGp="$codeGp";
         $codeOp="$codeOp";
         GroupOperation::updateOrCreate(
@@ -812,6 +815,7 @@ elseif ($T==3) {
         );
         
     }
+}
     
 foreach ($jsonData as $codeStr => $nom) {
     // S'assurer que le code est une chaîne de caractères
