@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Programme;
-use Illuminate\Http\Request;
 use App\Models\Portefeuille;
+use Illuminate\Http\Request;
 
 class programmeControlleur extends Controller
 {
@@ -82,7 +83,7 @@ class programmeControlleur extends Controller
             $programme->nom_prog = $request->nom_prog;
             $programme->AE_prog=floatval($request->ae_prog);
             $programme->CP_prog=floatval($request->cp_prog);
-            $programme->date_update_portef = $request->date_update_portef;
+            $programme->date_update_portef = Carbon::now();
             $programme->save();
             //dd($programme);
             return response()->json([

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->longText('nom_operation_ar')->nullable();
 
 
-            $table->DateTime('date_insert_operation');
+            $table->Date('date_insert_operation');
             $table->DateTime('date_update_operation')->nullable();
 
 

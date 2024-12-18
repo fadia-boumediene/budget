@@ -17,6 +17,8 @@ use App\Http\Controllers\groupOperationController;
 use App\Http\Controllers\opeartionController;
 use App\Http\Controllers\sousOperationController;
 use App\Http\Controllers\modificationController;
+
+
 Route::get('/', function () {
  $portfs =Portefeuille::get();
     return view('welcome',compact('portfs'));
@@ -24,6 +26,7 @@ Route::get('/', function () {
 Route::get('/testing',function (){
 return view('test.carsoule');
 });
+
 //===============ROUTE PORTEFEUILLE==============================
 Route::controller(portfeuilleController::class)->group(function(){
     Route::get('/Portfail/{id}','affich_portef')->name('home.portfail');
@@ -31,7 +34,6 @@ Route::controller(portfeuilleController::class)->group(function(){
     Route::post('/creation','creat_portef')->name('creation.portfail');
     Route::get('/creation/from/{path}','show_prsuiv')->name('creation.show_prsuiv');
     Route::get('/check-portef','check_portef')->name('check.portfail');
-    Route::get('/update-portef','update_portef')->name('update.portfail');
     Route::post('/upload-pdf', 'uploadPDF')->name('upload.pdf');
 });
 
@@ -46,17 +48,14 @@ Route::controller( programmeControlleur::class)->group(function(){
 
 //===============ROUTE SOUS PROGRAMME==============================
 Route::controller(sousProgrammeController::class)->group(function(){
-    Route::get('/SousProgramme/{num_prog}','affich_sou_prog')->name('home.sousProgramme');
+    Route::get('/SousProgramme','affich_sou_prog')->name('home.sousProgramme');
     Route::post('/creationSousProg','create_sou_prog')->name('creation.souProgramme');
     Route::get('/check-sousprog','check_sous_prog')->name('check.sousprog');
+    Route::get('/progrma_from_sous/{num_sous_prog}','getprog')->name('get.program');
 
 });
 
-//===============ROUTE PORTE INITIALE==============================
-Route::controller(initPortCntroller::class)->group(function(){
-    Route::post('/creationPort','create_port')->name('creation.porte');
 
-});
 
 //===============ROUTE ACTION==============================
 Route::controller(actionController::class)->group(function(){
@@ -71,6 +70,8 @@ Route::controller(actionController::class)->group(function(){
 Route::controller(sousActionController::class)->group(function(){
     Route::post('/creationsousAction','create_sousaction')->name('creation.sousaction');
     Route::get('/allaction/{numport}','allact')->name('action.lists');
+    Route::get('/printdpic/{numport}','printdpic')->name('print-dpic.lists');
+    Route::get('/check-sousaction','check_sousaction')->name('check.sousaction');
 });
 
 //===============ROUTE GROUPE D'OPERATIONS==============================

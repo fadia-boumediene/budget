@@ -17,7 +17,7 @@ return new class extends Migration
             $table->longText('nom_grp_operation_ar')->nullable();
 
 
-            $table->DateTime('date_insert_grp_operation');
+            $table->Date('date_insert_grp_operation');
             $table->DateTime('date_update_grp_operation')->nullable();
 
 

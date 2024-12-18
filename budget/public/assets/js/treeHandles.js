@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  var change = false;
   var AE_T1=0
   var CP_T1=0
   var T1select=false
@@ -14,79 +15,34 @@ $(document).ready(function(){
   var type;
   let selectTret ='T0';
   let  selectedHobby='t'
-  let selectedret ='0';
+  let selectedprogret ='';
+  let selectdsousret='';
   var prognum='';
   var sousprogbum='';
   var progs={};
+  var type_ext=""
   var sousProgs={};
     $('.update-handl').on('click',function(){
       var id=$(this).parent().parent().attr('id');
       var port=$('.family-tree').attr('id');
       console.log('file loading  '+id)
       $.ajax({
-        url:'/check-prog',
-        Type:'GET',
-        data:{
-            num_prog:id
-        },
+        url:'/allaction/'+port,
+        type:'GET',
         success:function(response)
         {
-           if(response.exists)
-           {
-            $('#id_sprog_modif').text(response.nom_prog);
-            prognum=response.num_prog
-            $.ajax({
-              url:'/allaction/'+port,
-              type:'GET',
-              success:function(response)
-              {
-                if(response.exists)
-                {
-                  progs=response.programs
-                  
-                  response.actions.forEach(element => {
-                    console.log('append'+JSON.stringify(element.actions) )
-                    $('#id_cible').append("<option value="+element.actions.actions_num+">"+element.actions.actions_name+"</option>")
-                  });
-                
-                }
-              }
-            })
-           }
-           else
-           {
-            $.ajax({
-              url:'/check-sousprog',
-              Type:'GET',
-              data:{
-                num_sous_prog:id,},
-              success:function(response) {
-                if(response.exists)
-                {
-                $('#id_sprog_modif').text(response.nom_sous_prog);
-                sousprogbum=response.num_sous_prog
-                prognum=response.num_prog
-                $.ajax({
-                  url:'/allaction/'+port,
-                  type:'GET',
-                  success:function(response)
-                  {
-                    if(response.exists)
-                    {
-                      sousProgs=response.sous_programs
-                      
-                      response.actions.forEach(element => {
-                        console.log('append'+JSON.stringify(element.actions) )
-                        $('#id_cible').append("<option value="+element.actions.actions_num+">"+element.actions.actions_name+"</option>")
-                      });
-                    
-                    }
-                  }
-                })
-                }
-              }         
-            })
-           }
+          if(response.exists)
+          {
+            progs=response.programs
+            sousProgs=response.sous_programs
+            console.log('sous prog'+JSON.stringify(sousProgs)+' and prog'+JSON.stringify(progs))  
+
+            response.actions.forEach(element => {
+              console.log('append'+JSON.stringify(element.actions) )
+              $('#id_cible').append("<option value="+element.actions.actions_num+">"+element.actions.actions_name+"</option>")
+            });
+          
+          }
         }
       })
       $(this).css('color','red')
@@ -176,36 +132,53 @@ $(document).ready(function(){
    T4select=false
        }
      });
- 
+
+
+
+ $('#id_env').on('change',function(){
+      sousprogbum=$(this).val();
+      $.ajax({
+        url:"/progrma_from_sous/"+sousprogbum,
+        type:'GET',
+        success:function(response)
+        {
+          if(response.exists)
+          {
+          
+            $('#prog_env').empty()
+            var inpsts='<hr><label>appratian a programme :</label><p type="text" class="id_prog_env" id="'+response.prog.num_prog+'">'+response.prog.nom_prog+'</p><hr>'
+            $('#prog_env').append(inpsts);
+            prognum=response.prog.num_prog;
+            console.log('reponse'+response.prog)
+          }
+        }
+      })
+ })
+
+
+
+
   $('input[name="type_modif"]').change(function () {
     selectedHobby = $('input[name="type_modif"]:checked').val();
    if (selectedHobby === "inter") {
+    $("#dif").text('Sous Programme a l`envoie')
+    $('.exter_type').empty();
     console.log('testing radio'+selectedHobby);
     var chose ='<div class="form-group">'+
-    ' <label for="input1">Action a Reterie montant</label>'+
-    '<select class="form-control" id="id-retire" >'+
+    ' <label for="input1">Sous programme a Reterie montant</label>'+
+    '<select class="form-control" id="id-retire_sous_prog" >'+
     '<option value="0" >Selectionner Article</option>'+
     '</select>'+
-    '</div><div class="section-env"></div>';
+    '</div><div class="section-env"></div><hr>';
     $('.add-envoi').append(chose);
-    if(Object.keys(progs).length !=0)
+    if(Object.keys(sousProgs).length !=0)
     {
-   
-     progs.forEach(element=>{
-      $('#id-retire').append("<option value="+element.programs.progs_num+">"+element.programs.progs_name+"</option>")
-     }) 
-    }
-    else
-    {
-      if(Object.keys(sousProgs).length !=0)
-      {
-
         sousProgs.forEach(element=>{
-          $('#id-retire').append("<option value="+element.sous_programs.sous_progs_num+">"+element.sous_programs.sous_progs_name+"</option>")
+          $('#id-retire_sous_prog').append("<option value="+element.sous_programs.sous_progs_num+">"+element.sous_programs.sous_progs_name+"</option>")
          }) 
-      }
     }
-    var choseT ='<div class="form-group">'+
+    
+    var choseT ='<div id="prog_ret"></div><div class="form-group">'+
     ' <label for="input1">Tport Reterie montant</label>'+
     '<select class="form-control" id="id-T-retire">'+
     '<option value="T0" >Selectionner TPort</option>'+
@@ -217,20 +190,40 @@ $(document).ready(function(){
     '</div>'+
     '<div class="Tenv-inpt-handle" >'+
      '</div>';
-    
-      $('#id-retire').on('change',function(){
+      $('#id-retire_sous_prog').on('change',function(){
         console.log('i act chnage')
-        selectedret = $('#id-retire').val();
-        if (selectedret != '0') {
+        
+        selectdsousret = $('#id-retire_sous_prog').val();  
+        $.ajax({
+          url:"/progrma_from_sous/"+selectdsousret,
+          type:'GET',
+          success:function(response)
+          {
+            if(response.exists)
+            {
+              $('#prog_ret').empty()
+              var inpsts='<hr><label>appratian a programme :</label><p type="text" class="id-retire_prog" id="'+response.prog.num_prog+'">'+response.prog.nom_prog+'</p>'
+              $('#prog_ret').append(inpsts);
+              selectedprogret=response.prog.num_prog;
+              console.log('reponse'+response.prog.num_prog)
+            }
+          }
+        })
+        console.log('i act chnage')
+        selectedprogret = $('.id-retire_prog').attr('id');
+        if (selectedprogret != '0') {
           console.log('i act chnage inside')
+      
+      if(change == false)
+      {
       $('.add-envoi').append('<hr>');
       $('.section-env').append(choseT);
-      
+      }
+      change= true;
       var init='<label for="Tports">AE</label>'+
       '<input type="number" class="form-control" id="AE_env_T" name="interest" />'+
        '<label for="number">CP</label>'+
        '<input type="number" class="form-control" id="CP_env_T" name="interest" />';
-      $('.add-envoi').append('<hr>');
       $('#id-T-retire').on('change',function(){
       $('.Tenv-inpt-handle').empty()
        selectTret =$('#id-T-retire').val();
@@ -248,7 +241,7 @@ $(document).ready(function(){
       
         } else {
           
-          console.log('nothing is selected Action that will give '+selectedret)
+          console.log('nothing is selected Action that will give '+selectedprogret)
         }
       })
 
@@ -256,12 +249,37 @@ $(document).ready(function(){
       $('.Tenv-inpt-handle').empty();
       $('.section-env').empty();
      $('.add-envoi').empty();
-     
+      if(selectedHobby == "exter")
+      {
+        $("#dif").text('Sous Programme de L`Operation')
+        var type_extr='<div>'+
+        '<label for="Tports">Recvoire</label>'+
+         '<input type="radio" class="form-check-input" id="exter_res" name="type_extr" value="res" />'+
+        '</div>'+
+        '<div>'+
+        '<label for="Tports">Envoyer</label>'+
+        '<input type="radio" class="form-check-input" id="extr_env" name="type_extr" value="env" />'+
+        '</div>';
+       
+        $('.exter_type').append(type_extr);
+        $('input[name="type_extr"]').change(function()
+      {
+        type_ext=$('input[name="type_extr"]:checked').val();
+      })
+    }
+      else
+      {
+        $('.Tenv-inpt-handle').empty();
+      $('.section-env').empty();
+     $('.add-envoi').empty();
+      }
      console.log('nothing is selected type of interaction '+selectedHobby)
      $('.float-export').css('display','block');
     }
 
 })
+
+
 $('#button-71').on('click',function(){
   if(T1select == true)
   {
@@ -284,13 +302,13 @@ $('#button-71').on('click',function(){
     CP_T4=$('#CP_T4').val();     
   }
   var cmpt=false;
-  if(selectTret === '' || selectedret === '' && selectedHobby === 'inter')
+  if(selectTret === '0' || selectedprogret === '' && selectedHobby === 'inter' && $('#id_cible').val() === '0')
   {
     cmpt=false
   }
   else
   {
-    if(selectTret !== '' && selectedret !== '' && selectedHobby === 'inter')
+    if(selectTret !== '0' && selectedprogret !== '' && selectedHobby === 'inter' && $('#id_cible').val() !== '0')
     {
       cmpt=true;
     }
@@ -298,31 +316,50 @@ $('#button-71').on('click',function(){
   if(selectedHobby === 'exter' && $('#id_cible').val() !== '0')
   {
     cmpt=true;
-  }
-  var data={
+  }  
+  var datamodif={
     ref:$('#id').val(),
-     AE_T1:AE_T1,
-     CP_T1:CP_T1,
-     AE_T2:AE_T2,
-     CP_T2:CP_T2,
-     AE_T3:AE_T3,
-     CP_T3:CP_T3,
-     AE_T4:AE_T4,
-     CP_T4:CP_T4,
+     AE_T1:parseFloat(AE_T1),
+     CP_T1:parseFloat(CP_T1),
+     AE_T2:parseFloat(AE_T2),
+     CP_T2:parseFloat(CP_T2),
+     AE_T3:parseFloat(AE_T3),
+     CP_T3:parseFloat(CP_T3),
+     AE_T4:parseFloat(AE_T4),
+     CP_T4:parseFloat(CP_T4),
      T_port_env:selectTret,
-     AE_env_T:$('#AE_env_T').val(),
-     CP_env_T:$('#CP_env_T').val(),
-     Sous_prog_env:selectedret,
+     AE_env_T: parseFloat($('#AE_env_T').val()),
+     CP_env_T: parseFloat($('#CP_env_T').val()),
+     prog_retirer:selectedprogret,
+     Sous_prog_retire:selectdsousret,
      type:selectedHobby,
-     prognum:prognum,
-     sousprogbum:sousprogbum,
-     cible:$('#id_cible').val(),
+     prognum_click:prognum,
+     sousprogbum_click:sousprogbum,
+     type_extr:type_ext,
+     cible_action:$('#id_cible').val(),
      status:cmpt, 
+     _token: $('meta[name="csrf-token"]').attr("content"),
+     _method: "POST",
   }
-  console.log('testing all'+JSON.stringify(data));
+  console.log('testing all'+JSON.stringify(datamodif));
+  $.ajax({
+    url:'/updateModif',
+    type:'POST',
+    data:datamodif,
+    success:function(response)
+    {
+      console.log('Réponse du serveur:', response);
+    },
+    error: function(xhr, status, error) {
+        console.log('Erreur AJAX:', status, error);
+        console.log('Détails de la réponse:', xhr.responseText);
+    }
+  })
+
   $('.Tenv-inpt-handle').empty();
       $('.section-env').empty();
      $('.add-envoi').empty();
+     change=false;
 })
     })
   })

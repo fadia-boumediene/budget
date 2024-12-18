@@ -15,7 +15,7 @@ class ConstruireDPIC extends Model
     public $timestamps = false;
 
     protected $fillable = [
-       'id_dpic','date_creation_dpic','AE_dpic_nv','CP_dpic_nv','id_rff','id_rp'
+       'id_dpic','date_creation_dpic','AE_dpic_nv','CP_dpic_nv','id_rff','id_rp','date_modification_dpic'
 
  ];
    

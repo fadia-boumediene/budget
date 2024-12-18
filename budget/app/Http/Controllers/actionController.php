@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Action;
 use Illuminate\Http\Request;
 use App\Models\SousAction;
+use App\Models\SousProgramme;
+use App\Models\Programme;
 
 class actionController extends Controller
 {
@@ -37,7 +39,7 @@ class actionController extends Controller
 public function check_action(Request $request)
     {
         $action = Action::where('num_action', $request->num_action)->first();
-
+        //dd($request);
         if ($action) {
             return response()->json([
                 'exists' => true,
@@ -68,21 +70,23 @@ public function check_action(Request $request)
         ]);
         //si l action existe donc le modifier
         $action = action::where('num_action', $request->num_action)->first();
-        $sousaction = sousaction::where('num_sous_action', $request->num_action)->first();
+        $num_act= $request->num_action .'-01';
+        //dd($num_act);
+        $sousaction = sousaction::where('num_sous_action', $request->num_act)->first();
         //dd($sousaction);
     if ($action) {
         $action->nom_action = $request->nom_action;
         $action->AE_action=floatval($request->AE_act);
         $action->CP_action=floatval($request->CP_act);
         $action->id_ra = 1;//periodiquement
-        $action->date_insert_action = $request->date_insert_action;
+        $action->date_update_action = now();
         $action->save();
 
         if ($sousaction) {
             $sousaction->nom_sous_action = $request->nom_action;
             $sousaction->AE_sous_action=floatval($request->AE_act);
             $sousaction->CP_sous_action=floatval($request->CP_act);
-            $sousaction->date_insert_sous_action = $request->date_insert_action;
+            $sousaction->date_update_sous_action = now();
             $sousaction->save();
         }
 
@@ -90,20 +94,31 @@ public function check_action(Request $request)
               // Enregistrer le fichier et le lier au portefeuille
                 /*...
                                                     */
+         $num_sousact = sousaction::where('num_action', $request->num_action)->first();
+            // Récupérer l'action en chargeant les relations nécessaires
+                $action = Action::with('SousProgramme.Programme')
+                ->where('num_action', $request->num_action)
+                ->first();
+         $numPortef = $action->sousProgramme->programme->num_portefeuil ?? null;
+         $count_sousact = sousaction::where('num_action', $request->num_action)->count();
+        // dd($numPortef);
+         if ($action) {
+             return response()->json([
+                 'num_sous_action' => $num_sousact ? $num_sousact->num_sous_action : null,
+                 'count_sous_action' => $count_sousact,
+                 'numPortef' => $numPortef,
+                 'success' => true,
+                 'message' => 'Action ajouté avec succès.',
+                 'code' => 404,
+             ]);
+         } else {
+             return response()->json([
+                 'success' => false,
+                 'message' => 'Erreur lors de l\'ajout de l\'action.',
+                 'code' => 500,
+             ]);
+         }
 
-        if ( $action) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Action ajouté avec succès.',
-                'code' => 404,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de l\'ajout de l\'action.',
-                'code' => 500,
-            ]);
-        }
 
     }
         else{
@@ -116,17 +131,22 @@ public function check_action(Request $request)
         $action->CP_action=floatval($request->CP_act);
         $action->id_ra = 1;//periodiquement
         $action->date_insert_action = $request->date_insert_action;
+
         $action->save();
 
 
          // Créer une nouvelle sous action
          $sousaction = new sousAction();
+         $num_act= $request->num_action .'-01';
+        //dd($num_act);
          $sousaction->num_action = $request->num_action;
-         $sousaction->num_sous_action = $request->num_action;
+         $sousaction->num_sous_action = $num_act;
          $sousaction->nom_sous_action = $request->nom_action;
          $sousaction->AE_sous_action=floatval($request->AE_act);
          $sousaction->CP_sous_action=floatval($request->CP_act);
          $sousaction->date_insert_sous_action = $request->date_insert_action;
+
+        // dd($sousaction);
          $sousaction->save();
 
               // Enregistrer le fichier et le lier au portefeuille

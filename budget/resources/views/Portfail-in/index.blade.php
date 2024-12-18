@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content=" {{csrf_token()}}">
     <title>Portefeuille</title>
 
 <!-- Fonts -->
@@ -37,18 +38,18 @@
       <div class="col-12 tree">
         <ul id="father0">
           <li>
-              <span class="member" id="{{$allport['id']}}">
+              <span class="member next" id="{{$allport['id']}}" style="display:inline-block;">
 
                 <!--  -->
-
+             
                 <div class="col-12 col-sm-6">
             <div class="card widget-card border-light shadow-sm">
               <div class="card-body p-1">
                 <div class="row">
                   <div class="col-8">
                     <h5 class="card-title widget-card-title mb-3">Portefeuille</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0"> AE :{{$allport['TotalAE']}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0"> CP :{{$allport['TotalCP']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">  Autorisations d’engagement :<p class="chiffre">{{$allport['TotalAE']}}</p></h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> Crédits de paiement :<p class="chiffre">{{$allport['TotalCP']}}</p></h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -82,23 +83,27 @@
             <ul id="father1" style="display:none;">
             @foreach($allport['prgrammes'] as $portf)
               <li>
-             
-                @if($portf['TotalAE'] == $portf['init_AE'] && $portf['TotalCP'] ==  $portf['init_CP'])
-              <span class="member" id="{{$portf['id_prog']}}">
+              <span class="next" id="{{$portf['id_prog']}}">
+              <div class="edit-zone">
+              @if($portf['TotalAE'] == $portf['init_AE'] && $portf['TotalCP'] ==  $portf['init_CP'])
+              <div class="member">
                 @else
-                <span class="member alert_func" id="{{$portf['id_prog']}}">
+                <div class="member alert_func">
               @endif
-              <div class="edit-zone"><i class="fas fa-edit update-handl"></i></div>
                 <div class="col-12 col-sm-6" id="kids">  
             <div class="card widget-card border-light shadow-sm">
               <div class="card-body p-1">
                 <div class="row">
-                  <div class="col-8">
+                  <div class="col-10">
                     <h5 class="card-title widget-card-title mb-3">{{$portf['data']['nom_prog']}}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0"> AE :{{$portf['TotalAE']}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0"> CP :{{$portf['TotalCP']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">
+                      <p> Autorisations d’engagement:</p><p class="chiffre">{{$portf['init_AE']}}</p>
+                    </h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">
+                      <p> Crédits de paiement :</p><p class="chiffre">{{$portf['init_CP']}}</p>
+                    </h4>
                   </div>
-                  <div class="col-4">
+                  <div class="col-2">
                     <div class="d-flex justify-content-end">
                       <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
                         <i class="bi bi-truck fs-4"></i>
@@ -131,26 +136,39 @@
               </div>
             </div>
           </div>
+          </div>
+        </div>
         </span>
               <ul id="father2" style="display:none">
                 @foreach($portf['sous_program'] as $souportf)
                 <li>
+               
+                <span class="next" id="{{$souportf['id_sous_prog']}}">
+              
+                <div class="edit-zone">
+                  
                 @if($souportf['TotalAE'] == $souportf['init_AE'] && $souportf['TotalCP'] == $souportf['init_CP'])
-                <span class="member" id="{{$souportf['id_sous_prog']}}">
+                <div class="member" id="{{$souportf['id_sous_prog']}}">
                 @else
-                <span class="member alert_func" id="{{$souportf['id_sous_prog']}}">
+                <div class="member alert_func" id="{{$souportf['id_sous_prog']}}">
                 @endif
-                <div class="edit-zone"><i class="fas fa-edit update-handl"></i></div>
                 <div class="col-12 col-sm-6">
             <div class="card widget-card border-light shadow-sm">
               <div class="card-body p-1">
                 <div class="row">
-                  <div class="col-8">
+                  <div class="col-10">
                     <h5 class="card-title widget-card-title mb-3">{{$souportf['data']['nom_sous_prog']}}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$souportf['TotalAE']}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$souportf['TotalCP']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">
+                    <p> Autorisations d’engagement:<p class="chiffre">{{$souportf['init_AE']}}</p></p>
+                    </h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">
+                    <div>
+                     <div> <p>Crédits de paiement:</p>
+                      <p class="chiffre">{{$souportf['init_CP']}}</p></div>
+                    </div> 
+                    </h4>
                   </div>
-                  <div class="col-4">
+                  <div class="col-2">
                     <div class="d-flex justify-content-end">
                       <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
                         <i class="bi bi-truck fs-4"></i>
@@ -174,28 +192,28 @@
                 </div>
               </div>
             </div>
+            </div>
+            </div>
           </div>
         </span> 
                 <ul id="father3" style="display:none">
                 @foreach($souportf['Action'] as $act)
                   <li>
                   @if(count($act['sous_action'])>0)
-                  @foreach($act['sous_action'] as $sous_act)
-                  @if($sous_act['num_act'] != $act['num_act'])
-                  <span class="member" id="{{$act['num_act']}}">
-                  @else
-                  <span class="member" id="act_{{$act['num_act']}}">
-                  @endif
-                  @endforeach
+                  <span class="member next" id="act_{{$act['num_act']}}" style="display:inline-block">
                   @endif
                 <div class="col-12 col-sm-6">
             <div class="card widget-card border-light shadow-sm">
               <div class="card-body p-1">
                 <div class="row">
                   <div class="col-8">
-                    <h5 class="card-title widget-card-title mb-3">Action: {{$act['num_act'] }}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$act['TotalAE']}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$act['TotalCP']}}</h4>
+                    <h5 class="card-title widget-card-title mb-3">Action: {{$act['data']['nom_action'] }}</h5>
+                    <h4 class="card-subtitle text-body-secondary m-0">
+                    <p>  Autorisations d’engagement :{{$act['TotalAE']}}</p><p>{{$act['init_AE']}}</p>
+                    </h4>
+                    <h4 class="card-subtitle text-body-secondary m-0">
+                    <p>  Crédits de paiement :{{$act['TotalCP']}}</p><p>{{$act['init_CP']}}</p>
+                    </h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -211,7 +229,7 @@
                       <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
                         <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
                       </span>
-                      <div style="display:flex;">
+                      <div style="display:flex;width: 23rem;">
                       @if(count($act['sous_action'])>0)
                       @foreach($act['sous_action'] as $sous_act)
                       @if($sous_act['num_act'] != $act['num_act'])
@@ -241,15 +259,15 @@
             @foreach($act['sous_action'] as $sous_act)
             @if($sous_act['num_act'] != $act['num_act'])
                   <li>
-                <span class="member" id="sact-{{$sous_act['num_act']}}">
+                <span class="member next" id="sact_{{$sous_act['num_act']}}" style="display:inline-block">
                 <div class="col-12 col-sm-6">
             <div class="card widget-card border-light shadow-sm">
               <div class="card-body p-1">
                 <div class="row">
                   <div class="col-8">
                     <h5 class="card-title widget-card-title mb-3">Sous Action: {{$sous_act['num_act'] }}</h5>
-                    <h4 class="card-subtitle text-body-secondary m-0">AE : {{$sous_act['TotalAE']}}</h4>
-                    <h4 class="card-subtitle text-body-secondary m-0">CP :{{$sous_act['TotalCP']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> Autorisations d’engagement : {{$sous_act['TotalAE']}}</h4>
+                    <h4 class="card-subtitle text-body-secondary m-0"> Crédits de paiement :{{$sous_act['TotalCP']}}</h4>
                   </div>
                   <div class="col-4">
                     <div class="d-flex justify-content-end">
@@ -265,7 +283,7 @@
                       <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
                         <i class="bi bi-arrow-right-short bsb-rotate-45"></i>
                       </span>
-                      <div class="Port-info-holder">
+                      <div class="Port-info-holder" style="display:flex;width: 23rem;">
                       @foreach($sous_act['Tports'] as $key=>$values)
                        <div class="T-holder"> 
                         <p class="fs-7 mb-0">{{$key}} </p>
@@ -288,7 +306,7 @@
           @endif
               @endforeach
               <li>
-                  <span class="member">
+                  <span class="member next">
                   <button class="add-btn" id="{{$act['num_act'] }}_act">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                   </button> 
@@ -297,7 +315,7 @@
                 </li>
                   @endforeach
                   <li>
-                  <span class="member">
+                  <span class="member next">
                   <button class="add-btn" id="{{$souportf['id_sous_prog']}}_sprog">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                   </button> 
@@ -305,7 +323,7 @@
                 </ul>
                 @endforeach
                 <li>
-                <span class="member">
+                <span class="member next">
                 <button class="add-btn" id=" {{$portf['id_prog']}}_prog">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                 </button> 
@@ -314,7 +332,7 @@
               </li>
             @endforeach
             <li>
-                <span class="member">
+                <span class="member next">
                 <button class="add-btn" id="{{$allport['id']}}_all">
                    <i class="fas fa-plus-circle icon-car" style='font-size:100px; color:#0dcaf0;'></i>
                   </button> 
@@ -329,7 +347,7 @@
 
  <div class="float-export">
     <div class="folder-box">
-    <a href="#">
+    <a href="/printdpic/{{$allport['id']}}" target="_blank">
     <i class="fas fa-print"></i>
     </a>
     </div>
@@ -341,7 +359,24 @@
   <div>
     <p> Modfication : <p id="id_sprog_modif"></p></p>
     <form id="update_art_handler">
-    <div class="form-group">
+    <div class="Radio-ids">
+        <div>
+        <label for="Tports">Interieur</label>
+         <input type="radio" class="form-check-input" id="intr" name="type_modif" value="inter" />
+        </div>
+        <div>
+        <label for="Tports">Exterieur</label>
+         <input type="radio" class="form-check-input" id="extr" name="type_modif" value="exter" />
+        </div>
+        </div>
+
+        <div class="exter_type">
+     
+        </div>
+        
+
+        <hr>
+        <div class="form-group">
           <label for="input1">Article</label>
           <select type="text" class="form-control" id="id" placeholder="Entrer le Nom du Programme">
            <option value="0" >Selectionner Article</option>
@@ -351,6 +386,20 @@
           </select>
         </div>
         <hr>
+
+        <div class="form-group">
+          <label id="dif" for="input1">Sous Programmes</label>
+          <select type="text" class="form-control" id="id_env" placeholder="Entrer le Nom du Programme">
+           <option value="0" >Selectionner Sous Porgramme</option>
+           @foreach($allsous_progr as $souportf)
+           @foreach($souportf as $sp)
+           <option value="{{$sp['id_sous_prog']}}" >{{$sp['data']['nom_sous_prog']}}</option>
+           @endforeach
+           @endforeach
+          </select>
+          <div id="prog_env"></div>
+        </div>
+  
         <div class="form-group">
         <fieldset>
         <legend>Choisir Les Port</legend>
@@ -410,20 +459,6 @@
         </div>
         <hr>
 
-
-        <div class="Radio-ids">
-        <div>
-        <label for="Tports">Interieur</label>
-         <input type="radio" class="form-check-input" id="intr" name="type_modif" value="inter" />
-        </div>
-        <div>
-        <label for="Tports">Exterieur</label>
-         <input type="radio" class="form-check-input" id="extr" name="type_modif" value="exter" />
-        </div>
-        </div>
-
-        <hr>
-
         <div class="add-envoi">
 
         </div>
@@ -432,8 +467,6 @@
         <label for="input1">Action a modifier</label>
           <select type="text" class="form-control" id="id_cible" placeholder="Entrer le Nom du Programme">
            <option value="0" >Selectionner Article</option>
-            <option value="1" >Action 01</option>
-            <option value="2" >Action 01</option>
           </select>
         </div>
       </div>
@@ -455,7 +488,7 @@
 <script>
   var path=Array();
   var path3=Array();
- document.querySelectorAll('.member').forEach(member => {
+ document.querySelectorAll('.next').forEach(member => {
   member.addEventListener('dblclick', function(event) {
     const children = member.nextElementSibling;
     if (children) {
@@ -464,14 +497,14 @@
         children.style.display = 'none';
       } else {
         children.style.display = 'flex';
+        
       }
     }
   });
   });
   $(document).ready(function(){
-    $('.member').on('dblclick',function(){
+    $('.next').on('dblclick',function(){
     id=$(this).attr('id');
-    
     var index=path.indexOf(id)
     if( index !== -1)
     {
@@ -507,12 +540,13 @@ listItemsWithNestedUl.each(function(){
     if(typeact[0] =='act')
     {
       $(this).on('click',function(){
-  window.location.href='/testing/Action/'+path3[0]+'/'+path3[1]+'/'+path3[2]+'/'+path3[3]+'/'
+        window.location.href='/testing/Action/'+path3[0]+'/'+path3[1]+'/'+path3[2]+'/'+typeact[1]+'/'
       })
     
     }
     if(typeact[0] == 'sact')
     {
+      console.log('sub action'+typeact[0])
     $(this).on('click',function(){
      window.location.href='/testing/S_action/'+path3[0]+'/'+path3[1]+'/'+path3[2]+'/'+path3[3]+'/'+typeact[1]+'/'
       })
@@ -526,7 +560,58 @@ listItemsWithNestedUl.each(function(){
             window.location.href='/creation/from/'+id;
             var  news;
         })
+var idchfri=$('.chiffre')
 
+idchfri.each(function(){
+  var newl="";
+  var trans=$(this).text();
+  var list
+  var list1
+  var list2
+
+if(trans.length % 3 == 0)
+{
+  list= trans.match(/.{1,3}/g);
+  list.forEach(elemt => {
+            newl+=" "+elemt;
+        });
+        console.log('chrunk slice 2'+JSON.stringify(list) +'data '+trans.length +'data final'+newl)
+        $(this).text(newl)
+        newl="";
+}
+else
+{
+  if(trans.length % 3 == 2 && !$(this).empty())
+{
+  console.log('before'+trans)
+  var first=trans.slice(0,2);
+  trans=trans.slice(2)
+  list= trans.match(/.{1,3}/g);
+  list.forEach(elemt => {
+            newl+=" "+elemt;
+        });
+        console.log('chrunk slice 3'+JSON.stringify(list) +'data '+trans.length +'data final'+newl)
+        $(this).text(first+newl)
+        newl="";
+
+}
+else  
+{
+  console.log('before 3'+trans)
+  var first=trans.slice(0,2);
+  trans=trans.slice(2)
+  list= trans.match(/.{1,3}/g);
+  list.forEach(elemt => {
+            newl+=" "+elemt;
+        });
+        console.log('chrunk slice 3'+JSON.stringify(list) +'data '+trans.length +'data final'+newl)
+        $(this).text(first+newl)
+        newl="";
+  
+}
+}
+
+})
 })
 
 </script>

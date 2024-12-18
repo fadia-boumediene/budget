@@ -63,7 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label for="AE_portef">AE pour Portefeuille</label>
-                        <input type="text" class="form-control" id="AE_portef" placeholder="Entrer AE Portefeuille">
+                        <input type="number" class="form-control" id="AE_portef" placeholder="Entrer AE Portefeuille">
                     </div>
                     <div class="form-group">
                         <label for="CP_portef">CP pour Portefeuille</label>

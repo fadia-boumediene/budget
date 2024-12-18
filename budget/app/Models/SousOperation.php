@@ -17,7 +17,9 @@ class SousOperation extends Model
     protected $fillable = [
        'code_sous_operation','nom_sous_operation','nom_sous_operation_ar','AE_sous_operation','CP_sous_operation','code_t1','code_t2','code_t3','code_t4'
 ,'AE_ouvert','AE_atendu','CP_ouvert','CP_atendu','code_operation','AE_engage','CP_reporte','AE_reporte','AE_notifie','CP_notifie','CP_consome',
-'date_insert_SOUSoperation','date_update_SOUSoperation'
+'date_insert_SOUSoperation','date_update_SOUSoperation','AE_sous_operation_NONREPARTIS','CP_sous_operation_NONREPARTIS','AE_ouvert_NONREPARTIS','AE_atendu_NONREPARTIS'
+,'CP_ouvert_NONREPARTIS','CP_atendu_NONREPARTIS','AE_reporte_NONREPARTIS','AE_notifie_NONREPARTIS','AE_engage_NONREPARTIS','CP_reporte_NONREPARTIS',
+'CP_notifie_NONREPARTIS','CP_consome_NONREPARTIS',
  ];
 
 

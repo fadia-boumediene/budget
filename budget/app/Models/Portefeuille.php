@@ -16,7 +16,7 @@ class Portefeuille extends Model
 
     protected $fillable = [
        'num_portefeuil','Date_portefeuille','nom_journal','num_journal'
-   ,'AE_portef','CP_portef','id_min'
+   ,'AE_portef','CP_portef','id_min', 'Date_update_portefeuille'
  ];
 
     public function Ministre()

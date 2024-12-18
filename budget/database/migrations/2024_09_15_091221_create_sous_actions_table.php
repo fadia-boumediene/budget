@@ -18,7 +18,7 @@ return new class extends Migration
             $table->float('AE_sous_action');
             $table->float('CP_sous_action');
 
-            $table->DateTime('date_insert_sous_action');
+            $table->Date('date_insert_sous_action');
             $table->DateTime('date_update_sous_action')->nullable();
 
 

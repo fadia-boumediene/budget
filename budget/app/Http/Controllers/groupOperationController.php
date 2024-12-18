@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\GroupOperation;
 use App\Models\Portefeuille;
@@ -32,9 +32,9 @@ class groupOperationController extends Controller
 if($T==1)
 {
     // Récupérer les données du formulaire
+    //dd($request);
     $aeData = $request->input('ae');
     $cpData = $request->input('cp');
-
     // Chemin vers le fichier JSON dans public/assets/titre
     $jsonFilePath = public_path('assets/Titre/dataT1.json');
 
@@ -84,11 +84,15 @@ foreach ($jsonData as $codeStr => $nom) {
         // Vérifier si le code représente un groupe d'opérations
         if ($code % 1000 == 0) {
             // Insertion dans la table groupoperation
-            GroupOperation::updateOrCreate(
+            $groupOperation= GroupOperation::updateOrCreate(
                 ['code_grp_operation' => $s_act.'-'.$code],
                 ['nom_grp_operation' => $nom, 'num_sous_action' => $s_act,
-                 'date_insert_grp_operation' => $currentDateTime]
+                 'date_insert_grp_operation' => $currentDateTime,
+                 'date_update_grp_operation' => $currentDateTime, // Stocke toujours la date de mise à jour
+                 ]
             );
+
+            //$this->logActivity('created', $groupOperation);
         }
         // Vérifier si le code représente une opération
         elseif ($code % 100 == 0) {
@@ -154,15 +158,15 @@ foreach ($jsonData as $codeStr => $nom) {
                                     'id_ra' => 1,
                                 ]
                             );
-    
-    
-                            
+
+
+
                         } else {
                             // si le portefeuille n'existe pas
                             dd('Portefeuille non trouvé');
                         }
 
-            
+
                 }
             }else{
                 // Insérer dans sousoperation avec un code spécifique
@@ -210,12 +214,12 @@ foreach ($jsonData as $codeStr => $nom) {
                     // si le portefeuille n'existe pas
                     dd('Portefeuille non trouvé');
                 }
-                
+
                  }
             }
 
         // Sinon, il s'agit d'une sous-opération
-        else {
+        elseif($code % 10 == 0){
             $codeOp = floor($code / 100) * 100;
 
             // Insertion dans la table sousoperation
@@ -261,7 +265,24 @@ foreach ($jsonData as $codeStr => $nom) {
                   // si le portefeuille n'existe pas
                   dd('Portefeuille non trouvé');
               }
-           
+
+        }
+        // si c est un dispositif
+        else{
+            // Vérifier si la variable contient un seul tiret
+            if (strpos($code, '-') !== false) {
+                // Supprimer tout ce qui suit le premier tiret (y compris le tiret)
+                $codeOp = explode('-', $code)[0];
+            }
+            dd($codeOp);
+            // Insertion dans la table sousoperation
+            $sousoperation= sousoperation::updateOrCreate(
+                ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$code],
+                ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp, 'nom_sous_operation' => $nom,'code_t1' =>10000,
+                 'AE_sous_operation' => floatval(str_replace(',', '', $ae)),
+                  'CP_sous_operation' => floatval(str_replace(',', '', $cp))
+                  , 'date_insert_SOUSoperation' => $currentDateTime]
+            );
         }
     }
 
@@ -375,26 +396,26 @@ elseif ($T == 2) {
                 if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                       
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                     
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T2) à partir du portefeuille',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => $sousoperation->AE_ouvert,
                             'AE_atendu_dpia' => $sousoperation->AE_atendu,
                             'CP_ouvert_dpia' => $sousoperation->CP_ouvert,
                             'CP_atendu_dpia' => $sousoperation->CP_atendu,
-                    
+
                             'AE_reporte_dpia' => null,
                             'AE_notifie_dpia' => null,
                             'AE_engage_dpia' => null,
@@ -403,13 +424,13 @@ elseif ($T == 2) {
                             'CP_consome_dpia' => null,
                         ]
                     );
-                    
+
                 } else {
 
                     dd('Portefeuille non trouvé');
                 }
 
-                
+
                 }
 
 
@@ -436,26 +457,26 @@ elseif ($T == 2) {
                  if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                       
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                     
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T2) à partir du portefeuille',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => $sousoperation->AE_ouvert,
                             'AE_atendu_dpia' => $sousoperation->AE_atendu,
                             'CP_ouvert_dpia' => $sousoperation->CP_ouvert,
                             'CP_atendu_dpia' => $sousoperation->CP_atendu,
-                    
+
                             'AE_reporte_dpia' => null,
                             'AE_notifie_dpia' => null,
                             'AE_engage_dpia' => null,
@@ -464,13 +485,13 @@ elseif ($T == 2) {
                             'CP_consome_dpia' => null,
                         ]
                     );
-                    
+
                  } else {
 
                      dd('Portefeuille non trouvé');
                  }
 
-                
+
             }
 
 
@@ -523,26 +544,26 @@ elseif ($T == 2) {
                 if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                       
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                     
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T2)à partir du portefeuille',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => $sousoperation->AE_ouvert,
                             'AE_atendu_dpia' => $sousoperation->AE_atendu,
                             'CP_ouvert_dpia' => $sousoperation->CP_ouvert,
                             'CP_atendu_dpia' => $sousoperation->CP_atendu,
-                    
+
                             'AE_reporte_dpia' => null,
                             'AE_notifie_dpia' => null,
                             'AE_engage_dpia' => null,
@@ -556,7 +577,7 @@ elseif ($T == 2) {
                     dd('Portefeuille non trouvé');
                 }
 
-                
+
                 }
             }else{
                 // Insérer dans sousoperation avec un code spécifique
@@ -582,26 +603,26 @@ elseif ($T == 2) {
                  if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                       
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                     
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T2) à partir du portefeuille',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => $sousoperation->AE_ouvert,
                             'AE_atendu_dpia' => $sousoperation->AE_atendu,
                             'CP_ouvert_dpia' => $sousoperation->CP_ouvert,
                             'CP_atendu_dpia' => $sousoperation->CP_atendu,
-                    
+
                             'AE_reporte_dpia' => null,
                             'AE_notifie_dpia' => null,
                             'AE_engage_dpia' => null,
@@ -615,11 +636,11 @@ elseif ($T == 2) {
                      dd('Portefeuille non trouvé');
                  }
 
-               
+
             }
 
         // Sinon, il s'agit d'une sous-opération
-        }else {
+        }elseif($code % 10 == 0) {
             $codeOp = floor($code / 100) * 100;
 
             // Insertion dans la table sousoperation
@@ -645,26 +666,26 @@ elseif ($T == 2) {
              if ($portefeuille) {
 
                 ConstruireDPIA::updateOrCreate(
-                       
+
                     [
                         'code_sous_operation' => $sousoperation->code_sous_operation,
                         'id_rp' => 1,
                         'id_ra' => 1,
                     ],
-                 
+
                     [
                         'date_creation_dpia' => $portefeuille->Date_portefeuille,
                         'date_modification_dpia' => now(),
                         'motif_dpia' => 'Création de DPIA (T2) à partir du portefeuille',
-                
+
                         'AE_dpia_nv' => null,
                         'CP_dpia_nv' => null,
-                
+
                         'AE_ouvert_dpia' => $sousoperation->AE_ouvert,
                         'AE_atendu_dpia' => $sousoperation->AE_atendu,
                         'CP_ouvert_dpia' => $sousoperation->CP_ouvert,
                         'CP_atendu_dpia' => $sousoperation->CP_atendu,
-                
+
                         'AE_reporte_dpia' => null,
                         'AE_notifie_dpia' => null,
                         'AE_engage_dpia' => null,
@@ -678,7 +699,24 @@ elseif ($T == 2) {
                  dd('Portefeuille non trouvé');
              }
 
-             
+
+        }
+        // si c est un dispositif
+        else{
+            // Vérifier si la variable contient un seul tiret
+            if (strpos($code, '-') !== false) {
+                // Supprimer tout ce qui suit le premier tiret (y compris le tiret)
+                $codeOp = explode('-', $code)[0];
+            }
+            dd($codeOp);
+            // Insertion dans la table sousoperation
+            $sousoperation= sousoperation::updateOrCreate(
+                ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$code],
+                ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp, 'nom_sous_operation' => $nom,'code_t1' =>10000,
+                 'AE_sous_operation' => floatval(str_replace(',', '', $ae)),
+                  'CP_sous_operation' => floatval(str_replace(',', '', $cp))
+                  , 'date_insert_SOUSoperation' => $currentDateTime]
+            );
         }
     } // fin boucle
 
@@ -699,9 +737,10 @@ elseif ($T == 2) {
                             // insertion T3
 //===================================================================================
 elseif ($T==3) {
-    //dd($request);
+    dd($request);
        // Récupérer les données du formulaire
        $aeDataReporte = $request->input('ae_reporte');
+      // dd($aeDataReporte);
        $aeDataNotifie = $request->input('ae_notifie');
        $aeDataEngage = $request->input('ae_engage');
 
@@ -732,6 +771,48 @@ elseif ($T==3) {
           $code = $item['code']?? null;
           $nom = $item['nom'] ?? '';*/
        // Parcourir les éléments du fichier JSON
+
+
+       if(strlen($code) > 5)
+    {
+        $dispo_name=$nom[$code]."_".$disp[$code];
+        $codeOrg=explode('-',$code);
+        $finalcode=$code;
+        $code=$codeOrg[0];
+        
+        $codeOp = floor($code / 100) * 100;
+        $codeGp = floor($code / 1000) * 1000;
+        // Insertion dans la table sousoperation
+      //  dd("$codeGp","$codeOp",$code,$finalcode);
+        $codeGp="$codeGp";
+        $codeOp="$codeOp";
+        GroupOperation::updateOrCreate(
+            ['code_grp_operation' => $s_act.'-'.$codeGp],
+            ['nom_grp_operation' => $jsonData[$codeGp], 'num_sous_action' => $s_act,
+            'date_insert_grp_operation' => $currentDateTime]
+        );
+        Operation::updateOrCreate(
+            ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp],
+            ['code_grp_operation' => $s_act.'-'.$codeGp, 'nom_operation' =>$jsonData[$codeOp],
+            //'AE_operation' => floatval(str_replace(',', '',  $ae)),
+            //'CP_operation' => floatval(str_replace(',', '',  $cp)),
+            'date_insert_operation' => $currentDateTime]
+        );
+        $sousoperation=sousoperation::updateOrCreate(
+            ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$finalcode ],
+            ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp, 'nom_sous_operation' => $dispo_name,
+            'AE_reporte' => floatval(str_replace(',', '', $aeDataReporte[$finalcode])),
+            'AE_notifie' =>floatval(str_replace(',', '', $aeDataNotifie[$finalcode])) ,
+            'AE_engage' => floatval(str_replace(',', '', $aeDataEngage[$finalcode])),
+
+            'CP_reporte' => floatval(str_replace(',', '', $cpDataReporte[$finalcode])),
+            'CP_notifie' =>floatval(str_replace(',', '', $cpDataNotifie[$finalcode])),
+            'CP_consome' => floatval(str_replace(',', '', $cpDataConsome[$finalcode]))
+            ,'code_t3' => 30000, 'date_insert_SOUSoperation' => $currentDateTime]
+        );
+        
+    }
+    
 foreach ($jsonData as $codeStr => $nom) {
     // S'assurer que le code est une chaîne de caractères
     $code = (string) $codeStr;
@@ -777,14 +858,14 @@ foreach ($jsonData as $codeStr => $nom) {
           // Vérifier si le code représente une opération
           elseif ($code % 100 == 0) {
               $codeGp = floor($code / 1000) * 1000;
-
+                
               // Insertion dans la table operation
-              Operation::updateOrCreate(
+                  Operation::updateOrCreate(
                   ['code_operation' =>$s_act.'-'.$codeGp.'-'.$code],
                   ['code_grp_operation' => $s_act.'-'.$codeGp, 'nom_operation' => $nom,
                   'date_insert_operation' => $currentDateTime]
               );
-
+             
                /*// Vérifier la ligne suivante
                $nextItem = $jsonData[$i + 1];
                $nextCode = $nextItem['code'] ?? null;*/
@@ -824,26 +905,26 @@ foreach ($jsonData as $codeStr => $nom) {
                 if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                 
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                        
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T3) à partir du portefeuille ',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => null,
                             'AE_atendu_dpia' => null,
                             'CP_ouvert_dpia' => null,
                             'CP_atendu_dpia' => null,
-                    
+
                             'AE_reporte_dpia' => $sousoperation->AE_reporte,
                             'AE_notifie_dpia' => $sousoperation->AE_notifie,
                             'AE_engage_dpia' => $sousoperation->AE_engage,
@@ -852,7 +933,7 @@ foreach ($jsonData as $codeStr => $nom) {
                             'CP_consome_dpia' => $sousoperation->CP_consome,
                         ]
                     );
-                  
+
                 } else {
 
                     dd('Portefeuille non trouvé');
@@ -887,26 +968,26 @@ foreach ($jsonData as $codeStr => $nom) {
                    if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                 
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                        
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T3) à partir du portefeuille ',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => null,
                             'AE_atendu_dpia' => null,
                             'CP_ouvert_dpia' => null,
                             'CP_atendu_dpia' => null,
-                    
+
                             'AE_reporte_dpia' => $sousoperation->AE_reporte,
                             'AE_notifie_dpia' => $sousoperation->AE_notifie,
                             'AE_engage_dpia' => $sousoperation->AE_engage,
@@ -922,12 +1003,13 @@ foreach ($jsonData as $codeStr => $nom) {
 
                    // dd( $DPIA);
           }
-        }else{
+        }elseif($code % 10 == 0){
+            //dd($code % 10 == 0);
             $codeOp = floor($code / 100) * 100;
-            // Insérer dans sousoperation avec un code spécifique
+            //dd("codeop", $codeOp);
             $sousoperation=sousoperation::updateOrCreate(
                 ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$code], // Code spécifique pour indiquer qu'il ne s'agit pas d'une véritable sous-opération
-                ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$code,
+                ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp,
                 'nom_sous_operation' => $nom,
                 'code_t3' => 30000,
 
@@ -947,26 +1029,26 @@ foreach ($jsonData as $codeStr => $nom) {
                    if ($portefeuille) {
 
                     ConstruireDPIA::updateOrCreate(
-                 
+
                         [
                             'code_sous_operation' => $sousoperation->code_sous_operation,
                             'id_rp' => 1,
                             'id_ra' => 1,
                         ],
-                        
+
                         [
                             'date_creation_dpia' => $portefeuille->Date_portefeuille,
                             'date_modification_dpia' => now(),
                             'motif_dpia' => 'Création de DPIA (T3) à partir du portefeuille ',
-                    
+
                             'AE_dpia_nv' => null,
                             'CP_dpia_nv' => null,
-                    
+
                             'AE_ouvert_dpia' => null,
                             'AE_atendu_dpia' => null,
                             'CP_ouvert_dpia' => null,
                             'CP_atendu_dpia' => null,
-                    
+
                             'AE_reporte_dpia' => $sousoperation->AE_reporte,
                             'AE_notifie_dpia' => $sousoperation->AE_notifie,
                             'AE_engage_dpia' => $sousoperation->AE_engage,
@@ -975,7 +1057,7 @@ foreach ($jsonData as $codeStr => $nom) {
                             'CP_consome_dpia' => $sousoperation->CP_consome,
                         ]
                     );
-                 
+
                    } else {
 
                        dd('Portefeuille non trouvé');
@@ -983,6 +1065,23 @@ foreach ($jsonData as $codeStr => $nom) {
 
                    // dd( $DPIA);
           }
+          // si c est un dispositif
+            else{
+                // Vérifier si la variable contient un seul tiret
+                if (strpos($code, '-') !== false) {
+                    // Supprimer tout ce qui suit le premier tiret (y compris le tiret)
+                    $codeOp = explode('-', $code)[0];
+                }
+               // dd("soussou", $codeOp);
+                // Insertion dans la table sousoperation
+                $sousoperation= sousoperation::updateOrCreate(
+                    ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$code],
+                    ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp, 'nom_sous_operation' => $nom,'code_t1' =>10000,
+                     'AE_sous_operation' => floatval(str_replace(',', '', $ae)),
+                      'CP_sous_operation' => floatval(str_replace(',', '', $cp))
+                      , 'date_insert_SOUSoperation' => $currentDateTime]
+                );
+            }
         }
 
         return response()->json([
@@ -1002,26 +1101,68 @@ foreach ($jsonData as $codeStr => $nom) {
 else{
 // Récupérer les données du formulaire
 //dd($request);
+$disp=$request->input('dispo');
+$nom=$request->input('descr');
 $aeData = $request->input('ae');
 $cpData = $request->input('cp');
 
+$jsonFilePath = public_path('assets/Titre/dataT4.json');
+
+// Lire le contenu du fichier JSON
+if (file_exists($jsonFilePath)) {
+    $jsonData = json_decode(file_get_contents($jsonFilePath), true);
+
+
+} else {
+    // Gérer le cas où le fichier n'existe pas
+    return response()->json(['error' => 'Le fichier JSON est introuvable T4.'], 404);
+}
+
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return response()->json(['error' => 'Erreur lors du décodage du fichier JSON.'], 404);
+    }
+    
+foreach ($disp as $code => $value) {
+    # code...
+    if(strlen($code) > 5)
+    {
+        $dispo_name=$nom[$code]."_".$disp[$code];
+        $codeOrg=explode('-',$code);
+        $finalcode=$code;
+        $code=$codeOrg[0];
+        
+        $codeOp = floor($code / 100) * 100;
+        $codeGp = floor($code / 1000) * 1000;
+        // Insertion dans la table sousoperation
+      //  dd("$codeGp","$codeOp",$code,$finalcode);
+        $codeGp="$codeGp";
+        $codeOp="$codeOp";
+        GroupOperation::updateOrCreate(
+            ['code_grp_operation' => $s_act.'-'.$codeGp],
+            ['nom_grp_operation' => $jsonData[$codeGp], 'num_sous_action' => $s_act,
+            'date_insert_grp_operation' => $currentDateTime]
+        );
+        Operation::updateOrCreate(
+            ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp],
+            ['code_grp_operation' => $s_act.'-'.$codeGp, 'nom_operation' =>$jsonData[$codeOp],
+            //'AE_operation' => floatval(str_replace(',', '',  $ae)),
+            //'CP_operation' => floatval(str_replace(',', '',  $cp)),
+            'date_insert_operation' => $currentDateTime]
+        );
+        $sousoperation=sousoperation::updateOrCreate(
+            ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$finalcode ],
+            ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp, 'nom_sous_operation' => $dispo_name,
+            'AE_sous_operation' => floatval(str_replace(',', '', $aeData[$finalcode])),
+            'CP_sous_operation' => floatval(str_replace(',', '', $cpData[$finalcode]))
+            ,'code_t4' => 40000, 'date_insert_SOUSoperation' => $currentDateTime]
+        );
+        
+    }
+}
+
   // Chemin vers le fichier JSON dans public/titre
-  $jsonFilePath = public_path('assets/Titre/dataT4.json');
 
-  // Lire le contenu du fichier JSON
-  if (file_exists($jsonFilePath)) {
-      $jsonData = json_decode(file_get_contents($jsonFilePath), true);
-
-
-  } else {
-      // Gérer le cas où le fichier n'existe pas
-      return response()->json(['error' => 'Le fichier JSON est introuvable T4.'], 404);
-  }
-
-
-      if (json_last_error() !== JSON_ERROR_NONE) {
-          return response()->json(['error' => 'Erreur lors du décodage du fichier JSON.'], 404);
-      }
 
   // Parcourir les éléments du fichier JSON
 foreach ($jsonData as $codeStr => $nom) {
@@ -1105,34 +1246,34 @@ if (!$nom) {
              if ($portefeuille) {
                  // Création de la table ConstruireDPIA
                  ConstruireDPIA::updateOrCreate(
-                   
+
                     [
                         'code_sous_operation' => $sousoperation->code_sous_operation,
                         'id_rp' => 1,
                         'id_ra' => 1,
                     ],
-                
+
                     [
                         'date_creation_dpia' => $portefeuille->Date_portefeuille,
                         'date_modification_dpia' =>now(),
                         'motif_dpia' => 'Création de DPIA (T4) à partir du portefeuille',
-                
+
                         'AE_dpia_nv' => $sousoperation->AE_sous_operation,
                         'CP_dpia_nv' => $sousoperation->CP_sous_operation,
-                
+
                         'AE_ouvert_dpia' => null,
                         'AE_atendu_dpia' => null,
                         'CP_ouvert_dpia' => null,
                         'CP_atendu_dpia' => null,
-                
+
                         'AE_reporte_dpia' => null,
                         'AE_notifie_dpia' => null,
                         'AE_engage_dpia' => null,
                         'CP_reporte_dpia' => null,
                         'CP_notifie_dpia' => null,
                         'CP_consome_dpia' => null,
-                
-                        
+
+
                     ]
                 );
              } else {
@@ -1143,6 +1284,7 @@ if (!$nom) {
        }
   }
   else{
+
     $sousoperation=sousoperation::updateOrCreate(
        ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$code], // Code spécifique pour indiquer qu'il ne s'agit pas d'une véritable sous-opération
        ['code_operation' =>$s_act.'-'.$codeGp.'-'.$code, 'nom_sous_operation' => $nom,
@@ -1159,34 +1301,34 @@ if (!$nom) {
      if ($portefeuille) {
          // Création de la table ConstruireDPIA
          ConstruireDPIA::updateOrCreate(
-                   
+
             [
                 'code_sous_operation' => $sousoperation->code_sous_operation,
                 'id_rp' => 1,
                 'id_ra' => 1,
             ],
-        
+
             [
                 'date_creation_dpia' => $portefeuille->Date_portefeuille,
                 'date_modification_dpia' =>now(),
                 'motif_dpia' => 'Création de DPIA (T4) à partir du portefeuille',
-        
+
                 'AE_dpia_nv' => $sousoperation->AE_sous_operation,
                 'CP_dpia_nv' => $sousoperation->CP_sous_operation,
-        
+
                 'AE_ouvert_dpia' => null,
                 'AE_atendu_dpia' => null,
                 'CP_ouvert_dpia' => null,
                 'CP_atendu_dpia' => null,
-        
+
                 'AE_reporte_dpia' => null,
                 'AE_notifie_dpia' => null,
                 'AE_engage_dpia' => null,
                 'CP_reporte_dpia' => null,
                 'CP_notifie_dpia' => null,
                 'CP_consome_dpia' => null,
-        
-                
+
+
             ]
         );
      } else {
@@ -1198,7 +1340,7 @@ if (!$nom) {
 
    }
    // Sinon, il s'agit d'une sous-opération
-   else {
+   elseif($code % 10 == 0) {
        $codeOp = floor($code / 100) * 100;
 
        // Insertion dans la table sousoperation
@@ -1214,34 +1356,34 @@ if (!$nom) {
                if ($portefeuille) {
                    // Création de la table ConstruireDPIA
                    ConstruireDPIA::updateOrCreate(
-                   
+
                     [
                         'code_sous_operation' => $sousoperation->code_sous_operation,
                         'id_rp' => 1,
                         'id_ra' => 1,
                     ],
-                
+
                     [
                         'date_creation_dpia' => $portefeuille->Date_portefeuille,
                         'date_modification_dpia' =>now(),
                         'motif_dpia' => 'Création de DPIA (T4) à partir du portefeuille',
-                
+
                         'AE_dpia_nv' => $sousoperation->AE_sous_operation,
                         'CP_dpia_nv' => $sousoperation->CP_sous_operation,
-                
+
                         'AE_ouvert_dpia' => null,
                         'AE_atendu_dpia' => null,
                         'CP_ouvert_dpia' => null,
                         'CP_atendu_dpia' => null,
-                
+
                         'AE_reporte_dpia' => null,
                         'AE_notifie_dpia' => null,
                         'AE_engage_dpia' => null,
                         'CP_reporte_dpia' => null,
                         'CP_notifie_dpia' => null,
                         'CP_consome_dpia' => null,
-                
-                        
+
+
                     ]
                 );
                } else {
@@ -1250,7 +1392,8 @@ if (!$nom) {
                }
                // dd( $DPIA);
 
-
+//reste a verifier
+/*
         if ($currentIndex !== false && isset($keys[$currentIndex + 1])) {
             $nextKey = $keys[$currentIndex + 1]; // Obtenir la clé suivante
             $nextItem = $jsonData[$nextKey]; // Obtenir l'élément suivant par sa clé
@@ -1260,6 +1403,7 @@ if (!$nom) {
 
         // Si la ligne suivante n'est pas une sous-opération
         if ($nextCode && ($nextCode % 100 == 0 || $nextCode % 1000 == 0)) {
+        dd($code);
             // Insérer dans sousoperation avec un code spécifique
            $sousoperation= sousoperation::updateOrCreate(
                 ['code_sous_operation' =>  $code.$codeOp.$codeGp.$s_act], // Code spécifique pour indiquer qu'il ne s'agit pas d'une véritable sous-opération
@@ -1277,34 +1421,34 @@ if (!$nom) {
               if ($portefeuille) {
                   // Création de la table ConstruireDPIA
                   ConstruireDPIA::updateOrCreate(
-                   
+
                     [
                         'code_sous_operation' => $sousoperation->code_sous_operation,
                         'id_rp' => 1,
                         'id_ra' => 1,
                     ],
-                
+
                     [
                         'date_creation_dpia' => $portefeuille->Date_portefeuille,
                         'date_modification_dpia' =>now(),
                         'motif_dpia' => 'Création de DPIA (T4) à partir du portefeuille',
-                
+
                         'AE_dpia_nv' => $sousoperation->AE_sous_operation,
                         'CP_dpia_nv' => $sousoperation->CP_sous_operation,
-                
+
                         'AE_ouvert_dpia' => null,
                         'AE_atendu_dpia' => null,
                         'CP_ouvert_dpia' => null,
                         'CP_atendu_dpia' => null,
-                
+
                         'AE_reporte_dpia' => null,
                         'AE_notifie_dpia' => null,
                         'AE_engage_dpia' => null,
                         'CP_reporte_dpia' => null,
                         'CP_notifie_dpia' => null,
                         'CP_consome_dpia' => null,
-                
-                        
+
+
                     ]
                 );
               } else {
@@ -1331,34 +1475,34 @@ if (!$nom) {
       if ($portefeuille) {
           // Création de la table ConstruireDPIA
          ConstruireDPIA::updateOrCreate(
-                   
+
                     [
                         'code_sous_operation' => $sousoperation->code_sous_operation,
                         'id_rp' => 1,
                         'id_ra' => 1,
                     ],
-                
+
                     [
                         'date_creation_dpia' => $portefeuille->Date_portefeuille,
                         'date_modification_dpia' =>now(),
                         'motif_dpia' => 'Création de DPIA (T4) à partir du portefeuille',
-                
+
                         'AE_dpia_nv' => $sousoperation->AE_sous_operation,
                         'CP_dpia_nv' => $sousoperation->CP_sous_operation,
-                
+
                         'AE_ouvert_dpia' => null,
                         'AE_atendu_dpia' => null,
                         'CP_ouvert_dpia' => null,
                         'CP_atendu_dpia' => null,
-                
+
                         'AE_reporte_dpia' => null,
                         'AE_notifie_dpia' => null,
                         'AE_engage_dpia' => null,
                         'CP_reporte_dpia' => null,
                         'CP_notifie_dpia' => null,
                         'CP_consome_dpia' => null,
-                
-                        
+
+
                     ]
                 );
       } else {
@@ -1366,7 +1510,26 @@ if (!$nom) {
           dd('Portefeuille non trouvé');
       }
       // dd( $DPIA);
-   }
+   } *///reste a verifier
+
+}
+ // si c est un dispositif
+ else{
+    dd($request);
+       // Vérifier si la variable contient un seul tiret
+       if (strpos($code, '-') !== false) {
+        // Supprimer tout ce qui suit le premier tiret (y compris le tiret)
+        $codeOp = explode('-', $code)[0];
+    }
+    dd($codeOp);
+    // Insertion dans la table sousoperation
+    $sousoperation= sousoperation::updateOrCreate(
+        ['code_sous_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp.'-'.$code],
+        ['code_operation' =>$s_act.'-'.$codeGp.'-'.$codeOp, 'nom_sous_operation' => $nom,'code_t1' =>10000,
+         'AE_sous_operation' => floatval(str_replace(',', '', $ae)),
+          'CP_sous_operation' => floatval(str_replace(',', '', $cp))
+          , 'date_insert_SOUSoperation' => $currentDateTime]
+    );
 }
 }
 return response()->json([

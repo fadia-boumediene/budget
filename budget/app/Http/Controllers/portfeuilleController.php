@@ -60,7 +60,7 @@ class portfeuilleController extends Controller
        {
         $progms=Programme::where('num_prog',intval($num))->get();
        // dd($progms);
-        $paths=['code_port'=>$progms[0]->num_portefeuil,'programme'=>$progms[0]->num_prog];
+        $paths=['code_port'=>$progms[0]->num_portefeuil,'programme'=>$num];
        // dd($paths);
        }
 
@@ -68,7 +68,7 @@ class portfeuilleController extends Controller
         {
                 $sprog=SousProgramme::where('num_sous_prog',intval($num))->first();
                 $progms=Programme::where('num_prog',$sprog->num_prog)   ->first();
-                $paths=['code_port'=>$progms->num_portefeuil,'programme'=>$progms->num_prog,'sous Programme'=>$sprog->num_sous_prog];
+                $paths=['code_port'=>$progms->num_portefeuil,'programme'=>$progms->num_prog,'sous Programme'=>$num];
              //    dd($paths);
         }
         if($cat == 'act' )
@@ -76,13 +76,14 @@ class portfeuilleController extends Controller
             $act=Action::where('num_action',intval($num))->first();
             $sprog=SousProgramme::where('num_sous_prog',$act->num_sous_prog)->first();
             $progms=Programme::where('num_prog',$sprog->num_prog)->first();
-            $paths=['code_port'=>$progms->num_portefeuil,'programme'=>$progms->num_prog,'sous Programme'=>$sprog->num_sous_prog,'Action'=>$act->num_action];
+            $paths=['code_port'=>$progms->num_portefeuil,'programme'=>$progms->num_prog,'sous Programme'=>$sprog->num_sous_prog,'Action'=>$num];
              //   dd($paths);
         }
         $leng=count($paths);
       //  dd($leng);
       if($leng > 0)
       {
+       // dd($paths);
         return view('Portfail-in.prsuiv',compact('paths','leng'));
       }
       else
@@ -104,6 +105,7 @@ class portfeuilleController extends Controller
           $progms=Programme::where('num_portefeuil',$id)->get();
           $allprogram=[];
           $allsous_prog=[];
+          $allsous_progr=[];
           $allaction=[];
           $allsous_action=[];
           $resultats=0;
@@ -165,7 +167,8 @@ class portfeuilleController extends Controller
                                      // dd($resultats);
 
                                       array_push($allsous_action,['num_act'=>$listsousact->num_sous_action,'init_AE'=>$listsousact->AE_sous_action,'init_CP'=>$listsousact->CP_sous_action,'TotalAE'=>$AE_All_sous_act,'TotalCP'=>$CP_All_sous_act,'data'=>$listsousact,'Tports'=>$resultats]);
-
+                                      $AE_All_sous_act=0;
+                                      $CP_All_sous_act=0;
                                   }
 
                               }
@@ -175,7 +178,10 @@ class portfeuilleController extends Controller
                                 $CP_All_act+=$sact['TotalCP'];
                               }
                           array_push($allaction,['num_act'=>$listact->num_action,'init_AE'=>$listact->AE_action,'init_CP'=>$listact->CP_action,'TotalAE'=>$AE_All_act,'TotalCP'=>$CP_All_act,'data'=>$listact,'sous_action'=>$allsous_action]);
+                         
                           $allsous_action=[];
+                          $AE_All_act=0;
+                          $CP_All_act=0;
                           }
                       }
                       foreach($allaction as $sact)
@@ -188,6 +194,8 @@ class portfeuilleController extends Controller
                       array_push($allsous_prog,['id_sous_prog'=>$sprog->num_sous_prog,'init_AE'=>$sprog->AE_sous_prog,'init_CP'=>$sprog->CP_sous_prog,'TotalAE'=>$AE_All_sous_prog,'TotalCP'=>$CP_All_sous_prog,'data'=>$sprog,'Action'=>$allaction]);
                //      dd($allsous_prog);
                       $allaction=[];
+                      $AE_All_sous_prog=0;
+                      $CP_All_sous_prog=0;
               }
 
               foreach($allsous_prog as $sact)
@@ -196,18 +204,21 @@ class portfeuilleController extends Controller
                                 $CP_All_prog+=$sact['TotalCP'];
                               }
               array_push($allprogram,['id_prog'=>$progm->num_prog,'init_AE'=>$progm->AE_prog,'init_CP'=>$progm->CP_prog,'TotalAE'=>$AE_All_prog,'TotalCP'=>$CP_All_prog, 'data'=>$progm,'sous_program'=>$allsous_prog]);
+              array_push($allsous_progr,$allsous_prog);
               $allsous_prog=[];
+              $AE_All_prog=0;
+              $CP_All_prog=0;
           }
-          //dd($art);
+           //   dd($allsous_progr);
           $allport=[
               'id'=>$id,
               'TotalAE'=>$por->AE_portef,
               'TotalCP'=>$por->CP_portef,
               'prgrammes'=>$allprogram,
           ];
-         //    dd($allprogram[1]['sous_program'][2]);
+         //  dd($allprogram[1]['sous_program'][2]);
       // Passer les données à la vue
-      return view('Portfail-in.index', compact('allport','art'));
+      return view('Portfail-in.index', compact('allport','art','allsous_progr'));
 
 
     // Passer les données à la vue
@@ -236,6 +247,8 @@ public function check_portef(Request $request)
     // Vérification si le portefeuille existe dans la base de données
     $portefeuille = Portefeuille::where('num_portefeuil', $num)->first();
 
+    //$Date_portefeuille= Carbon::parse($portefeuille->Date_portefeuille)->format('Y-m-d');
+   // dd($Date_portefeuille);
     if ($portefeuille) {
         return response()->json([
             'exists' => true,
@@ -276,8 +289,11 @@ public function check_portef(Request $request)
         $portefeuille->AE_portef = $request->AE_portef;
         $portefeuille->CP_portef = $request->CP_portef;
         $portefeuille->Date_portefeuille = $request->Date_portefeuille;
+        $portefeuille->Date_update_portefeuille = Carbon::now();
         $portefeuille->id_min =1;//periodiquement
         $portefeuille->save();
+
+        $this->updateOrCreateDPIC($portefeuille, true);//mettre à jr dpic
 
 return response()->json([
     'success' => true,
@@ -300,132 +316,40 @@ return response()->json([
         $portefeuille->save();
 
     }
-        if($portefeuille)
-        {
-            $DPIC = new ConstruireDPIC();
-
-            $DPIC->date_creation_dpic = $portefeuille->Date_portefeuille; // elle prend la date de creation du portfeuille
-
-            $DPIC->AE_dpic_nv = $portefeuille->AE_portef;
-            $DPIC->CP_dpic_nv = $portefeuille->CP_portef;
-
-            $DPIC->id_rff = 1; //apres elle sera avec auth:user il prend le compte qui est deja authentifié
-            $DPIC->id_rp = 1;
-            $DPIC->save();
-            return response()->json([
-                'success' => true,
-                'message' => 'Portefeuille ajouté ou modifié avec succès.',
-                'code' => 200,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de l\'ajout du portefeuille.',
-                'code' => 500,
-            ]);
-        }
+    $this->updateOrCreateDPIC($portefeuille, false);
 
 
     }
 //======================================================================================
                                 // FIN creation du portefeuille
 //===================================================================================
-
 //======================================================================================
-                                // Modification du portefeuille
+                                //  creation dpic ou mettre à jour
 //===================================================================================
-function update_portef(Request $request)
+public function updateOrCreateDPIC(Portefeuille $portefeuille, bool $isUpdate)
 {
+    // Recherche d'un DPIC existant pour la même date
+    $DPIC = ConstruireDPIC::whereDate('date_creation_dpic', $portefeuille->Date_portefeuille)->first();
 
-     // Validation des données
-     $request->validate([
-        'num_journal' => 'required',
-        'nom_journal' => 'required',
-        'AE_portef' => 'required',
-        'CP_portef' => 'required',
-        'Date_portefeuille' => 'required|date',
-    ]);
-
-
-    // Récupérer la ligne de la table en fonction de 'numsouaction'
-    $portefeuille = Portefeuille::where('num_portefeuil', $request->num_portefeuil)->first();
-    $portefeuille = new Portefeuille();
-    $portefeuille->nom_journal = $request->nom_journal;
-    $portefeuille->num_journal = $request->num_journal;
-    $portefeuille->AE_portef = $request->AE_portef;
-    $portefeuille->CP_portef = $request->CP_portef;
-    $portefeuille->Date_portefeuille = $request->Date_portefeuille;
-    $portefeuille->id_min =1;//periodiquement
-    $portefeuille->save();
-
-    if($portefeuille)
-        {
-            return response()->json([
-                'success' => true,
-                'message' => 'Portefeuille modifié avec succès.',
-                'code' => 200,
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de l\'ajout du portefeuille.',
-                'code' => 500,
-            ]);
-        }
+    if ($DPIC && $isUpdate) {
+        //mise à jr
+        $DPIC->date_modification_dpic = now();
+        $DPIC->AE_dpic_nv = $portefeuille->AE_portef;
+        $DPIC->CP_dpic_nv = $portefeuille->CP_portef;
+        $DPIC->id_rff = 1; //apres elle sera avec auth:user il prend le compte qui est deja authentifié
+        $DPIC->id_rp = 1;
+        $DPIC->save();
+    } else {
+        //ceer un nv dpic
+        $DPIC = new ConstruireDPIC();
+        $DPIC->date_creation_dpic = $portefeuille->Date_portefeuille;
+        $DPIC->date_modification_dpic = now();
+        $DPIC->AE_dpic_nv = $portefeuille->AE_portef;
+        $DPIC->CP_dpic_nv = $portefeuille->CP_portef;
+        $DPIC->id_rff = 1; //apres elle sera avec auth:user il prend le compte qui est deja authentifié
+        $DPIC->id_rp = 1;
+        $DPIC->save();
+    }
 }
-//======================================================================================
-                                // FIN Modification du portefeuille/ upload fille pdf
-//===================================================================================
-public function uploadPDF(Request $request)
-{
-    $request->validate([
-        'pdf_file' => 'mimes:pdf,jpg,jpeg,png|max:2048', // Limite à 2 MB
-        'related_id' => 'required'
-     ]);
 
-
-        // Valider le fichier PDF
-
-
-
-           $file = $request->file('pdf_file');
-           $path = $file->store('pdf_files', 'public'); // Enregistre dans storage/app/public/pdf_files
-        //  dd($file);
-          // Insérer les détails dans la base de données (table multimedia)
-          $media= DB::table('multimedia')->insert([
-              'nom_fichier' => $file->getClientOriginalName(),
-              'filepath' => $path,
-              'filetype' => $file->getClientMimeType(),
-              'size' => $file->getSize(),
-              'uploaded_by' => 1, // Assurez-vous que l'utilisateur est connecté
-              'related_id' => $request->input('related_id'),
-
-          ]);
-          //dd($media);
-
-          // Enregistrer le fichier PDF
-          if ($request->hasFile('pdf_file')) {
-
-
-             if($media)
-             {
-             // dd($media);
-              return response()->json([
-                'code'=>200,
-                'message' => 'Fichier téléchargé avec succès.']);
-             }
-            else
-             {
-          //  dd($media);
-             return response()->json(['message' => 'Aucun fichier sélectionné.','code'=>400], 400);
-
-             }
-
-
-
-       } else {
-            return response()->json(['message' => 'Aucun fichier sélectionné.'], 400);
-          }
-
-}
 }

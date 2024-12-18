@@ -16,7 +16,9 @@ return new class extends Migration
             $table->integer('id_modif')->primary()->autoIncrement();
 
             $table->DateTime('date_modif');
+            $table->string('action_modifie');
         
+          
 
             $table->float('AE_envoi_t1')->default(0.0);
             $table->float('CP_envoi_t1')->default(0.0);
@@ -43,7 +45,7 @@ return new class extends Migration
             $table->float('AE_recoit_t4')->default(0.0);
             $table->float('CP_recoit_t4')->default(0.0);
 
-            $table->boolean('situation_modif'); //incomplète ou complète (concernant dpia ou juste sous prog)
+            $table->string('situation_modif'); //incomplète ou complète (concernant dpia ou juste sous prog)
             $table->string('type_modif'); //modif interieure entre les t ou exterieurs hors par ex du ministere à cndpi=exter et entre t1 t2 ex =inter
 
 
@@ -59,9 +61,21 @@ return new class extends Migration
             $table->integer('code_t4')->nullable();
             $table->foreign('code_t4')->references('code_t4')->on('t4_s');
 
-
             $table->integer('id_art')->nullable();
             $table->foreign('id_art')->references('id_art')->on('articles');
+
+            $table->string('num_sous_prog')->nullable();
+            $table->foreign('num_sous_prog')->references('num_sous_prog')->on('sous_programmes');
+
+            $table->string('num_prog');
+            $table->foreign('num_prog')->references('num_prog')->on('programmes');
+
+            $table->string('num_sous_prog_retire')->nullable();
+            $table->foreign('num_sous_prog_retire')->references('num_sous_prog')->on('sous_programmes');
+
+            $table->string('num_prog_retire')->nullable();
+            $table->foreign('num_prog_retire')->references('num_prog')->on('programmes');
+           
 
         });
     }

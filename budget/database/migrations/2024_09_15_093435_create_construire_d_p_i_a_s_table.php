@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('construire_d_p_i_a_s', function (Blueprint $table) {
             $table->integer('id_dpia')->primary()->autoIncrement();
-            $table->DateTime('date_creation_dpia');
+            $table->Date('date_creation_dpia');
             $table->DateTime('date_modification_dpia');
             $table->string('motif_dpia');
 

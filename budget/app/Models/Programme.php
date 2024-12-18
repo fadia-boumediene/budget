@@ -16,7 +16,7 @@ class Programme extends Model
 
     protected $fillable = [
        'num_prog','nom_prog','nom_prog_ar','date_update_portef','AE_prog','CP_prog'
-,'id_rp','num_portefeuil','date_insert_portef'
+,'id_rp','num_portefeuil','date_insert_portef','AE_prog_NONREPARTIS','CP_prog_NONREPARTIS'
  ];
 
 
@@ -35,9 +35,9 @@ class Programme extends Model
         return $this->hasMany(SousProgramme::class ,'num_prog','num_prog');
     }
 
-    public function Article()
+    public function ModificationT()
     {
-        return $this->hasMany(Article::class ,'num_prog','num_prog');
+        return $this->hasMany(ModificationT::class ,'num_prog','num_prog');
     }
 
     public function multimedias()

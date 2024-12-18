@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 <link href="{{asset('assets/css/main.css')}}" rel="stylesheet"/>
+<link href="{{asset('assets/css/tableTemplat-new.css')}}" rel="stylesheet"/>
 <link href="{{asset('assets/bootstrap-5.0.2/css/bootstrap.css')}}" rel="stylesheet"/>
 <link href="{{asset('assets/fontawesome-free/css/all.css')}}" rel="stylesheet"/>
-<link href="{{asset('assets/css/tableTemplat.css')}}" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 <link
         rel="stylesheet"
@@ -144,8 +144,10 @@
 	         </thead>
 	<tbody>
 	</tbody>
+  <tfoot></tfoot>
             </table>
         </div>
+</div>
     </div>
  <div class="container">
  <div class="grid-container" id="Tport-handle">
@@ -211,8 +213,17 @@
     </div>
  </div>
 
+    <div class="Tsop_handler Tsop_handler_h">
+      
+    </div>
+
+
     </div>
    </div>
+ <div class="reload-handle reload-hidden" id="reloading">
+  <div class="reload"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><radialGradient id="a12" cx=".66" fx=".66" cy=".3125" fy=".3125" gradientTransform="scale(1.5)"><stop offset="0" stop-color="#C6BC0A"></stop><stop offset=".3" stop-color="#C6BC0A" stop-opacity=".9"></stop><stop offset=".6" stop-color="#C6BC0A" stop-opacity=".6"></stop><stop offset=".8" stop-color="#C6BC0A" stop-opacity=".3"></stop><stop offset="1" stop-color="#C6BC0A" stop-opacity="0"></stop></radialGradient><circle transform-origin="center" fill="none" stroke="url(#a12)" stroke-width="29" stroke-linecap="round" stroke-dasharray="200 1000" stroke-dashoffset="0" cx="100" cy="100" r="70"><animateTransform type="rotate" attributeName="transform" calcMode="spline" dur="2" values="360;0" keyTimes="0;1" keySplines="0 0 1 1" repeatCount="indefinite"></animateTransform></circle><circle transform-origin="center" fill="none" opacity=".2" stroke="#C6BC0A" stroke-width="29" stroke-linecap="round" cx="100" cy="100" r="70"></circle></svg>
+  </div>
+</div>
 </body>
 <script src="{{asset('assets/bootstrap-5.0.2/js/bootstrap.js')}}"></script>
 <script src="{{asset('assets/fontawesome-free/js/all.js')}}"></script>
@@ -224,10 +235,20 @@
   var jsonpath2="{{asset('assets/Titre/dataT2.json')}}"
   var jsonpath3="{{asset('assets/Titre/dataT3.json')}}"
   var jsonpath4="{{asset('assets/Titre/dataT4.json')}}"
+  var yearport="{{$years}}"
+  var counter=0;
   @if(isset($s_act))
   var path3=['{{$port}}','{{$prog}}','{{$sous_prog}}','{{$act}}','{{$s_act}}']
   @else
   var path3=['{{$port}}','{{$prog}}','{{$sous_prog}}','{{$act}}']
   @endif
+  $(document).ready(function(){
+    $('.Tsop_handler').on('dblclick',function(){
+      console.log('click')
+      $(this).addClass('Tsop_handler_h');
+      $('#Tport-vals').removeClass('T4')
+      $('#Tport-vals').empty()
+    })
+  })
 </script>
 </html>

@@ -83,6 +83,7 @@
                          /** this to creating at same page  */
 
                          var click = 0;
+                         var iupdate=1;
                          var changing_mist = new Object();
                          var value_chng = new Array()
                          var  dataupdate=new Array();
@@ -94,7 +95,7 @@
 
                         function only_year(years,id_date)
                         {
-                           
+
                         }
 
 
@@ -186,53 +187,256 @@
                              })
                          }
                          function add_newOPs_T2(id, descr, value, key) {
-                             var some = value + value;
-                             var row = '<tr id="ref' + id + '">' +
-                                 '<td class="code">' + id + '</td>' +
-                                 '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + descr + '</p> </td>' +
-                                 '<td class="editable" id="AE_Over">' + value + '</td>' +
-                                 '<td class="editable" id="CP_Over">' + 180 + ',000</td>' +
-                                 '<td class="editable" id="AE_att">' + value + '</td>' +
-                                 '<td class="editable" id="CP_att">' + 180 + ',000</td>' +
-                                 '<td  id="AE_TT" diseabled>' + some + '</td>' +
-                                 '<td  id="CP_TT" diseabled>' + 360 + ',000</td>' +
-                                 '</tr>';
-                             $('#' + key).after(row);
-                             $('#' + key + ' td').each(function () {
-                                 $(this).removeClass('editable');
-                             })
+                            var champ='<div><label>AE Overture</label>'+
+                            '<input type="number" class="form-control" id="add_AE_Over">'+
+                            '<label>AE Attendu</label>'+
+                            '<input type="number" class="form-control" id="add_AE_att">'+
+                            '<label>AE Total</label>'+
+                            '<input type="number" class="form-control" id="some_AE" disabled>'+
+                            '</div>'+
+                            '<div>'+
+                            '<label>CP Overture</label>'+
+                            '<input type="number" class="form-control" id="add_CP_Over">'+
+                            '<label>CP Attendu</label>'+
+                            '<input type="number" class="form-control" id="add_CP_att">'+
+                            '<label>CP Toral</label>'+
+                            '<input type="number" class="form-control" id="some_CP" disabled>'+
+                            '</div>';
+                            $('#Tport-vals').append(champ);
+                            var someae=0;
+                            var somecp=0;
+                            $('#add_AE_Over').on('change',function(){
+
+                                someae+=parseInt($(this).val())
+                                $('#some_AE').val(someae);
+                            })
+                            $('#add_AE_att').on('change',function(){
+                                someae+=parseInt($(this).val())
+                                $('#some_AE').val(someae);
+                            })
+                            $('#add_CP_att').on('change',function(){
+
+                                somecp+=parseInt($(this).val())
+                                $('#some_CP').val(somecp)
+                            })
+                            $('#add_CP_Over').on('change',function(){
+                                if($(this).val() !=0 && somecp != 0)
+                                    {
+                                        somecp-=$(this).val()
+                                    }
+                                somecp+=parseInt($(this).val())
+                                $('#some_CP').val(somecp)
+                            })
+                             $('#ajt').click(function(){
+                                var sopdata_add={
+                                    code:id,
+                                    descrp:descr,
+                                    AE_Over:$('#add_AE_Over').val(),
+                                    CP_Over:$('#add_CP_Over').val(),
+                                    AE_att:$('#add_AE_att').val(),
+                                    CP_att:$('#add_CP_att').val(),
+                                    _token: $('meta[name="csrf-token"]').attr("content"),
+                                    _method: "POST",
+                                }
+                                $.ajax({
+                                    url:'',
+                                    type:'POST',
+                                    data:sopdata_add,
+                                    success:function(response)
+                                    {
+                                        var row = '<tr class="ref'+id+'" id="ref' + id + '">' +
+                                        '<td class="code">' + id + '</td>' +
+                                        '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + descr + '</p> </td>' +
+                                        '<td class="editable" id="AE_Over">' + value + '</td>' +
+                                        '<td class="editable" id="CP_Over">' + 180 + ',000</td>' +
+                                        '<td class="editable" id="AE_att">' + value + '</td>' +
+                                        '<td class="editable" id="CP_att">' + 180 + ',000</td>' +
+                                        '<td  id="AE_TT" diseabled>' + some + '</td>' +
+                                        '<td  id="CP_TT" diseabled>' + 360 + ',000</td>' +
+                                        '</tr>';
+                                    $('#' + key).after(row);
+                                    $('#' + key + ' td').each(function () {
+                                        $(this).removeClass('editable');
+                                    })
+                                    }
+                                })
+
+
+
+                         })
+                         $('#cancel_ops').click(function(){
+
+                            $('.Tsop_handler').addClass('Tsop_handler_h')
+                            $('#Tport-vals').empty()
+                            alert('cancel op')
+                     })
+                        }
+                         function add_newOPs_T3(id, value, key,) {
+                            id=id+'-'+counter;
+                            $("#dispo").text('');
+                            $('.desp').text('Intituler');
+                            var champ='<div class="Tsop_add_handle">'+
+                            '<form id="add_sops">'+
+                            '<div class="form-group">'+
+                            '<label class="desp">descrption</label>'+
+                             '<input type="text" class="form-control" id="dispo" placeholder="Entrer La description">'+
+                             '<label class="desp">Intituler</label>'+
+                             '<input type="text" class="form-control" id="int-T3" placeholder="Entrer La description">'+
+                             '</div>'+
+                             '<div class="T3-ops_inpt_handle">' +
+                             '<div><label>AE Reportter</label>'+
+                                      '<input type="number" class="form-control" id="add_AE_rpor">'+
+                                      '<label>AE Notifier</label>'+
+                                      '<input type="number" class="form-control" id="add_AE_not">'+
+                                      '<label>AE Engager</label>'+
+                                      '<input type="number" class="form-control" id="add_AE_enga">'+
+                                      '</div>'+
+                                      '<div>'+
+                                      '<label>CP Reporter</label>'+
+                                      '<input type="number" class="form-control" id="add_CP_rpor">'+
+                                      '<label>CP Notifier</label>'+
+                                      '<input type="number" class="form-control" id="add_CP_not">'+
+                                      '<label>CP Consumer</label>'+
+                                      '<input type="number" class="form-control" id="add_CP_consom">'+
+                                      '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '<div class="Tsop_btn_handle">'+
+                     '<div><button  class="btn btn-primary" id="ajt"> Ajouter </button></div>'+
+                     '<div><button  class="btn btn-primary" id="cancel_ops"> Cancel </button></div>'+
+                    '</div>'+
+                '</div>'
+                           
+                            $('.Tsop_handler').append(champ);
+                            $('#ajt').on('click',function(){
+                                var sopdata_add={
+                                    code:id,
+                                    intituel:$('#int-T3').val(),
+                                    descrp:$('#dispo').val(),
+                                    AE_rpor:$('#add_AE_rpor').val(),
+                                    AE_not:$('#add_AE_not').val(),
+                                    AE_enga:$('#add_AE_enga').val(),
+                                    CP_rpor:$('#add_CP_rpor').val(),
+                                    CP_not:$('#add_CP_not').val(),
+                                    CP_consom:$('#add_CP_consom').val(),
+                                    _token: $('meta[name="csrf-token"]').attr("content"),
+                                    _method: "POST",
+
+                                }
+                                console.log('data T3'+JSON.stringify(sopdata_add))
+                                /*$.ajax({
+                                    url:'',
+                                    type:'POST',
+                                    data:sopdata_add,
+                                    success:function(response)
+                                    {
+                                        if(response.code == 200)
+                                        {
+                                            
+                                        }
+                                    }
+                                })*/
+
+                                    var row = '<tr id="ref' + id + '">' +
+                                            '<td class="code">' + id + '</td>' +
+                                            '<td>' + sopdata_add.descrp + '</td>' +
+                                            '<td>' + sopdata_add.intituel + '</td>' +
+                                            '<td class="editable" id="AE_rpor">' + sopdata_add.AE_rpor + '</td>' +
+                                            '<td class="editable" id="AE_not">' + sopdata_add.AE_not + ',000</td>' +
+                                            '<td class="editable" id="AE_enga">' + sopdata_add.AE_enga + '</td>' +
+                                            '<td class="editable" id="CP_rpor">' + sopdata_add.CP_rpor + ',000</td>' +
+                                            '<td class="editable" id="CP_not">' + sopdata_add.CP_not + '</td>' +
+                                            '<td class="editable" id="CP_consom">' + sopdata_add.CP_consom + ',000</td>' +
+                                            '</tr>';
+                                        $('#' + key).after(row);
+                                      /*  $('#' + key + ' td').each(function () {
+                                            $(this).removeClass('editable');
+                                        })*/
+                                            $('#Tport-vals').removeClass('T4')
+                                            $("#dispo").val('');
+                                           $('.Tsop_handler').empty();
+                                           $('#add_sops').trigger('reset');
+                                           $('.Tsop_handler').addClass('Tsop_handler_h')
+                            })
+                            $('#cancel_ops').click(function(){
+
+                                $('.Tsop_handler').addClass('Tsop_handler_h')
+                                $('#Tport-vals').empty()
+                                alert('cancel op')
+                            })
                          }
-                         function add_newOPs_T3(id, descr, value, key,) {
-                             var row = '<tr id="ref' + id + '">' +
-                                 '<td class="code">' + id + '</td>' +
-                                 '<td><p>' + descr + '</p> </td>' +
-                                 '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + descr + '</p></td>' +
-                                 '<td class="editable" id="AE_rpor">' + value + '</td>' +
-                                 '<td class="editable" id="AE_not">' + 180 + ',000</td>' +
-                                 '<td class="editable" id="AE_enga">' + value + '</td>' +
-                                 '<td class="editable" id="CP_rpor">' + 180 + ',000</td>' +
-                                 '<td class="editable" id="CP_not">' + value + '</td>' +
-                                 '<td class="editable" id="CP_consom">' + 180 + ',000</td>' +
-                                 '</tr>';
-                             $('#' + key).after(row);
-                             $('#' + key + ' td').each(function () {
-                                 $(this).removeClass('editable');
-                             })
 
+                         function add_newOPs_T4(id, value, key,) {
+                            id=id+'-'+counter;
+                            $("#dispo").val('');
+                            $('.desp').text('Dispositive');
+                            $('#Tport-vals').addClass('T4')
 
-                         }
+                            var champ='<div class="Tsop_add_handle">'+
+                                        '<form id="add_sops">'+
+                                        '<div class="form-group">'+
+                                        '<label class="desp">Dispositive ou bien la description</label>'+
+                                     '<input type="text" class="form-control" id="dispo" placeholder="Entrer La description">'+
+                                    '</div>'+
 
-                         function add_newOPs_T4(id, descr, value, key,) {
-                             var row = '<tr id="ref' + id + '">' +
-                                 '<td class="code" >' + id + '</td>' +
-                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + descr + '</p></td>' +
-                                 '<td class="editable" id="AE_T4">' + value + '</td>' +
-                                 '<td class="editable" id="CP_T4">' + 180 + ',000</td>' +
-                                 '</tr>';
-                             $('#' + key).after(row);
-                             $('#' + key + ' td').each(function () {
-                                 $(this).removeClass('editable');
-                             })
+                                    '<div class="form-group" id="Tport-vals">'+
+                                    '<label>definition</label><input type="text" class="form-control" id="def_T4">'+
+                                      '<div><label>AE</label>'+
+                                     '<input type="number" class="form-control" id="add_AE_T4">'+
+                                     '</div>'+
+                                     '<div>'+
+                                     '<label>CP Reporter</label>'+
+                                    '<input type="number" class="form-control" id="add_CP_T4">'+
+                                    '</div>'+
+                                    '</div>'+
+          
+                                    '</form>'+
+                                '<div class="Tsop_btn_handle">'+
+                                 '<div><button  class="btn btn-primary" id="ajt"> Ajouter </button></div>'+
+                                 '<div><button  class="btn btn-primary" id="cancel_ops"> Cancel </button></div>'+
+                                '</div>'+
+                            '</div>'
+                            ;
+                            $('.Tsop_handler').append(champ);
+                            $('#ajt').click(function(){
+                                var data_add_ops={
+                                    code:id,
+                                    descrp:$('#dispo').val(),
+                                    defi:$('#def_T4').val(),
+                                    AE_T4:$('#add_AE_T4').val(),
+                                    CP_T4:$('#add_CP_T4').val(),
+                                    _token: $('meta[name="csrf-token"]').attr("content"),
+                                    _method: "POST",
+                                }
+                                var row = '<tr id="ref' + id + '">' +
+                                '<td class="code" >' + id + '</td>' +
+                                '<td>'+data_add_ops.defi+'</td>'+
+                                '<td ><p>' + data_add_ops.descrp + '</p></td>' +
+                                '<td id="AE_T4">' + data_add_ops.AE_T4 + '</td>' +
+                                '<td  id="CP_T4">' + data_add_ops.CP_T4 + '</td>' +
+                                '</tr>';
+                                counter++
+                            $('#' + key).after(row);
+                           /* $('#' + key + ' td').each(function () {
+                                $(this).removeClass('editable');
+                            })*/
+                                console.log('data T4'+JSON.stringify(data_add_ops))
+                                 $('#Tport-vals').removeClass('T4')
+                                 $("#dispo").val('');
+                                $('.Tsop_handler').empty();
+                                $('#add_sops').trigger('reset');
+                                $('.Tsop_handler').addClass('Tsop_handler_h')
+                                
+                               
+                                
+                            })
+                            $('#cancel_ops').click(function(){
+                                $('.Tsop_handler').empty();
+                                $('.Tsop_handler').addClass('Tsop_handler_h')
+                             
+                                alert('cancel op')
+                            })
+
                          }
                          /**
                           *
@@ -241,16 +445,20 @@
                           */
 
                          /**
-                          * 
+                          *
                           * star of update function
-                          * 
+                          *
                           */
-                         function Update_dpia(T,act)
+                         function Update_dpia(T,iupdate)
                          {
-                          
+                            var old;
                             $(document).ready(function(){
+                                $('.editable').on('click', function () {
+                                    let cell = $(this);  // Reference to the clicked cell
+                                    old = cell.text();
+                                })
                                 $('.editable').dblclick(function(){
-                                    var i=0
+
                                     var ae=0;
                                     var cp=0;
                                     var ae_ouvert =0
@@ -269,46 +477,113 @@
                                      var code = clickedRow.find('td:first-child');
                                      let cell = $(this);  // Reference to the clicked cell
                                      var currentText = cell.text();
+
                                      var exist=false;  // Get current text
-                                     console.log('odl ' + code.text())
+                                     console.log('odl ' + code.text() +'old '+old)
                                      var codesoup=clickedRow.attr('id').split('ref')[1];
                                      // Create an input element and set its value
-                                     let input = $('<input type="number" step="0.01" class="form-control"/>').val(currentText);
+                                     let input = $('<input type="number" step="0.01" class="form-control" min="0"/>').val(currentText);
                                      cell.html(input);  // Replace the cell content with the input
 
-                                     input.focus(); 
+                                     input.focus();
                                      input.blur(function()
                                     {
                                         let newText = $(this).val();
+                                        console.log('zero'+newText)
                                         if (T == '2') {
+                                            var sommevertAEatt=$('#foot_AE_att').text();
+                                            var sommevertCPatt=$('#foot_CP_att').text();
+                                            var sommevertAEovr=$('#foot_AE_Over').text();
+                                            var sommevertCPovr=$('#foot_CP_Over').text();
+                                            console.log('footer info'+sommevertAEatt+'--'+sommevertCPatt+'--'+sommevertAEovr+'--'+sommevertCPovr)
                                             var testcpattendu = clickedRow.find('td').eq(5).text();//cpattendu
                                             var testaeattendu = clickedRow.find('td').eq(4).text();//aeattendu
                                             var testcpover = clickedRow.find('td').eq(3).text();//cpovert
                                             var testaeover = clickedRow.find('td').eq(2).text();//aeovert
                                             var someae = 0;
                                             var somecp = 0;
-                                            if (newText != 0 && newText != '' && newText != null) {
-                                                var wit = $(this).parent().attr('id');
+                                            var wit = $(this).parent().attr('id');
+                                            if (newText != 0 && newText != '' && newText != null ) {
+                                               
                                                 console.log('ae -> ' + testaeover + 'cp ->' + testcpover + ' ae ett -> ' + testaeattendu + ' cp ett ->' + testcpattendu + 'value change ->' + JSON.stringify(wit))
                                                 if (wit == 'CP_att') {
                                                     testcpattendu = newText
+                                                    sommevertCPatt=parseFloat(sommevertCPatt)-parseFloat(old)
+                                                    sommevertCPatt=parseFloat(sommevertCPatt)+parseFloat(newText)
+                                                    console.log('new AE_Over'+sommevertCPatt)
                                                 }
                                                 if (wit == 'AE_att') {
                                                     testaeattendu = newText
+                                                   
+                                                       
+                                                        sommevertAEatt=parseFloat(sommevertAEatt)-parseFloat(old)
+                                                        sommevertAEatt=parseFloat(sommevertAEatt)+parseFloat(newText)
+                                                    
+                                                   
+                                                    console.log('new AE_Over'+sommevertAEatt)
                                                 }
                                                 if (wit == 'AE_Over') {
                                                     testaeover = newText
+                                                    sommevertAEovr=parseFloat(sommevertAEovr)-parseFloat(old)
+                                                    sommevertAEovr=parseFloat(sommevertAEovr)+parseFloat(newText)
+                                                    console.log('new AE_Over'+sommevertAEovr)
                                                 }
                                                 if (wit == 'CP_Over') {
                                                     testcpover = newText
+                                                    sommevertCPovr=parseFloat(sommevertCPovr)-parseFloat(old)
+                                                    sommevertCPovr=parseFloat(sommevertCPovr)+parseFloat(newText)
+                                                    console.log('new CP_Over'+sommevertCPovr)
                                                 }
                                                 somecp = parseFloat(testcpattendu) + parseFloat(testcpover)
                                                 someae = parseFloat(testaeattendu) + parseFloat(testaeover);
                                                 console.log('ae' + someae + ' cp ' + somecp)
+                                                 $('#foot_AE_att').text(sommevertAEatt);
+                                             $('#foot_CP_att').text(sommevertCPatt);
+                                             $('#foot_AE_Over').text(sommevertAEovr);
+                                             $('#foot_CP_Over').text(sommevertCPovr);
+
+                                             console.log('footer info'+sommevertAEatt+'--'+sommevertCPatt+'--'+sommevertAEovr+'--'+sommevertCPovr)
+                                                clickedRow.find('td').eq(6).text(someae);
+                                                clickedRow.find('td').eq(7).text(somecp);
+                                            } else
+                                            {
+                                                console.log('deminuis'+old+'of '+wit)
+                                                if (wit == 'CP_att') {
+                                                    testcpattendu = newText
+                                                    sommevertCPatt=parseFloat(sommevertCPatt)-parseFloat(old)
+                                                  somecp-=newText
+                                                   
+                                                }
+                                                if (wit == 'AE_att') {
+                                                    someae-=newText
+                                                    sommevertAEatt=parseFloat(sommevertAEatt)-parseFloat(old)
+                                            
+                                                }
+                                                if (wit == 'AE_Over') {
+                                            
+                                                    someae-=newText
+                                                    sommevertAEovr=parseFloat(sommevertAEovr)-parseFloat(old)
+                                                   
+                                                }
+                                                if (wit == 'CP_Over') {
+                                                   
+                                                    somecp-=newText
+                                                    sommevertCPovr=parseFloat(sommevertCPovr)-parseFloat(old)
+                                             
+                                                }
+                                                
+                                            
+                                                 $('#foot_AE_att').text(sommevertAEatt);
+                                                 $('#foot_CP_att').text(sommevertCPatt);
+                                                 $('#foot_AE_Over').text(sommevertAEovr);
+                                                 $('#foot_CP_Over').text(sommevertCPovr);
+
+                                           
                                                 clickedRow.find('td').eq(6).text(someae);
                                                 clickedRow.find('td').eq(7).text(somecp);
                                             }
                                         }
+                                       
                                         if(dataupdate.length > 0)
                                         {
                                            for (let index = 0; index < dataupdate.length; index++) {
@@ -316,11 +591,11 @@
                                              if(element.code === codesoup)
                                              {
                                                 console.log('code exisit'+JSON.stringify(element))
-                                               if( clickid == 'AE_T1')
+                                               if( clickid == 'AE_T1' || clickid == 'AE_T4')
                                                {
                                                 element.value.ae=newText;
                                                }
-                                               if(clickid == 'CP_T1')
+                                               if(clickid == 'CP_T1' || clickid == 'CP_T4')
                                                {
                                                 element.value.cp=newText;
                                                }
@@ -342,34 +617,35 @@
                                                 }
                                                 if(clickid == 'AE_rpor')
                                                 {
-                                                    element.value.ae_reporte=ae_reporte
+                                                    element.value.ae_reporte=newText
+                                                 
                                                 }
                                                 if(clickid == 'AE_not')
                                                 {
-                                                    element.value.ae_notifie=ae_notifie
+                                                    element.value.ae_notifie=newText
                                                 }
                                                 if(clickid == 'AE_enga')
                                                 {
-                                                    element.value.ae_engage=ae_engage
+                                                    element.value.ae_engage=newText
                                                 }
                                                 if(clickid == 'CP_rpor')
                                                 {
-                                                element.value.cp_reporte=cp_reporte
+                                                element.value.cp_reporte=newText
                                                 }
                                                 if(clickid == 'CP_not')
                                                 {
-                                                element.value.cp_notifie=cp_notifie
+                                                element.value.cp_notifie=newText
                                                 }
                                                 if(clickid == 'CP_consom')
                                                 {
-                                                element.value.cp_consome=cp_consome
+                                                element.value.cp_consome=newText
                                                 }
                                                 exist=true;
                                              }
                                            }
                                         }
-                                        
-                                        if (newText != 0 && newText != '' && newText != null) {
+
+                                        if (newText != 0 && newText != '' && newText != null && newText != '0') {
                                             mount_chang = true
 
                                             if (mount_chang == true) {
@@ -380,8 +656,8 @@
                                                     click++
                                                 }
                                                 $('.change_app').append(buttons)
-                                            }
-                                            
+
+
                                             //  console.log('all table'+JSON.stringify(value_chng))
                                             cell.text(newText);
                                             if(!exist){
@@ -397,7 +673,7 @@
                                                 }
                                                 if(clickid == 'AE_Over')
                                                 {
-                                                     ae_ouvert=newText
+                                                 ae_ouvert=newText
                                                 }
                                                 if(clickid == 'AE_att')
                                                 {
@@ -413,15 +689,15 @@
                                                 }
                                                 if(clickid == 'AE_rpor')
                                                     {
-                                                       ae_reporte=newText
+                                                    ae_reporte=newText
                                                     }
                                                     if(clickid == 'AE_not')
                                                     {
-                                                       ae_notifie=newText
+                                                    ae_notifie=newText
                                                     }
                                                     if(clickid == 'AE_enga')
                                                     {
-                                                        ae_engage=newText
+                                                    ae_engage=newText
                                                     }
                                                     if(clickid == 'CP_rpor')
                                                     {
@@ -435,6 +711,7 @@
                                                     {
                                                     cp_consome=newText
                                                     }
+
                                                 if( T == '1')
                                                 {
                                                     dataupdate.push({code:codesoup,value:{ae:ae,cp:cp}});
@@ -452,55 +729,75 @@
                                                 {
                                                         dataupdate.push({code:codesoup,value:{ae:ae,cp:cp}})
                                                 }
-                                            
+
                                             console.log('i insert '+JSON.stringify(dataupdate))
                                             }
-                                            $("#changin-up").on('click',function()
-                                            {
-                                                console.log('click once')
-                                                i++
-                                                if( i === 1)
-                                                    {   
-                                             /*   $.ajax({
-                                                    url:'/update',
-                                                    type:'POST',
-                                                    data:{
-                                                        Tport:T,
-                                                        result:dataupdate,
-                                                        _token: $('meta[name="csrf-token"]').attr("content"),
-                                                        _method: "POST",},
-                                                        success:function(response)
-                                                        {
-            
-                                                        }
-                                                   
-                                                })*/
-                                                    }
-                                                   console.log('testing'+JSON.stringify(dataupdate))
-                                                   $('.change_app').empty()
-                                                  
-                                                //dataupdate=[];
-                                                click = 0;
-                                            })
+
+                                        }
                                         }
                                         else {
                                             cell.empty();
+                                            if(old == 0 || old == "0" || old == '' || old === null || newText == 0 )
+                                                {
+                                                   old='0';
+                                                }
                                             cell.text(old)
                                         }
-                                    })  
-                                 
+                                    })
+
+
+
                                 })
-                            })
+                                $('.change_app').on('click',function(){
+                                    var idbtn=$(this).children('#changin-up').attr('id');
+                                    if(idbtn =='changin-up' )
+                                    {
+                                        console.log('i insert '+JSON.stringify(dataupdate))
+                                        console.log('click once'+iupdate);
+
+
+                                        console.log('click after'+iupdate);
+                               $.ajax({
+                                    url:'/update',
+                                    type:'POST',
+                                    data:{
+                                        Tport:T,
+                                        result:dataupdate,
+                                        _token: $('meta[name="csrf-token"]').attr("content"),
+                                        _method: "POST",},
+                                        success:function(response)
+                                        {
+                                            if(response.code == 200)
+                                                {
+                                            dataupdate.forEach(elemnt=>{
+                                                console.log('green add to '+elemnt.code)
+                                                $('#ref'+elemnt.code).addClass('row-updated');
+                                                dataupdate=new Array();
+                                            })
+                                            }
+                                        }
+
+
+                                })
+
+                                   console.log('testing'+JSON.stringify(dataupdate))
+                                   $('.change_app').empty()
+                                click=0;
+
+                                    }
+                                })
+                                })
                             i=0;
                          }
                          /**
-                          * 
-                          * The end of update function  
+                          *
+                          * The end of update function
                           */
                          function Edit(tid, T) {
                              $(document).ready(function () {
                                  var old;
                                  var data = {
+                                    disp:{},
                                      ae: {},
                                      cp: {},
                                      ae_ouvert: {},
@@ -512,7 +809,9 @@
                                      ae_engage: {},
                                      cp_reporte: {},
                                      cp_notifie: {},
-                                     cp_consome: {}
+                                     cp_consome: {},
+                                     descrp:{},
+                                     intituel:{}
                                  };
                                  // Add double-click event to all cells with the class "editable"
                                  $('.editable').on('click', function () {
@@ -575,7 +874,7 @@
                                                      var buttons = '<button class="btn btn-primary" id="changin"> appliquer</button>'
                                                  }
                                                  $('.change_app').append(buttons)
-                                                 $('#changin').on('click', function () {
+                                               /*  $('#changin').on('click', function () {
                                                      // value_chng=new Array()
 
                                                      //    alert('changing success')
@@ -600,9 +899,7 @@
                                                              var cpDataOuvert = $(this).find('td').eq(3).text();
                                                              var aeDataAttendu = $(this).find('td').eq(4).text();
                                                              var cpDataAttendu = $(this).find('td').eq(5).text();
-                                                          /* var someae = parseFloat(aeDataOuvert) + parseFloat(aeDataAttendu);
-                                                             var somecp = parseFloat(cpDataOuvert) + parseFloat(cpDataAttendu);
-                                                             */
+
                                                              // Ajoute les valeurs dans les objets
                                                              data.ae_ouvert[code] = aeDataOuvert;
                                                              data.cp_ouvert[code] = cpDataOuvert;
@@ -636,8 +933,8 @@
                                                          if (tid == 'T_port4' || tid == 'T4') {
 
                                                              var code = $(this).find('td').eq(0).text();
-                                                             var aeValue = $(this).find('td').eq(2).text();
-                                                             var cpValue = $(this).find('td').eq(3).text();
+                                                             var aeValue = $(this).find('td').eq(3).text();
+                                                             var cpValue = $(this).find('td').eq(4).text();
                                                              // Ajoute les valeurs dans les objets
                                                              data.ae[code] = aeValue;
                                                              data.cp[code] = cpValue;
@@ -688,7 +985,7 @@
                                                          success: function (response) {
                                                              if (response.code == 200 || response.code == 404) {
                                                                  window.location.reload();
-                                                                 console.log('path' + JSON.stringify(path))
+                                                                 //console.log('path' + JSON.stringify(path))
 
                                                              }
                                                              else
@@ -703,13 +1000,17 @@
 
                                                      });
                                                      click = 0;
-                                                 })
+                                                 })*/
                                              }
                                              //  console.log('all table'+JSON.stringify(value_chng))
                                              cell.text(newText);
                                          }
                                          else {
                                              cell.empty();
+                                             if(old == 0 || old == "0" || old == '' || old === null)
+                                             {
+                                                old='0';
+                                             }
                                              cell.text(old)
                                          }
                                          // Set the new value back to the cell
@@ -721,6 +1022,154 @@
                                              input.blur();  // Trigger blur event to save and exit input mode
                                          }
                                      });
+
+                                     $('.change_app').on('click',function(){
+                                        var idbtn=$(this).children('#changin').attr('id');
+                                        if(idbtn == 'changin')
+                                        {
+ // value_chng=new Array()
+ $('#reloading').removeClass('reload-hidden')
+ //    alert('changing success')
+ $('#T-tables tbody tr').each(function () {
+
+     if (tid == 'T_port1' || tid == 'T1') {
+
+         var code = $(this).find('td').eq(0).text();
+         var aeValue = $(this).find('td').eq(2).text();
+         var cpValue = $(this).find('td').eq(3).text();
+         // Ajoute les valeurs dans les objets
+         data.ae[code] = aeValue;
+         data.cp[code] = cpValue;
+         console.log('Data of T1'+JSON.stringify(data));
+
+
+     }
+     if (tid == 'T_port2' || tid == 'T2') {
+
+         var code = $(this).find('td').eq(0).text();
+         var aeDataOuvert = $(this).find('td').eq(2).text();
+         var cpDataOuvert = $(this).find('td').eq(3).text();
+         var aeDataAttendu = $(this).find('td').eq(4).text();
+         var cpDataAttendu = $(this).find('td').eq(5).text();
+      /* var someae = parseFloat(aeDataOuvert) + parseFloat(aeDataAttendu);
+         var somecp = parseFloat(cpDataOuvert) + parseFloat(cpDataAttendu);
+         */
+         // Ajoute les valeurs dans les objets
+         data.ae_ouvert[code] = aeDataOuvert;
+         data.cp_ouvert[code] = cpDataOuvert;
+         data.ae_attendu[code] = aeDataAttendu;
+         data.cp_attendu[code] = cpDataAttendu;
+
+     }
+     if (tid == 'T_port3' || tid == 'T3' || T == 3) {
+
+         var code = $(this).find('td').eq(0).text();
+         var descrip=$(this).find('td').eq(1).text();
+         var intituel=$(this).find('td').eq(2).text();
+         var aeDataReporte = $(this).find('td').eq(3).text();
+         var aeDataNotifie = $(this).find('td').eq(4).text();
+         var aeDataEngage = $(this).find('td').eq(5).text();
+
+         var cpDataReporte = $(this).find('td').eq(6).text();
+         var cpDataNotifie = $(this).find('td').eq(7).text();
+         var cpDataEngage = $(this).find('td').eq(8).text();
+
+
+         // Ajoute les valeurs dans les objet
+         //console.log("ddcss");
+         data.descrp[code]=descrip
+         data.intituel[code]=intituel
+         data.ae_reporte[code] = aeDataReporte;
+         data.ae_notifie[code] = aeDataNotifie;
+         data.ae_engage[code] = aeDataEngage;
+
+         data.cp_reporte[code] = cpDataReporte;
+         data.cp_notifie[code] = cpDataNotifie;
+         data.cp_consome[code] = cpDataEngage;
+
+     }
+     if (tid == 'T_port4' || tid == 'T4') {
+
+         var code = $(this).find('td').eq(0).text();
+         var descr= $(this).find('td').eq(1).text();
+         var dispo= $(this).find('td').eq(2).text()
+         var aeValue = $(this).find('td').eq(3).text();
+         var cpValue = $(this).find('td').eq(4).text();
+         // Ajoute les valeurs dans les objets
+         data.descrp[code]=descr;
+         data.disp[code]=dispo;
+         data.ae[code] = aeValue;
+         data.cp[code] = cpValue;
+        console.log('T4'+JSON.stringify(data))
+
+     }
+     // value_chng.push(rw);
+ })
+
+ $('.change_app').empty()
+ //  console.log('path' + JSON.stringify(path))
+ //console.log('path' + JSON.stringify(path3))
+ //var url=   '/testing/Action/' + path.join('/');
+ console.log(" eat " + path3.length)
+ if (path3.length > 4) {
+    console.log('URL plus' + url)
+     var url = '/testing/S_action/' + path3[0] + '/' + path3[1] + '/' + path3[2] + '/' + path3[3] + '/' + path3[4] + '/' + T;
+     //var id_sous_action= path[4];
+ } else {
+
+     // var id_sous_action= path[3];
+     var url = '/testing/S_action/' + path3[0] + '/' + path3[1] + '/' + path3[2] + '/' + path3[3] + '/' + path3[3] + '/' + T;
+     console.log('URL less' + url)
+ }
+
+ $.ajax({
+     url: url,
+     type: 'GET',
+     data: {
+         ae: data.ae,
+         cp: data.cp,
+
+         ae_ouvert: data.ae_ouvert,
+         cp_ouvert: data.cp_ouvert,
+         ae_attendu: data.ae_attendu,
+         cp_attendu: data.cp_attendu,
+
+         ae_reporte: data.ae_reporte,
+         ae_notifie: data.ae_notifie,
+         ae_engage: data.ae_engage,
+         cp_reporte: data.cp_reporte,
+         cp_notifie: data.cp_notifie,
+         cp_consome: data.cp_consome,
+         dispo:data.disp,
+         descr:data.descrp,
+         //id_sous_action: id_sous_action,
+         _token: $('meta[name="csrf-token"]').attr('content'),
+         _method: "GET"
+     },
+     success: function (response) {
+         if (response.code == 200 || response.code == 404) {
+
+             window.location.reload();
+         }
+         else
+         {
+            console.log(response.message)
+         }
+     },
+     error: function (response) {
+         console.log('error')
+     }
+
+
+ });
+ click = 0;
+
+                                        }
+                                     })
+                                     $('#changin').on('click', function () {
+
+                                    })
+
                                  });
 
                              });
@@ -899,6 +1348,7 @@
 
                                                  console.log('numwall_year path3: ' + JSON.stringify(path3));
                                                   $('#file_holder   ').empty()
+
                                                  // Remplir les champs du formulaire avec les données récupérées
                                                  $('#date_crt_portf').val(response.Date_portefeuille).trigger('change'); // Remplir et déclencher l'événement change
                                                  $('#AE_portef').val(response.AE_portef).trigger('change'); // Remplir et déclencher l'événement change
@@ -906,6 +1356,7 @@
                                                  $('#nom_journ').val(response.nom_journal).trigger('change'); // Remplir et déclencher l'événement change
                                                  $('#num_journ').val(response.num_journal).trigger('change'); // Remplir et déclencher l'événement change
 
+                                                 console.log(response.Date_portefeuille);
                                                  alert('Le portefeuille existe déjà');
 
                                                  //$('.font-bk').removeClass('back-bk')
@@ -1006,6 +1457,7 @@
                                                     $(".font-bk").removeClass("back-bk");
                                                     $(".wallet-path").css("display", "flex");
                                                     $(".wallet-handle").empty();
+                                                    $(".wallet-handle").addClass('wallet-hide');
                                                     $("#progam-handle").css("display", "block");
                                                     $("#progam-handle").removeClass("scale-out");
                                                     $("#progam-handle").addClass("scale-visible");
@@ -1026,6 +1478,7 @@
                                             $(".font-bk").removeClass("back-bk");
                                             $(".wallet-path").css("display", "flex");
                                             $(".wallet-handle").empty();
+                                            $(".wallet-handle").addClass('wallet-hide');
                                             $("#progam-handle").css("display", "block");
                                             $("#progam-handle").removeClass("scale-out");
                                             $("#progam-handle").addClass("scale-visible");
@@ -1073,30 +1526,21 @@
                                              console.log('numwall_year path3: ' + JSON.stringify(path3));
                                              $("#file_holder_prog").empty();
                                              // Remplir les champs du formulaire avec les données récupérées
-                                             console.log('response.AE_prog' + response.AE_prog)
+                                             console.log('response.CP_prog' + response.CP_prog)
                                              $('#date_insert_portef').val(response.date_insert_portef).trigger('change');
                                              $('#nom_prog').val(response.nom_prog).trigger('change'); // Remplir et déclencher l'événement change
                                              $('#AE_prog').val(response.AE_prog).trigger('change'); // Remplir et déclencher l'événement change
-                                             $('#CP_prog').val(response.AE_prog).trigger('change'); // Remplir et déclencher l'événement change
+                                             $('#CP_prog').val(response.CP_prog).trigger('change'); // Remplir et déclencher l'événement change
                                              $('#nom_journ').val(response.nom_journal).trigger('change'); // Remplir et déclencher l'événement change
                                              $('#num_journ').val(response.num_journal).trigger('change'); // Remplir et déclencher l'événement change
 
 
-                                             alert('Le portefeuille existe déjà');
+                                             alert('Le programme existe déjà');
 
-                                             //$('.font-bk').removeClass('back-bk')
-                                             //$('.wallet-path').css('display', 'flex')
-                                             //$('.wallet-handle').empty()
-                                             //$('#progam-handle').css('display', 'block')
-                                             //$('#progam-handle').removeClass('scale-out')
-                                             //$('#progam-handle').addClass('scale-visible')
-                                             //$('#w_id').text(num_portefeuil)
-                                         } else {
-                                             //alert('Le portefeuille n\'existe pas.');
                                          }
                                      },
                                      error: function () {
-                                         alert('Erreur lors de la vérification du portefeuille');
+                                         alert('Erreur lors de la vérification du programme');
                                      }
                                  });
                              }
@@ -1149,23 +1593,23 @@
                                  '<div class="ports_init">'+
                                  '<div class="form-group">' +
                                  '<label for="input1">T1 pour Sous Programme</label>' +
-                                 '<input type="number" class="form-control" id="T1_AE_sous_prog"   placeholder="Entrer T1 AE Sous Programme">' +
-                                 '<input type="number" class="form-control" id="T1_CP_sous_prog"   placeholder="Entrer T1 CP Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T1_AE_init"   placeholder="Entrer T1 AE Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T1_CP_init"   placeholder="Entrer T1 CP Sous Programme">' +
                                  '</div>' +
                                  '<div class="form-group">' +
                                  '<label for="input1">T2 pour Sous Programme</label>' +
-                                 '<input type="number" class="form-control" id="T2_AE_sous_prog"   placeholder="Entrer T2 AE Sous Programme">' +
-                                 '<input type="number" class="form-control" id="T2_CP_sous_prog"   placeholder="Entrer T2 CP Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T2_AE_init"   placeholder="Entrer T2 AE Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T2_CP_init"   placeholder="Entrer T2 CP Sous Programme">' +
                                  '</div>' +
                                  '<div class="form-group">' +
                                  '<label for="input1">T3 pour Sous Programme</label>' +
-                                 '<input type="number" class="form-control" id="T3_AE_sous_prog"   placeholder="Entrer T3 AE Sous Programme">' +
-                                 '<input type="number" class="form-control" id="T3_CP_sous_prog"   placeholder="Entrer T3 CP Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T3_AE_init"   placeholder="Entrer T3 AE Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T3_CP_init"   placeholder="Entrer T3 CP Sous Programme">' +
                                  '</div>' +
                                  '<div class="form-group">' +
                                  '<label for="input1">T4 pour Sous Programme</label>' +
-                                 '<input type="number" class="form-control" id="T4_AE_sous_prog"   placeholder="Entrer T4 AE Sous Programme">' +
-                                 '<input type="number" class="form-control" id="T4_CP_sous_prog"   placeholder="Entrer T4 CP Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T4_AE_init"   placeholder="Entrer T4 AE Sous Programme">' +
+                                 '<input type="number" class="form-control" id="T4_CP_init"   placeholder="Entrer T4 CP Sous Programme">' +
                                  '</div>' +
                                  '</div>'+
                                  '</div>'+
@@ -1226,20 +1670,28 @@
                                                          num_sous_prog: num_sou_program,
                                                      },
                                                      success: function (response) {
-                                                         if (response.exists) {
-                                                             console.log(response); // Vérifiez la réponse
-                                                             console.log('num_sou_program path: ' + JSON.stringify(path));
-                                                            $("#file_holder").empty();
-                                                             // Remplir les champs du formulaire avec les données récupérées
-                                                             $('#nom_sous_prog').val(response.nom_sous_prog).trigger('change'); // Remplir et déclencher l'événement change
-                                                             //    $('#date_insert_sousProg').val(response.date_insert_sousProg).trigger('change'); // Remplir et déclencher l'événement change
-                                                             $('#AE_sous_prog').val(response.AE_sous_prog).trigger('change'); // Remplir et déclencher l'événement change
-                                                             $('#CP_sous_prog').val(response.CP_sous_prog).trigger('change'); // Remplir et déclencher l'événement change
-                                                             //   $('#num_journ_program').val(response.num_journal).trigger('change'); // Remplir et déclencher l'événement change
+                                                        if (response.exists) {
+                                                            console.log(response); // Vérifiez la réponse
 
-                                                             alert('Le sous programme existe déjà');
+                                                            // Remplir les champs du formulaire avec les données récupérées
+                                                            $('#nom_sous_prog').val(response.nom_sous_prog).trigger('change');
+                                                            $('#AE_sous_prog').val(response.AE_sous_prog).trigger('change');
+                                                            $('#CP_sous_prog').val(response.CP_sous_prog).trigger('change');
 
-                                                         } else {
+                                                            $('#T1_AE_init').val(response.T1_AE_init).trigger('change');
+                                                            $('#T1_CP_init').val(response.T1_CP_init).trigger('change');
+
+                                                            $('#T2_AE_init').val(response.T2_AE_init).trigger('change');
+                                                            $('#T2_CP_init').val(response.T2_CP_init).trigger('change');
+
+                                                            $('#T3_AE_init').val(response.T3_AE_init).trigger('change');
+                                                            $('#T3_CP_init').val(response.T3_CP_init).trigger('change');
+
+                                                            $('#T4_AE_init').val(response.T4_AE_init).trigger('change');
+                                                            $('#T4_CP_init').val(response.T4_CP_init).trigger('change');
+
+                                                            alert('Le sous-programme existe déjà.');
+                                                        }  else {
                                                              // alert('Le programme n\'existe pas.');
                                                          }
                                                      },
@@ -1256,6 +1708,18 @@
                                              var nom_sou_prog = $('#nom_sous_prog').val();
                                              var dat_sou_prog = $('#date_insert_sousProg').val()
                                              var AE_sous_prog = $('#AE_sous_prog').val()
+                                             var T1_AE_init = $('#T1_AE_init').val()
+                                             var T1_CP_init = $('#T1_CP_init').val()
+
+                                             var T2_AE_init = $('#T2_AE_init').val()
+                                             var T2_CP_init = $('#T2_CP_init').val()
+
+                                             var T3_AE_init = $('#T3_AE_init').val()
+                                             var T3_CP_init = $('#T3_CP_init').val()
+
+                                             var T4_AE_init = $('#T4_AE_init').val()
+                                             var T4_CP_init = $('#T4_CP_init').val()
+
                                              var CP_sous_prog = $('#CP_sous_prog').val()
                                              var id_prog = path[1];
                                              var numsouprog_year = id_prog +'-'+sou_prog ;
@@ -1308,6 +1772,23 @@
                                                  CP_sous_prog: CP_sous_prog,
                                                  date_insert_sousProg: dat_sou_prog,
                                                  id_program: id_prog,
+
+                                                 T1_AE_init: T1_AE_init,
+                                                 T1_CP_init: T1_CP_init,
+                                                 code_t1: 10000,
+
+                                                 T2_AE_init: T2_AE_init,
+                                                 T2_CP_init: T2_CP_init,
+                                                 code_t2: 20000,
+
+                                                 T3_AE_init: T3_AE_init,
+                                                 T3_CP_init: T3_CP_init,
+                                                 code_t3: 30000,
+
+                                                 T4_AE_init: T4_AE_init,
+                                                 T4_CP_init: T4_CP_init,
+                                                 code_t4: 40000,
+
                                                  //id_porte: id_port,
                                                  _token: $('meta[name="csrf-token"]').attr('content'),
                                                  _method: 'POST'
@@ -1316,20 +1797,20 @@
                                              {
                                                 num_sous_prog: numsouprog_year,
                                                 code_t1:10000,
-                                                AE_init_t1:$('#T1_AE_sous_prog').val(),
-                                                CP_init_t1:$('#T1_CP_sous_prog').val(),
-                         
+                                                T1_AE_init:$('#T1_AE_init').val(),
+                                                T1_CP_init:$('#T1_CP_init').val(),
+
                                                 code_t2:20000,
-                                                AE_init_t2:$('#T2_AE_sous_prog').val(),
-                                                CP_init_t2:$('#T2_CP_sous_prog').val(),
-                         
+                                                T2_AE_init:$('#T2_AE_init').val(),
+                                                T2_CP_init:$('#T2_CP_init').val(),
+
                                                 code_t3:30000,
-                                                AE_init_t3:$('#T3_AE_sous_prog').val(),
-                                                CP_init_t3:$('#T3_CP_sous_prog').val(),
-                                             
+                                                AE_init_t3:$('#T3_AE_init').val(),
+                                                CP_init_t3:$('#T3_CP_init').val(),
+
                                                 code_t4:40000,
-                                                AE_init_t4:$('#T4_AE_sous_prog').val(),
-                                                CP_init_t4:$('#T4_CP_sous_prog').val(),
+                                                AE_init_t4:$('#T4_AE_init').val(),
+                                                CP_init_t4:$('#T4_CP_init').val(),
                                                 date_init:dat_sou_prog,
                                                 _token: $('meta[name="csrf-token"]').attr('content'),
                                                 _method: 'POST'
@@ -1344,10 +1825,10 @@
                                                         if(response.code == 200){
                                                             if(upload_file('file',sou_prog) == 200)
                                                             {
-                                                            
+
                                                                 alert(response.message)
                                                             }
-                                                            $.ajax({
+                                                           /* $.ajax({
                                                                 url:'/init_ports',
                                                                 type:'POST',
                                                                 data:formatinitports,
@@ -1362,7 +1843,7 @@
 
                                                                     }
                                                                 }
-                                                            })
+                                                            })*/
                                                         }
                                                          alert(response.message)
                                                          path.push(numsouprog_year);
@@ -1380,12 +1861,13 @@
 
 
                                                          $('#date_insert_action').on('focusout', function () {
-                                                             alert('out')
+                                                             console.log('out')
                                                              var date_act = $(this).val();
                                                              var num_act = $('#num_act').val();
                                                              //  var date_act=  new Date(date_act).getFullYear();
                                                              var numact_year = path[2] +'-'+num_act ;
                                                              console.log('the new id' + numact_year + ' with ' + JSON.stringify(path))
+                                                             console.log('jhvgf');
                                                              if (date_act && num_act) {
                                                                  $.ajax({
                                                                      url: '/check-action',  // Route pour vérifier l'existence du programme
@@ -1396,14 +1878,14 @@
                                                                      success: function (response) {
                                                                          if (response.exists) {
                                                                              $('#nom_act').val(response.nom_action).trigger('change'); // Remplir et déclencher l'événement change
-                                                                             // $('#date_insert_action').val(response.date_insert_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                                              $('#date_insert_action').val(response.date_insert_action).trigger('change'); // Remplir et déclencher l'événement change
                                                                              $('#AE_act').val(response.AE_act).trigger('change'); // Remplir et déclencher l'événement change
                                                                              $('#CP_act').val(response.CP_act).trigger('change'); // Remplir et déclencher l'événement change
                                                                              alert('L`Action existe déjà');
 
                                                                          }
                                                                          else {
-                                                                             alert('Erreur d`Opération');
+                                                                             console.log('Erreur d`Opération');
 
                                                                          }
                                                                      }
@@ -1510,6 +1992,39 @@
                                                                              $('#progam-handle').append(prg4);
                                                                              focus_()
 
+                                                                             //===============CHECK SOUS ACTION=====================//
+                                                                             $('#date_insert_sou_action').on('focusout', function () {
+                                                                                //alert('out')
+                                                                                var date_sousact = $(this).val();
+                                                                                var num_sousact = $('#num_sous_act').val();
+                                                                                //  var date_act=  new Date(date_act).getFullYear();
+                                                                                var numsousact_year = path[3] +'-'+num_sousact ;
+                                                                                console.log('numsousact_year' + numsousact_year + ' with ' + JSON.stringify(path))
+                                                                                if (date_sousact && num_sousact) {
+                                                                                    $.ajax({
+                                                                                        url: '/check-sousaction',  // Route pour vérifier l'existence du programme
+                                                                                        type: 'GET',
+                                                                                        data: {
+                                                                                            num_sous_action: numsousact_year,
+                                                                                        },
+                                                                                        success: function (response) {
+                                                                                            if (response.exists) {
+                                                                                                $('#nom_sous_act').val(response.nom_sous_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                                                                 $('#date_insert_sou_action').val(response.date_insert_sous_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                                                                $('#AE_sous_act').val(response.AE_sous_act).trigger('change'); // Remplir et déclencher l'événement change
+                                                                                                $('#CP_sous_act').val(response.CP_sous_act).trigger('change'); // Remplir et déclencher l'événement change
+                                                                                                alert('L`Action existe déjà');
+
+                                                                                            }
+                                                                                            else {
+                                                                                                alert('Erreur d`Opération');
+
+                                                                                            }
+                                                                                        }
+                                                                                    })
+                                                                                }
+                                                                            })
+                                                                             //=============== FIN CHECK SOUS ACTION================//
                                                                              // Ajout de l'événement d'ajout pour la sous-action
                                                                              $('#add-prg4').on('click', function () {
                                                                                  console.log('inside sous_action')
@@ -1602,8 +2117,16 @@
                                                                             }
                                                                              path.push(numaction_year);
                                                                              path3.push(num_act);
-                                                                             // console.log('path: ' + JSON.stringify(path));
-                                                                             window.location.href = 'testing/Action/' + path[0] + '/' + path[1] + '/' + path[2] + '/' + path[3];
+                                                                             console.log('response.num_sous_action: ' + response.num_sous_action);
+                                                                             if (response.num_sous_action) {
+                                                                                path.push(response.num_sous_action);
+                                                                                // console.log('path: ' + JSON.stringify(path));
+                                                                                window.location.href = '/testing/S_action/' + path.join('/');
+                                                                            }else{
+                                                                                // console.log('path: ' + JSON.stringify(path));
+                                                                            window.location.href = '/testing/Action/' + path.join('/');
+                                                                            }
+
                                                                          }
                                                                      },
                                                                      error: function (response) {
@@ -1643,13 +2166,16 @@
                           */
 
                          function T1_table(id, T, id_s_act, port,code) {
-
+                            $('#T-tables tfoot').empty();
                              var current = new Array();
                              var preve = new Array();
                              var newbtn = '<i id="new_ops" class="fas fa-folder-plus" style="font-size: 48px"></i>'
                              var data_T_port = new Array();
                              console.log('T is' + T)
                              $('#Tport-handle').addClass('scale-out');
+                             var tfooter='<tr><td colspan="2">Total</td>'+
+                                         '<td id="foot_AE_T1">' + 0 + '</td>' +
+                                         '<td id="foot_CP_T1">' + 0 + '</td>';
                              setTimeout(() => {
                                  // Add the class to hide the table
                                  $('#Tport-handle').addClass('scale-hidden');
@@ -1666,21 +2192,32 @@
                                      if (response.code === 200) {
                                          console.log('data' + JSON.stringify(Object.keys(response.results)).length)
                                          data_T_port = response.results;
+                                        tfooter='<tr><td colspan="2">Total</td>'+
+                                         '<td id="foot_AE_T1">' + data_T_port.total[0].values.totalAE + '</td>' +
+                                         '<td id="foot_CP_T1">' + data_T_port.total[0].values.totalCP + '</td>';
+                                        
                                      }
                                      else {
                                          alert(response.message);
                                      }
+                                     $('#T-tables tfoot').append(tfooter);
                                  }
                              })
                          }
+                            else
+                         {
+                          
+                             $('#T-tables tfoot').append(tfooter);
+                         }
 
-                             var headT = '<tr class="row100 head">' +
+                             var headT = '<tr>' +
                                  '<th ><h1>Code</h1></th>' +
                                  '<th ><h1>T Description</h1></th>' +
                                  '<th><h1>AE</h1></th>' +
                                  '<th><h1>CP</h1></th>' +
                                  '</tr>';
                              $('#T-tables thead').append(headT)
+                            
                              $.getJSON(jsonpath1, function (data) {
                                  // Loop through each item in the JSON data
                                  var lengT = Object.keys(data).length
@@ -1692,7 +2229,7 @@
                                  $.each(data, function (key, value) {
                                      // Create a table row
                                      let row = '<tr class="ref'+key+'" id="ref' + key + '">' +
-                                         '<td class="code" >' + key + '</td>' +
+                                         '<td scope="row" class="code" >' + key + '</td>' +
                                          '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
                                          '<td class="editable" id="AE_T1">' + 0 + '</td>' +
                                          '<td class="editable" id="CP_T1">' + 0 + '</td>' +
@@ -1702,7 +2239,7 @@
                                         var land=data_T_port.group[ig].code.length-5
                                          if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
-                                                 '<td class="code" >' + key + '</td>' +
+                                                 '<td scope="row" class="code" >' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
                                                  '<td class="editable" id="AE_T1">' + data_T_port.group[ig].values.ae_grpop + '</td>' +
                                                  '<td class="editable" id="CP_T1">' + data_T_port.group[ig].values.cp_grpop + '</td>' +
@@ -1714,7 +2251,7 @@
                                         var land=data_T_port.operation[io].code.length-5
                                          if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
-                                                 '<td class="code" >' + key + '</td>' +
+                                                 '<td scope="row"  class="code" >' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
                                                  '<td class="editable" id="AE_T1">' + data_T_port.operation[io].values.ae_op + '</td>' +
                                                  '<td class="editable" id="CP_T1">' + data_T_port.operation[io].values.cp_op + '</td>' +
@@ -1726,7 +2263,7 @@
                                         var land=data_T_port.sousOperation[iso].code.length-5
                                          if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                                                 '<td class="code" >' + key + '</td>' +
+                                                 '<td scope="row"  class="code" >' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
                                                  '<td class="editable" id="AE_T1">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
                                                  '<td class="editable" id="CP_T1">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
@@ -1738,6 +2275,7 @@
                                      // Append the row to the table body
 
                                      $('#T-tables tbody').append(row);
+                                
                                      if(code !== 200)
                                      {
                                         console.log('testing')
@@ -1748,12 +2286,6 @@
                                      console.log('the lengh' + lengT + 'and the pas' + i)
                                      if (i == lengT) {
                                          if ($('.ref' + key + ' td').hasClass("editable")) {
-                                             $('.ref' + key + ' #add_op').append(newbtn)
-                                             $('.ref' + key + ' #add_op').on('click', function () {
-                                                 var ads = key + '1';
-                                                 add_newOPs_T1(ads, 'testing new descr', 2500, key);
-                                                 Edit(id, T)
-                                             })
                                          }
                                      }
 
@@ -1773,13 +2305,8 @@
                                          else {
                                              //   console.log('testing '+key)
                                              if ($('.ref' + preve + ' td').hasClass("editable")) {
-                                                 $('.ref' + preve + ' #add_op').append(newbtn)
-                                                 $('.ref' + preve + ' #add_op').on('click', function () {
-                                                    var newKey=$(this).parent().attr('id');
-                                                     var ads = newKey.split('ref')[1] + '1';
-                                                     add_newOPs_T1(ads, 'testing new descr', 2500, newKey);
-                                                     Edit(id, T)
-                                                 })
+
+
                                              }
                                              preve = current;
                                          }
@@ -1789,20 +2316,26 @@
 
                                  });
                                  if(code === 200)
-                                 {
-                                    dataupdate=[]
-                                Update_dpia(T,id_s_act);
-                                 console.log('testing new update function')}  
+                                 {Update_dpia(T,id_s_act);
+                                 console.log('testing new update function')}
                              }).fail(function () {
                                  console.error('Error loading JSON file.');
                              });
                          }
                          function T2_table(id, T, id_s_act, port,code) {
+                            $('#T-tables tfoot').empty();
                              var current = new Array();
                              var preve = new Array();
                              var data_T_port = new Array();
                              var newbtn = '<i id="new_ops" class="fas fa-folder-plus" style="font-size: 48px"></i>'
                              $('#Tport-handle').addClass('scale-out');
+                             var tfooter='<tr><td colspan="2">Total</td>'+
+                             '<td  id="foot_AE_Over">'+0 + '</td>' +
+                             '<td  id="foot_CP_Over">'+0+ '</td>' +
+                             '<td  id="foot_AE_att">'+0+ '</td>' +
+                             '<td  id="foot_CP_att">'+0+ '</td>' +
+                             '<td  id="foot_AE_TT">'+0+ '</td>' +
+                             '<td  id="foot_CP_TT">'+0+ '</td> </tr>' ;
                              setTimeout(() => {
                                  // Add the class to hide the table
                                  $('#Tport-handle').addClass('scale-hidden');
@@ -1817,15 +2350,30 @@
                                  type: 'GET',
                                  success: function (response) {
                                      if (response.code === 200) {
+                                       
                                          console.log('data' + JSON.stringify(Object.keys(response.results)).length)
                                          data_T_port = response.results;
+                                        tfooter='<tr><td colspan="2">Total</td>'+
+                                         '<td  id="foot_AE_Over">'+data_T_port.total[0].values.totalAEouvrtvertical + '</td>' +
+                                         '<td  id="foot_CP_Over">'+data_T_port.total[0].values.totalCPouvrtvertical + '</td>' +
+                                         '<td  id="foot_AE_att">'+data_T_port.total[0].values.totalAEattenduvertical + '</td>' +
+                                         '<td  id="foot_CP_att">'+data_T_port.total[0].values.totalCPattenduvertical + '</td>' +
+                                         '<td  id="foot_AE_TT">'+data_T_port.total[0].values.totalAE + '</td>' +
+                                         '<td  id="foot_CP_TT">'+data_T_port.total[0].values.totalCP + '</td> </tr>' ;
+                                         
+                                         
                                      }
                                      else {
                                          alert(response.message);
                                      }
+                                     $('#T-tables tfoot').append(tfooter);
                                  }
                              })
                          }
+                         else
+                            {
+                                $('#T-tables tfoot').append(tfooter);
+                            }
 
                              var headT = '<tr>' +
                                  '<th colspan="2"><h1>T Description</h1></th>' +
@@ -1858,6 +2406,7 @@
                                  '</th>' +
                                  '</tr>';
                              $('#T-tables thead').append(headT)
+                          
                              $.getJSON(jsonpath2, function (data) {
                                  // Loop through each item in the JSON data
                                  var lengT = Object.keys(data).length
@@ -1868,7 +2417,7 @@
                                  $.each(data, function (key, value) {
                                      // Create a table row
                                      let row = '<tr class="ref'+key+'" id="ref' + key + '">' +
-                                         '<td class="code">' + key + '</td>' +
+                                         '<td scope="row"  class="code">' + key + '</td>' +
                                          '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
                                          '<td class="editable" id="AE_Over">' + 0 + '</td>' +
                                          '<td class="editable" id="CP_Over">' + 0 + '</td>' +
@@ -1880,12 +2429,13 @@
                                      var codegr = data_T_port.group;
                                      var codeop = data_T_port.operation;
                                      var codesop = data_T_port.sousOperation;
+
                                      if(Object.keys(data_T_port).length > 0){
                                      if (codegr.length > 0 && data_T_port.group.length > ig) {
                                         var land=data_T_port.group[ig].code.length-5
                                          if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
                                              row = '<tr class="ref' + key + '" id="ref'+data_T_port.group[ig].code+'">' +
-                                                 '<td class="code">' + key + '</td>' +
+                                                 '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
                                                  '<td class="editable" id="AE_Over">' + data_T_port.group[ig].values.ae_ouvertgrpop + '</td>' +
                                                  '<td class="editable" id="CP_Over">' + data_T_port.group[ig].values.cp_ouvertgrpop + '</td>' +
@@ -1901,7 +2451,7 @@
                                         var land=data_T_port.operation[io].code.length-5
                                          if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
-                                                 '<td class="code">' + key + '</td>' +
+                                                 '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
                                                  '<td class="editable" id="AE_Over">' + data_T_port.operation[io].values.ae_ouvertop + '</td>' +
                                                  '<td class="editable" id="CP_Over">' + data_T_port.operation[io].values.cp_ouvertop + '</td>' +
@@ -1915,9 +2465,9 @@
                                      }
                                      if (codesop.length > 0 && data_T_port.sousOperation.length > iso) {
                                         var land=data_T_port.sousOperation[iso].code.length-5
-                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)[0].substring) {
+                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                                                 '<td class="code">' + key + '</td>' +
+                                                 '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
                                                  '<td class="editable" id="AE_Over">' + data_T_port.sousOperation[iso].values.ae_ouvertsousop + '</td>' +
                                                  '<td class="editable" id="CP_Over">' + data_T_port.sousOperation[iso].values.cp_ouvertsousop + '</td>' +
@@ -1951,13 +2501,6 @@
 
                                              console.log('testing adding ' + preve)
                                              if ($('.ref' + preve + ' td').hasClass("editable")) {
-                                                 $('.ref' + preve + ' #add_op').append(newbtn)
-                                                 $('.ref' + preve + ' #add_op').on('click', function () {
-                                                    var newKey=$(this).parent().attr('id');
-                                                    var ads = newKey.split('ref')[1] + '1';
-                                                     add_newOPs_T2(ads, 'testing new descr', 2500, newKey);
-                                                     Edit(id, T)
-                                                 })
                                              }
 
                                          }
@@ -1967,12 +2510,8 @@
                                      i++
                                      if (i == lengT) {
                                          if ($('.ref' + key + ' td').hasClass("editable")) {
-                                             $('.ref' + key + ' #add_op').append(newbtn)
-                                             $('.ref' + key + ' #add_op').on('click', function () {
-                                                 var ads = key + '1';
-                                                 add_newOPs_T2(ads, 'testing new descr', 2500, key);
-                                                 Edit(id, T)
-                                             })
+
+
                                          }
                                      }
                                  });
@@ -1981,15 +2520,31 @@
                                         dataupdate=[]
                                         Update_dpia(T,id_s_act);
                                     console.log('testing new update function')
-                                    }  
+                                    }
                              }).fail(function () {
                                  console.error('Error loading JSON file.');
                              });
                          }
                          function T3_table(id, T, id_s_act, port,code) {
+                            $('#T-tables tfoot').empty();
                              var current = new Array();
                              var preve = new Array();
                              var data_T_port = new Array();
+
+                             var aerTpt=0;
+                             var aenTpt=0;
+                             var aeeTpt=0;
+
+                             var cprTpt=0;
+                             var cpnTpt=0;
+                             var cpcTpt=0;
+                             var tfooter='<tr><td colspan="3">Total</td>'+
+                                         '<td  id="foot_AE_rpor">'+0 + '</td>' +
+                                         '<td  id="foot_AE_not">'+0 + '</td>' +
+                                         '<td  id="foot_AE_enga">'+0 + '</td>' +
+                                         '<td  id="foot_CP_rpor">'+0 + '</td>' +
+                                         '<td  id="foot_CP_not">'+0 + '</td>' +
+                                         '<td  id="foot_CP_consom">'+0 + '</td> </tr>' ;
                              var newbtn = '<i id="new_ops" class="fas fa-folder-plus" style="font-size: 48px"></i>'
                              console.log('data is')
                              $('#Tport-handle').addClass('scale-out');
@@ -2006,15 +2561,37 @@
                                  type: 'GET',
                                  success: function (response) {
                                      if (response.code === 200) {
+                                    
                                          console.log('data' + JSON.stringify(Object.keys(response.results)).length)
                                          data_T_port = response.results;
+                                         console.log(data_T_port.total[0].values.totalAEnotifievertical)
+                                         aerTpt=data_T_port.total[0].values.totalAEreportevertical
+                                         aenTpt=data_T_port.total[0].values.totalAEnotifievertical
+                                         aeeTpt=data_T_port.total[0].values.totalAEengagevertical
+                                         cprTpt=data_T_port.total[0].values.totalCPreportevertical
+                                         cpnTpt=data_T_port.total[0].values.totalCPnotifievertical
+                                         cpcTpt=data_T_port.total[0].values.totalCPconsomevertical
+                                        tfooter='<tr><td colspan="3">Total</td>'+
+                                         '<td  id="foot_AE_rpor">'+aerTpt + '</td>' +
+                                         '<td  id="foot_AE_not">'+aenTpt + '</td>' +
+                                         '<td  id="foot_AE_enga">'+aeeTpt + '</td>' +
+                                         '<td  id="foot_CP_rpor">'+cprTpt + '</td>' +
+                                         '<td  id="foot_CP_not">'+cpnTpt + '</td>' +
+                                         '<td  id="foot_CP_consom">'+cpcTpt + '</td> </tr>' ;
+                                        
+                                         
                                      }
                                      else {
                                          alert(response.message);
                                      }
+                                     $('#T-tables tfoot').append(tfooter);
                                  }
                              })}
-
+                             else
+                            {
+                                $('#T-tables tfoot').append(tfooter);
+                            }
+                                var lasty=parseInt(yearport) - 1
                              var headT = '<tr>' +
                                  '<th><h1>code</h1></th>' +
                                  '<th><h1>T Description</h1></th>' +
@@ -2023,16 +2600,21 @@
                                  '<div class="fusion-father">' +
                                  '<h1>MONTANT ANNEE (N)</h1>' +
                                  '<div class="fusion-child">' +
-                                 '<h1>AE Reportee</h1>' +
-                                 '<h1>AE Notifiee</h1>' +
-                                 '<h1>AE Engagée</h1>' +
-                                 '<h1>CP Reportee</h1>' +
-                                 '<h1>CP Notifiée</h1>' +
-                                 '<h1>CP Engagée</h1>' +
+                                 '<h1>AE Reportee <p>31-12-'+lasty+'</p></h1>' +
+                                 '<h1>AE Notifiee <p>'+yearport+'<p></h1>' +
+                                 '<h1>AE Engagée  <p>31-12-'+lasty+'</p></h1>' +
+                                 '<h1>CP Reportee <p>31-12-'+lasty+'</p></h1>' +
+                                 '<h1>CP Notifiée <p>'+yearport+'<p></h1>' +
+                                 '<h1>CP Engagée  <p>31-12-'+lasty+'</p></h1>' +
                                  '</div>' +
                                  '</th>' +
                                  '</tr>';
+                                 
+                               
+                                 
                              $('#T-tables thead').append(headT)
+                         
+                           
                              $.getJSON(jsonpath3, function (data) {
                                  // Loop through each item in the JSON data
                                  var lengT = Object.keys(data).length
@@ -2046,7 +2628,7 @@
 
                                      //   console.log('values' + JSON.stringify(val))
                                      let row = '<tr class="ref'+key+'" id="ref' + key + '">' +
-                                         '<td class="code">' + key + '</td>' +
+                                         '<td scope="row"  class="code">' + key + '</td>' +
                                          '<td><p>' + val[0] + '</p> </td>' +
                                          '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
                                          '<td class="editable" id="AE_rpor">' + 0 + '</td>' +
@@ -2056,31 +2638,33 @@
                                          '<td class="editable" id="CP_not">' + 0 + '</td>' +
                                          '<td class="editable" id="CP_consom">' + 0 + '</td>' +
                                          '</tr>';
+
                                      if(Object.keys(data_T_port).length > 0){
-                                        
+
                                      if (data_T_port.group.length > 0 && data_T_port.group.length > ig) {
-                                        var land=data_T_port.group[ig].code-5;
-                                         console.log('code T3 ' + splitcode(data_T_port.group[ig].code, land)[1].substring);
-                                         if (key == splitcode(data_T_port.group[ig].code, 5)[0].substring) {
+                                        var land=data_T_port.group[ig].code.length-5;
+                                        console.log('T3'+JSON.stringify(data_T_port.group) +' length'+land)
+                                         if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
-                                                 '<td class="code">' + key + '</td>' +
+                                                 '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td><p>' + val[0] + '</p> </td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
-                                                 '<td class="editable" id="AE_rpor">' + data_T_port.group[ig].values.ae_reportegrpop + '</td>' +
-                                                 '<td class="editable" id="AE_not">' + data_T_port.group[ig].values.ae_notifiegrpop + ',000</td>' +
-                                                 '<td class="editable" id="AE_enga">' + data_T_port.group[ig].values.ae_engagegrpop + '</td>' +
-                                                 '<td class="editable" id="CP_rpor">' + data_T_port.group[ig].values.cp_reportegrpop + ',000</td>' +
+                                                 '<td class="editable" id="AE_rpor">' + data_T_port.group[ig].values.ae_reportegrpop + ',00</td>' +
+                                                 '<td class="editable" id="AE_not">' + data_T_port.group[ig].values.ae_notifiegrpop + ',00</td>' +
+                                                 '<td class="editable" id="AE_enga">' + data_T_port.group[ig].values.ae_engagegrpop + ',00</td>' +
+                                                 '<td class="editable" id="CP_rpor">' + data_T_port.group[ig].values.cp_reportegrpop + ',00</td>' +
                                                  '<td class="editable" id="CP_not">' + data_T_port.group[ig].values.cp_notifiegrpop + '</td>' +
-                                                 '<td class="editable" id="CP_consom">' + data_T_port.group[ig].values.cp_consomegrpop + ',000</td>' +
+                                                 '<td class="editable" id="CP_consom">' + data_T_port.group[ig].values.cp_consomegrpop + ',00</td>' +
                                                  '</tr>';
                                              ig++;
                                          }
                                      }
                                      if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
-                                        var land=data_T_port.operation[io].code-5;
+                                        var land=data_T_port.operation[io].code.length-5;
+
                                          if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
-                                                 '<td class="code">' + key + '</td>' +
+                                                 '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td><p>' + val[0] + '</p> </td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
                                                  '<td class="editable" id="AE_rpor">' + data_T_port.operation[io].values.ae_reporteop + '</td>' +
@@ -2094,10 +2678,10 @@
                                          }
                                      }
                                      if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
-                                        var land=data_T_port.sousOperation[iso].code-5;
+                                        var land=data_T_port.sousOperation[iso].code.length-5;
                                          if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                                                 '<td class="code">' + key + '</td>' +
+                                                 '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td><p>' + val[0] + '</p> </td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
                                                  '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
@@ -2141,8 +2725,9 @@
                                                  $('.ref' + preve + ' #add_op').on('click', function () {
                                                     var newKey=$(this).parent().attr('id');
                                                     var ads = newKey.split('ref')[1] + '1';
-                                                     add_newOPs_T3(ads, 'testing new descr', 2500, newKey);
-                                                     Edit(id, T)
+                                                    $('.Tsop_handler').removeClass('Tsop_handler_h')
+                                                     add_newOPs_T3(ads, 2500, newKey);
+
                                                  })
                                              }
 
@@ -2157,8 +2742,8 @@
                                              $('.ref' + key + ' #add_op').on('click', function () {
                                                 var newKey=$(this).parent().attr('id');
                                                 var ads = newKey.split('ref')[1] + '1';
-                                                 add_newOPs_T3(ads, 'testing new descr', 2500, preve);
-                                                 Edit(id, T)
+                                                $('.Tsop_handler').removeClass('Tsop_handler_h')
+                                                 add_newOPs_T3(ads, 2500, preve);
                                              })
                                          }
                                      }
@@ -2173,12 +2758,17 @@
                              }).fail(function () {
                                  console.error('Error loading JSON file.');
                              });
+                             
                          }
                          function T4_table(id, T, id_s_act, port,code) {
+                            $('#T-tables tfoot').empty();
                              var current = new Array();
                              var preve = new Array();
                              var data_T_port = new Array();
                              var newbtn = '<i id="new_ops" class="fas fa-folder-plus" style="font-size: 48px"></i>'
+                             var tfooter='<tr><td colspan="3">Total</td>'+
+                             '<td id="foot_AE_T4">' + 0+ '</td>' +
+                             '<td id="foot_CP_T4">' + 0 + '</td>';  
                              console.log('data is')
                              $('#Tport-handle').addClass('scale-out');
                              setTimeout(() => {
@@ -2194,19 +2784,32 @@
                                  type: 'GET',
                                  success: function (response) {
                                      if (response.code === 200) {
+                                     
+                                        
                                          console.log('data' + JSON.stringify(Object.keys(response.results)).length)
                                          data_T_port = response.results;
+                                        tfooter='<tr><td colspan="3">Total</td>'+
+                                         '<td id="foot_AE_T4">' + data_T_port.total[0].values.totalAE + '</td>' +
+                                         '<td id="foot_CP_T4">' + data_T_port.total[0].values.totalCP + '</td> </tr>';  
+
+                                        
                                      }
                                      else {
                                          alert(response.message);
                                      }
+                                     $('#T-tables tfoot').append(tfooter);
                                  }
-                             })}
+                             })
+                            }
+                            else
+                            {
+                                $('#T-tables tfoot').append(tfooter);
+                            }
 
                              var headT = '<tr>' +
                                  '<th><h1>Code</h1></th>' +
                                  '<th><h1>DEPENSES DE TRANSFERT</h1></th>' +
-                                 '<th>' +
+                                 '<th><h1>Detail</h1></th>'+
                                  '<th colspan="2">' +
                                  '<div class="fusion-father">' +
                                  '<h1>MONTANT ANNEE (N)</h1>' +
@@ -2218,6 +2821,7 @@
                                  '</th>' +
                                  '</tr>';
                              $('#T-tables thead').append(headT)
+                             
                              var i = 0;
                              var ig = 0;
                              var io = 0;
@@ -2228,19 +2832,22 @@
                                      // Create a table row
                                      var val = value.split('-')
                                      //   console.log('values' + JSON.stringify(val))
-                                     let row = '<tr class="ref"'+key+'" id="ref' + key + '">' +
-                                         '<td class="code">' + key + '</td>' +
-                                         '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
+                                     let row = '<tr class="ref'+key+'" id="ref' + key + '">' +
+                                         '<td scope="row"  class="code">' + key + '</td>' +
+                                         '<td><p>' + value + '</p></td>' +
+                                         '<td  id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
                                          '<td class="editable" id="AE_T4">' + 0 + ',00</td>' +
                                          '<td class="editable" id="CP_T4">' + 0 + ',00</td>' +
                                          '</tr>';
                                      if(Object.keys(data_T_port).length > 0){
                                      if (data_T_port.group.length > 0 && data_T_port.group.length > ig) {
-                                        var land=data_T_port.group[ig].code-5;
+                                        var land=data_T_port.group[ig].code.length-5;
                                          if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
-                                             row = '<tr class="'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
-                                                 '<td class="code" >' + key + '</td>' +
-                                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
+                                             row = '<tr class="ref'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
+                                                 '<td scope="row" class="code" >' + key + '</td>' +
+                                                 '<td><p>' + value + '</p></td>' +
+
+                                                 '<td  id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
                                                  '<td class="editable" id="AE_T4">' + data_T_port.group[ig].values.ae_grpop + '</td>' +
                                                  '<td class="editable" id="CP_T4">' + data_T_port.group[ig].values.cp_grpop + '</td>' +
                                                  '</tr>';
@@ -2248,11 +2855,13 @@
                                          }
                                      }
                                      if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
-                                        var land=data_T_port.operation[io].code.code-5;
+                                        var land=data_T_port.operation[io].code.length-5;
                                          if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
-                                                 '<td class="code" >' + key + '</td>' +
-                                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
+                                                 '<td scope="row" class="code" >' + key + '</td>' +
+                                                 '<td ><p>' + value + '</p></td>' +
+
+                                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
                                                  '<td class="editable" id="AE_T4">' + data_T_port.operation[io].values.ae_op + '</td>' +
                                                  '<td class="editable" id="CP_T4">' + data_T_port.operation[io].values.cp_op + '</td>' +
                                                  '</tr>';
@@ -2260,11 +2869,13 @@
                                          }
                                      }
                                      if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
-                                        var land=data_T_port.sousOperation[iso].code.code-5;
+                                        var land=data_T_port.sousOperation[iso].code.length-5;
                                          if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                                                 '<td class="code" >' + key + '</td>' +
-                                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
+                                                 '<td scope="row" class="code" >' + key + '</td>' +
+                                                 '<td ><p>' + value + '</p></td>' +
+
+                                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
                                                  '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
                                                  '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
                                                  '</tr>';
@@ -2296,12 +2907,14 @@
                                          }
                                          else {
                                              //console.log('testing editable'+preve)
-                                             if ($('.ref' + key + ' td').hasClass("editable")) {
-                                                 $('.ref' + key + ' #add_op').append(newbtn)
-                                                 $('.ref' + key + ' #add_op').on('click', function () {
+                                             if ($('.ref' + preve + ' td').hasClass("editable")) {
+                                                 $('.ref' + preve + ' #add_op').append(newbtn)
+                                                 $('.ref' + preve + ' #add_op').on('click', function () {
                                                     var newKey=$(this).parent().attr('id');
-                                                    var ads = newKey.split('ref')[1] + '1';
-                                                     add_newOPs_T4(ads, 'testing new descr', 2500, newKey);
+                                                    var ads = newKey.split('ref')[1]
+                                                    $('.Tsop_handler').removeClass('Tsop_handler_h')
+                                                    console.log('add once');
+                                                     add_newOPs_T4(ads, 2500, newKey);
                                                  })
                                              }
 
@@ -2315,8 +2928,11 @@
                                  if(code === 200)
                                     {
                                        dataupdate=[]
-                                       Update_dpia(T,id_s_act);
+
+                                       Update_dpia(T,iupdate);
+
                                        console.log('testing new update function')
+
                                     }
                              }).fail(function () {
                                  console.error('Error loading JSON file.');
@@ -2325,6 +2941,7 @@
                          $(document).ready(function () {
 
                              $('#T1').on('click', function () {
+
                                  var indic = path3.length - 1
                                  var id = $(this).attr('id');
                                  var T = 1;
@@ -2333,18 +2950,21 @@
                                      url: '/testing/codeSousOperation/' + path3[indic],
                                      type: 'GET',
                                      success: function (response) {
-                                         if (response.code == 200) {
+                                         if (response.code == 200 && response.t1_exists==1) {
                                              alert('Exist')
                                              T1_table(id, T, path3[indic], path3[0],response.code)
+                                             $('#T_port1').addClass('heilighter')
                                          }
                                          else {
                                              alert('New')
-                                             T1_table(id, T, path3[indic], path3[0],response.code)
+                                             code =404
+                                             T1_table(id, T, path3[indic], path3[0],code)
                                          }
                                      }
                                  })
                              })
                              $('#T2').on('click', function () {
+
                                  var indic = path3.length - 1
                                  var T=2
                                  var id = $(this).attr('id');
@@ -2353,17 +2973,18 @@
                                      url: '/testing/codeSousOperation/' + path3[indic],
                                      type: 'GET',
                                      success: function (response) {
-                                         if (response.code == 200) {
+                                         if (response.code == 200 && response.t2_exists==1) {
                                              alert('Exist')
 
 
                                              T2_table(id, T, path3[indic], path3[0],response.code)
+                                             $('#T_port2').addClass('heilighter')
                                          }
                                          else {
                                              alert('New')
 
-
-                                             T2_table(id, T, path3[indic], path3[0],response.code)
+                                            code=404
+                                             T2_table(id, T, path3[indic], path3[0],code)
                                          }
                                      }
                                  })
@@ -2371,6 +2992,7 @@
                              })
 
                              $('#T3').on('click', function () {
+
                                  var indic = path3.length - 1
                                  console.log('len' + path3.length + ' act ' + indic)
                                  var id = $(this).attr('id');
@@ -2379,21 +3001,23 @@
                                      url: '/testing/codeSousOperation/' + path3[indic],
                                      type: 'GET',
                                      success: function (response) {
-                                         if (response.code == 200) {
+                                         if (response.code == 200 && response.t3_exists==1) {
                                              alert('Exist')
 
                                              T3_table(id, T, path3[indic], path3[0],response.code)
+                                             $('#T_port3').addClass('heilighter')
                                          }
                                          else {
                                              alert('New')
-
-                                             T3_table(id, T, path3[indic], path3[0],response.code)
+                                             code =404
+                                             T3_table(id, T, path3[indic], path3[0],code)
                                          }
                                      }
                                  })
                                  //T3_table(id, T)
                              })
                              $('#T4').on('click', function () {
+
                                  var indic = path3.length - 1
                                  console.log('len' + path3.length + ' act ' + indic)
                                  var id = $(this).attr('id');
@@ -2402,15 +3026,16 @@
                                      url: '/testing/codeSousOperation/' + path3[indic],
                                      type: 'GET',
                                      success: function (response) {
-                                         if (response.code == 200) {
+                                         if (response.code == 200 && response.t4_exists==1) {
                                              alert('Exist')
 
                                              T4_table(id, T, path3[indic], path3[0],response.code)
+                                             $('#T_port4').addClass('heilighter')
                                          }
                                          else {
                                              alert('New')
-
-                                             T4_table(id, T, path3[indic], path3[0],response.code)
+                                             code =404
+                                             T4_table(id, T, path3[indic], path3[0],code)
                                          }
                                      }
                                  })
@@ -2420,8 +3045,11 @@
                                  $('#T-tables tbody').empty()
                                  var indic = path3.length - 1
                                  var id_tport_c = $(this).attr('id');
-
+                                    $(this).addClass('heilighter')
                                  if (id_tport_c == 'T_port1') {
+                                    $('#T_port2').removeClass('heilighter')
+                                    $('#T_port3').removeClass('heilighter')
+                                    $('#T_port4').removeClass('heilighter')
                                      //var indic = path3.length - 1
                                      var id = $(this).attr('id');
                                      var T = 1;
@@ -2430,55 +3058,61 @@
                                          url: '/testing/codeSousOperation/' + path3[indic],
                                          type: 'GET',
                                          success: function (response) {
-                                             if (response.code == 200) {
+                                             if (response.code == 200 && response.t1_exists==1) {
                                                  alert('Exist')
 
                                                  T1_table(id, T, path3[indic], path3[0],response.code)
                                              }
                                              else {
                                                  alert('New')
-
-                                                 T1_table(id, T, path3[indic], path3[0],response.code)
+                                                 code =404
+                                                 T1_table(id, T, path3[indic], path3[0],code)
                                              }
                                          }
                                      })
                                  }
                                  if (id_tport_c == 'T_port2') {
+                                    $('#T_port1').removeClass('heilighter')
+                                    $('#T_port3').removeClass('heilighter')
+                                    $('#T_port4').removeClass('heilighter')
                                     var id = $(this).attr('id');
                                     var T = 2;
                                      $.ajax({
                                          url: '/testing/codeSousOperation/' + path3[indic],
                                          type: 'GET',
                                          success: function (response) {
-                                             if (response.code == 200) {
+                                             if (response.code == 200 && response.t2_exists==1) {
                                                  alert('Exist')
 
                                                  T2_table(id, T, path3[indic], path3[0],response.code)
                                              }
                                              else {
                                                  alert('New')
-
-                                                 T2_table(id, T, path3[indic], path3[0],response.code)
+                                                        code=404
+                                                 T2_table(id, T, path3[indic], path3[0],code)
                                              }
                                          }
                                      })
                                  }
                                  if (id_tport_c == 'T_port3') {
+                                    $('#T_port2').removeClass('heilighter')
+                                    $('#T_port1').removeClass('heilighter')
+                                    $('#T_port4').removeClass('heilighter')
                                     var id = $(this).attr('id');
                                     var T = 3;
                                      $.ajax({
                                          url: '/testing/codeSousOperation/' + path3[indic],
                                          type: 'GET',
                                          success: function (response) {
-                                             if (response.code == 200) {
+                                             if (response.code == 200 && response.t3_exists==1) {
                                                  alert('Exist')
 
                                                  T3_table(id, T, path3[indic], path3[0],response.code)
                                              }
                                              else {
                                                  alert('New')
-
-                                                 T3_table(id, T, path3[indic], path3[0],response.code)
+                                                 code =404
+                                                 T3_table(id, T, path3[indic], path3[0],code)
                                              }
                                          }
                                      })
@@ -2486,21 +3120,24 @@
 
                                  }
                                  if (id_tport_c == 'T_port4') {
+                                    $('#T_port2').removeClass('heilighter')
+                                    $('#T_port3').removeClass('heilighter')
+                                    $('#T_port1').removeClass('heilighter')
                                     var id = $(this).attr('id');
                                     var T = 4;
                                      $.ajax({
                                          url: '/testing/codeSousOperation/' + path3[indic],
                                          type: 'GET',
                                          success: function (response) {
-                                             if (response.code == 200) {
+                                             if (response.code == 200 && response.t4_exists==1) {
                                                  alert('Exist')
 
                                                  T4_table(id, T, path3[indic], path3[0],response.code)
                                              }
                                              else {
                                                  alert('New')
-
-                                                 T4_table(id, T, path3[indic], path3[0],response.code)
+                                                 code =404
+                                                 T4_table(id, T, path3[indic], path3[0],code)
                                              }
                                          }
                                      })
@@ -2518,7 +3155,7 @@
                           *  this js for creation from the index
                           */
 
-                        
+
 
 
                          /**

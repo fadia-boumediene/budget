@@ -18,14 +18,20 @@ return new class extends Migration
             $table->float('AE_sous_operation')->nullable(); //si t1 ou t4
             $table->float('CP_sous_operation')->nullable();//si t1 ou t4
 
-            $table->DateTime('date_insert_SOUSoperation');
+            $table->float('AE_sous_operation_NONREPARTIS')->default(0.0); //si t1 ou t4
+            $table->float('CP_sous_operation_NONREPARTIS')->default(0.0);//si t1 ou t4
+
+            $table->Date('date_insert_SOUSoperation');
             $table->DateTime('date_update_SOUSoperation')->nullable();
 
             $table->float('AE_ouvert')->nullable();
             $table->float('AE_atendu')->nullable();
             $table->float('CP_ouvert')->nullable();
             $table->float('CP_atendu')->nullable();
-
+            $table->float('AE_ouvert_NONREPARTIS')->default(0.0);
+            $table->float('AE_atendu_NONREPARTIS')->default(0.0);
+            $table->float('CP_ouvert_NONREPARTIS')->default(0.0);
+            $table->float('CP_atendu_NONREPARTIS')->default(0.0);
 
             $table->float('AE_reporte')->nullable();
             $table->float('AE_notifie')->nullable();
@@ -33,7 +39,12 @@ return new class extends Migration
             $table->float('CP_reporte')->nullable();
             $table->float('CP_notifie')->nullable();
             $table->float('CP_consome')->nullable();
-
+            $table->float('AE_reporte_NONREPARTIS')->default(0.0);
+            $table->float('AE_notifie_NONREPARTIS')->default(0.0);
+            $table->float('AE_engage_NONREPARTIS')->default(0.0);
+            $table->float('CP_reporte_NONREPARTIS')->default(0.0);
+            $table->float('CP_notifie_NONREPARTIS')->default(0.0);
+            $table->float('CP_consome_NONREPARTIS')->default(0.0);
 
             $table->integer('code_t1')->nullable();
             $table->foreign('code_t1')->references('code_t1')->on('t1_s');

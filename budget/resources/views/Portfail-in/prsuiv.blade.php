@@ -66,15 +66,15 @@ Object.entries(paths).forEach(([code,value])=>{
                         <form >
                         <div class="form-group">
                         <label for="input1">Code de Sous ACTION</label>
-                        <input type="text" class="form-control" id="num_s_act" placeholder="Entrer le Code de sous ACTION">
+                        <input type="text" class="form-control" id="num_sous_action" placeholder="Entrer le Code de sous ACTION">
                         </div>
                         <div class="form-group">
                         <label for="inputDate">Date du Journal</label>
-                        <input type="date" class="form-control" id="date_insert_action">
+                        <input type="date" class="form-control" id="date_insert_sou_action">
                         </div>
                         <div class="form-group">
                         <label for="input1">Nom de Sous ACTION</label>
-                        <input type="text" class="form-control" id="nom_s_act" placeholder="Entrer le Nom de sous ACTION">
+                        <input type="text" class="form-control" id="nom_sous_action" placeholder="Entrer le Nom de sous ACTION">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Sous ACTION</label>
@@ -137,7 +137,7 @@ Object.entries(paths).forEach(([code,value])=>{
                  <form >
                         <div class="form-group">
                         <label for="input1">Code du Sous Programme</label>
-                        <input type="text" class="form-control" id="num_sousProg" placeholder="Entrer le  Code du Sous Programme">
+                        <input type="text" class="form-control" id="num_sous_prog" placeholder="Entrer le  Code du Sous Programme">
                         </div>
                         <div class="form-group">
                         <label for="inputDate">Date du Journal</label>
@@ -145,38 +145,38 @@ Object.entries(paths).forEach(([code,value])=>{
                         </div>
                         <div class="form-group">
                         <label for="input1">Nom du Sous Programme</label>
-                        <input type="text" class="form-control" id="nom_sousProg" placeholder="Entrer le Nom du Sous Programme">
+                        <input type="text" class="form-control" id="nom_sous_prog" placeholder="Entrer le Nom du Sous Programme">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Sous Programme</label>
-                        <input type="number" class="form-control" id="AE_sousProg" placeholder="Entrer AE sous Programme">
+                        <input type="number" class="form-control" id="AE_sous_prog" placeholder="Entrer AE sous Programme">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Sous Programme</label>
-                        <input type="number" class="form-control" id="CP_sousProg" placeholder="Entrer CP sous Programme">
+                        <input type="number" class="form-control" id="CP_sous_prog" placeholder="Entrer CP sous Programme">
                         </div>
                         <div class="ports_init">
                         <div class="form-group">
                                  <label for="input1">T1 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T1_AE_sous_prog"   placeholder="Entrer T1 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T1_CP_sous_prog"   placeholder="Entrer T1 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T1_AE_init"   placeholder="Entrer T1 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T1_CP_init"   placeholder="Entrer T1 CP Sous Programme">
                                  </div>
                                  <div class="form-group">
                                  <label for="input1">T2 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T2_AE_sous_prog"   placeholder="Entrer T2 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T2_CP_sous_prog"   placeholder="Entrer T2 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T2_AE_init"   placeholder="Entrer T2 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T2_CP_init"   placeholder="Entrer T2 CP Sous Programme">
                                  </div>
                                  <div class="form-group">
                                  <label for="input1">T3 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T3_AE_sous_prog"   placeholder="Entrer T3 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T3_CP_sous_prog"   placeholder="Entrer T3 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T3_AE_init"   placeholder="Entrer T3 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T3_CP_init"   placeholder="Entrer T3 CP Sous Programme">
                                  </div>
                                  <div class="form-group">
                                  <label for="input1">T4 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T4_AE_sous_prog"   placeholder="Entrer T4 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T4_CP_sous_prog"   placeholder="Entrer T4 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T4_AE_init"   placeholder="Entrer T4 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T4_CP_init"   placeholder="Entrer T4 CP Sous Programme">
                                  </div>
-                               
+
                                  </div>
                         </form>
                         <br>
@@ -247,7 +247,7 @@ Object.entries(paths).forEach(([code,value])=>{
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour le Programme</label>
-                        <input type="number" class="form-control" id="AE_prog" placeholder="Entrer CP sous Programme">
+                        <input type="number" class="form-control" id="CP_prog" placeholder="Entrer CP sous Programme">
                         </div>
                         </form>
                         <br>
@@ -266,7 +266,7 @@ Object.entries(paths).forEach(([code,value])=>{
   <form >
                         <div class="form-group">
                         <label for="input1">Code du Sous Programme</label>
-                        <input type="text" class="form-control" id="num_sousProg" placeholder="Entrer le  Code du Sous Programme">
+                        <input type="text" class="form-control" id="num_sous_prog" placeholder="Entrer le  Code du Sous Programme">
                         </div>
                         <div class="form-group">
                         <label for="inputDate">Date du Journal</label>
@@ -274,38 +274,38 @@ Object.entries(paths).forEach(([code,value])=>{
                         </div>
                         <div class="form-group">
                         <label for="input1">Nom du Sous Programme</label>
-                        <input type="text" class="form-control" id="nom_sousProg" placeholder="Entrer le Nom du Sous Programme">
+                        <input type="text" class="form-control" id="nom_sous_prog" placeholder="Entrer le Nom du Sous Programme">
                         </div>
                         <div class="form-group" id="ElAE_act">
                         <label for="input1">AE pour Sous Programme</label>
-                        <input type="number" class="form-control" id="AE_sousProg" placeholder="Entrer AE sous Programme">
+                        <input type="number" class="form-control" id="AE_sous_prog" placeholder="Entrer AE sous Programme">
                         </div>
                         <div class="form-group" id="ElCP_act">
                         <label for="input1">CP pour Sous Programme</label>
-                        <input type="number" class="form-control" id="CP_sousProg" placeholder="Entrer CP sous Programme">
+                        <input type="number" class="form-control" id="CP_sous_prog" placeholder="Entrer CP sous Programme">
                         </div>
                         <div class="ports_init">
                         <div class="form-group">
                                  <label for="input1">T1 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T1_AE_sous_prog"   placeholder="Entrer T1 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T1_CP_sous_prog"   placeholder="Entrer T1 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T1_AE_init"   placeholder="Entrer T1 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T1_CP_init"   placeholder="Entrer T1 CP Sous Programme">
                                  </div>
                                  <div class="form-group">
                                  <label for="input1">T2 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T2_AE_sous_prog"   placeholder="Entrer T2 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T2_CP_sous_prog"   placeholder="Entrer T2 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T2_AE_init"   placeholder="Entrer T2 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T2_CP_init"   placeholder="Entrer T2 CP Sous Programme">
                                  </div>
                                  <div class="form-group">
                                  <label for="input1">T3 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T3_AE_sous_prog"   placeholder="Entrer T3 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T3_CP_sous_prog"   placeholder="Entrer T3 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T3_AE_init"   placeholder="Entrer T3 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T3_CP_init"   placeholder="Entrer T3 CP Sous Programme">
                                  </div>
                                  <div class="form-group">
                                  <label for="input1">T4 pour Sous Programme</label>
-                                 <input type="number" class="form-control" id="T4_AE_sous_prog"   placeholder="Entrer T4 AE Sous Programme">
-                                 <input type="number" class="form-control" id="T4_CP_sous_prog"   placeholder="Entrer T4 CP Sous Programme">
+                                 <input type="number" class="form-control" id="T4_AE_init"   placeholder="Entrer T4 AE Sous Programme">
+                                 <input type="number" class="form-control" id="T4_CP_init"   placeholder="Entrer T4 CP Sous Programme">
                                  </div>
-                                 
+
                                  </div>
                         </form>
                         <br>

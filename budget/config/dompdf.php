@@ -266,7 +266,7 @@ return [
          *
          * @var bool
          */
-        'enable_remote' => false,
+        'enable_remote' => true,
 
         /**
          * List of allowed remote hosts
@@ -286,6 +286,8 @@ return [
          * A ratio applied to the fonts height to be more like browsers' line height
          */
         'font_height_ratio' => 1.1,
+        'is_html5_parser_enabled' => true,
+        'is_php_enabled' => true,
 
         /**
          * Use the HTML5 Lib parser
