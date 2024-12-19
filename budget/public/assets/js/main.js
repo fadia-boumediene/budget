@@ -1,86 +1,3 @@
-/*   var nexthop='<div class="pinfo-handle">'+
-                              '<i class="fas fa-wallet"></i>'+
-                              '<p >ACTION :</p>'+
-                              '<p>  </p>'+
-                              '</div>'+
-                              ' <div class="next-handle">'+
-                              '<i class="fas fa-angle-double-right waiting-icon"></i>'+
-                              '</div>'
-                          $('#progam-handle').addClass('slide-out')
-                          setTimeout(() => {
-                            // Add the class to hide the table
-                            $('#progam-handle').empty();
-                            // Optionally remove the scaling out class after hiding
-                            $('#T_List-handle').addClass('grid-T')
-                            add_T1();add_T2();add_T3();add_T4()
-                          $('.next-handle svg').removeClass('waiting-icon')
-                            $('.next-handle svg').addClass('complet-icon')
-                          $('.the-path').append(nexthop)
-                          $('#T-card_button button').on('click',function(){
-                            var buttonid=$(this).attr('id');
-                            console.log(''+buttonid);
-                            $('#T_List-handle').removeClass('grid-T')
-                            $('#T_List-handle').addClass('row-T')
-                            $('#gr_list_handle').addClass('gr_list')
-                            $('#T1-handle').empty()
-                            $('#T2-handle').empty()
-                            $('#T3-handle').empty()
-                            $('#T4-handle').empty()
-                            T1_newform();
-                            T2_newform();
-                            T3_newform();
-                            T4_newform();
-                                  $('#table-T').addClass('table-T-scroll')
-                            var table='<table class="container-T" id="T-tables">'+
-                                        '<thead style="position: sticky;">'+
-                                       '<tr>'+
-                                       '<th rowspan="2"><h1>T Description</h1><th> </th></th>'+
-                                       '<th><h1>AE</h1></th>'+
-                                       '<th><h1>CP </h1></th>'+
-                                       '</tr>'+
-                                       '</thead>'+
-                                       '<tbody>'+
-                                       '</tbody>'+
-                                     '</table>'
-                      $('#table-T').append(table)
-                      if( buttonid == 'T1')
-                          {   $.getJSON(jsonpath, function (data) {
-                                  // Loop through each item in the JSON data
-                                  $.each(data, function (key, value) {
-                                      // Create a table row
-                                      let row = '<tr>' +
-                                          '<td>' + key + '</td>' +
-                                          '<td>' + value + ' </td>' +
-                                          '<td class="editable">' + 0 + '</td>' +
-                                          '<td class="editable">' + 180+',000</td>' +
-                                          '</tr>';
-
-                                      // Append the row to the table body
-                                      $('#T-tables tbody').append(row);
-                                      Edit();
-                                      $('.TP-handle button').on('click',function(){
-                                        var btn=$(this).attr('id')
-                                        console.log('testing card Click'+btn)
-                                        if(btn != 'T1'){
-                                        $('#T-tables tbody').empty()
-                                        $('#T1-handle').empty()
-                                        $('#T2-handle').empty()
-                                        $('#T3-handle').empty()
-                                        $('#T4-handle').empty()
-                                        T1_newform();
-                                        T2_newform();
-                                        T3_newform();
-                                        T4_newform();}
-                                      })
-                                  });
-                              }).fail(function () {
-                                  console.error('Error loading JSON file.');
-                              });
-                              }
-                          })
-
-                        }, 500)
-                         /** this to creating at same page  */
 
                          var click = 0;
                          var iupdate=1;
@@ -93,9 +10,26 @@
                           * this function for adding button et makalah -_- ;
                           */
 
-                        function only_year(years,id_date)
+                        function only_def(id)
                         {
-
+                            var localverb;
+                            $.ajax({
+                                url:'/opsinfo/'+id,
+                                type:'GET',
+                                success:function(response)
+                                {
+                                    if(response.code == 200)
+                                    {
+                                        defss=response.result.nom_sous_operation 
+                                        console.log('def '+defss)
+                                        newdfs=defss.split('_')
+                                        $('#ref'+id+" #def").text(newdfs[0])
+                                        $('#ref'+id+" #sous_def").text(newdfs[1])
+                                        
+                                    }
+                                }
+                            })
+                            return localverb
                         }
 
 
@@ -169,7 +103,10 @@
                                  let chunk = str.substring(i, i + length);
                                  result.push({ substring: chunk, length: chunk.length });
                              }
-                             return result;
+                             var testing =str.split("-");
+                             var last=testing.length-1
+                           
+                             return testing[last];
                          }
 
 
@@ -178,7 +115,7 @@
                                  '<td class="code" >' + id + '</td>' +
                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + descr + '</p></td>' +
                                  '<td class="editable" id="AE_T1">' + value + '</td>' +
-                                 '<td class="editable" id="CP_T1">' + 180 + ',000</td>' +
+                                 '<td class="editable" id="CP_T1">' + 180 + '</td>' +
                                  '</tr>';
 
                              $('#' + key).after(row);
@@ -248,11 +185,11 @@
                                         '<td class="code">' + id + '</td>' +
                                         '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + descr + '</p> </td>' +
                                         '<td class="editable" id="AE_Over">' + value + '</td>' +
-                                        '<td class="editable" id="CP_Over">' + 180 + ',000</td>' +
+                                        '<td class="editable" id="CP_Over">' + 180 + '</td>' +
                                         '<td class="editable" id="AE_att">' + value + '</td>' +
-                                        '<td class="editable" id="CP_att">' + 180 + ',000</td>' +
+                                        '<td class="editable" id="CP_att">' + 180 + '</td>' +
                                         '<td  id="AE_TT" diseabled>' + some + '</td>' +
-                                        '<td  id="CP_TT" diseabled>' + 360 + ',000</td>' +
+                                        '<td  id="CP_TT" diseabled>' + 360 + '</td>' +
                                         '</tr>';
                                     $('#' + key).after(row);
                                     $('#' + key + ' td').each(function () {
@@ -342,11 +279,11 @@
                                             '<td>' + sopdata_add.descrp + '</td>' +
                                             '<td>' + sopdata_add.intituel + '</td>' +
                                             '<td class="editable" id="AE_rpor">' + sopdata_add.AE_rpor + '</td>' +
-                                            '<td class="editable" id="AE_not">' + sopdata_add.AE_not + ',000</td>' +
+                                            '<td class="editable" id="AE_not">' + sopdata_add.AE_not + '</td>' +
                                             '<td class="editable" id="AE_enga">' + sopdata_add.AE_enga + '</td>' +
-                                            '<td class="editable" id="CP_rpor">' + sopdata_add.CP_rpor + ',000</td>' +
+                                            '<td class="editable" id="CP_rpor">' + sopdata_add.CP_rpor + '</td>' +
                                             '<td class="editable" id="CP_not">' + sopdata_add.CP_not + '</td>' +
-                                            '<td class="editable" id="CP_consom">' + sopdata_add.CP_consom + ',000</td>' +
+                                            '<td class="editable" id="CP_consom">' + sopdata_add.CP_consom + '</td>' +
                                             '</tr>';
                                         $('#' + key).after(row);
                                       /*  $('#' + key + ' td').each(function () {
@@ -1249,8 +1186,8 @@
                                  '<!--i class="fas fa-door-closed T-icon"></i-->' +
                                  '<i class="fas fa-door-open T-icon"></i>' +
                                  '<p class="card-title-T">Titre Port 1</p>' +
-                                 ' <p class="card-description-T">AE 190,000 DZ.</p>' +
-                                 ' <p class="card-description-T">CP 100,000 DZ.</p>' +
+                                 ' <p class="card-description-T">AE 190 DZ.</p>' +
+                                 ' <p class="card-description-T">CP 100 DZ.</p>' +
                                  ' <button id="T1">...</button>' +
                                  '</div>' +
                                  '</div>' +
@@ -1264,8 +1201,8 @@
                                  '<!--i class="fas fa-door-closed T-icon"></i-->' +
                                  '<i class="fas fa-door-open T-icon"></i>' +
                                  '<p class="card-title-T">Titre Port 2</p>' +
-                                 ' <p class="card-description-T">AE 290,000 DZ.</p>' +
-                                 ' <p class="card-description-T">CP 100,000 DZ.</p>' +
+                                 ' <p class="card-description-T">AE 290 DZ.</p>' +
+                                 ' <p class="card-description-T">CP 100 DZ.</p>' +
                                  ' <button id="T2">...</button>' +
                                  '</div>' +
                                  '</div>' +
@@ -1279,8 +1216,8 @@
                                  '<!--i class="fas fa-door-closed T-icon"></i-->' +
                                  '<i class="fas fa-door-open T-icon"></i>' +
                                  '<p class="card-title-T">Titre Port 3</p>' +
-                                 ' <p class="card-description-T">AE 390,000 DZ.</p>' +
-                                 ' <p class="card-description-T">CP 100,000 DZ.</p>' +
+                                 ' <p class="card-description-T">AE 390 DZ.</p>' +
+                                 ' <p class="card-description-T">CP 100 DZ.</p>' +
                                  ' <button id="T3">...</button>' +
                                  '</div>' +
                                  '</div>' +
@@ -1294,8 +1231,8 @@
                                  '<!--i class="fas fa-door-closed T-icon"></i-->' +
                                  '<i class="fas fa-door-open T-icon"></i>' +
                                  '<p class="card-title-T">Titre Port 4</p>' +
-                                 ' <p class="card-description-T">AE 490,000 DZ.</p>' +
-                                 ' <p class="card-description-T">CP 100,000 DZ.</p>' +
+                                 ' <p class="card-description-T">AE 490 DZ.</p>' +
+                                 ' <p class="card-description-T">CP 100 DZ.</p>' +
                                  ' <button id="T4">...</button>' +
                                  '</div>' +
                                  '</div>' +
@@ -2239,7 +2176,7 @@
                                          if(Object.keys(data_T_port).length > 0 ){
                                      if (data_T_port.group.length > 0 && data_T_port.group.length > ig) {
                                         var land=data_T_port.group[ig].code.length-5
-                                         if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.group[ig].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
                                                  '<td scope="row" class="code" >' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
@@ -2251,7 +2188,7 @@
                                      }
                                      if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
                                         var land=data_T_port.operation[io].code.length-5
-                                         if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.operation[io].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
                                                  '<td scope="row"  class="code" >' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
@@ -2263,7 +2200,7 @@
                                      }
                                      if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
                                         var land=data_T_port.sousOperation[iso].code.length-5
-                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
                                                  '<td scope="row"  class="code" >' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + value + '</p></td>' +
@@ -2435,7 +2372,7 @@
                                      if(Object.keys(data_T_port).length > 0){
                                      if (codegr.length > 0 && data_T_port.group.length > ig) {
                                         var land=data_T_port.group[ig].code.length-5
-                                         if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.group[ig].code, land)) {
                                              row = '<tr class="ref' + key + '" id="ref'+data_T_port.group[ig].code+'">' +
                                                  '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
@@ -2451,7 +2388,7 @@
                                      }
                                      if (codeop.length > 0 && data_T_port.operation.length > io) {
                                         var land=data_T_port.operation[io].code.length-5
-                                         if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.operation[io].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
                                                  '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
@@ -2467,7 +2404,7 @@
                                      }
                                      if (codesop.length > 0 && data_T_port.sousOperation.length > iso) {
                                         var land=data_T_port.sousOperation[iso].code.length-5
-                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
                                                  '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + value + '</p> </td>' +
@@ -2645,8 +2582,8 @@
 
                                      if (data_T_port.group.length > 0 && data_T_port.group.length > ig) {
                                         var land=data_T_port.group[ig].code.length-5;
-                                        console.log('T3'+JSON.stringify(data_T_port.group) +' length'+land)
-                                         if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
+                                     
+                                         if (key == splitcode(data_T_port.group[ig].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
                                                  '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td><p>' + val[0] + '</p> </td>' +
@@ -2663,37 +2600,70 @@
                                      }
                                      if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
                                         var land=data_T_port.operation[io].code.length-5;
-
-                                         if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
+                                         
+                                         if (key == splitcode(data_T_port.operation[io].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
                                                  '<td scope="row"  class="code">' + key + '</td>' +
                                                  '<td><p>' + val[0] + '</p> </td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
                                                  '<td class="editable" id="AE_rpor">' + data_T_port.operation[io].values.ae_reporteop + '</td>' +
-                                                 '<td class="editable" id="AE_not">' + data_T_port.operation[io].values.ae_notifieop + ',000</td>' +
+                                                 '<td class="editable" id="AE_not">' + data_T_port.operation[io].values.ae_notifieop + '</td>' +
                                                  '<td class="editable" id="AE_enga">' + data_T_port.operation[io].values.ae_engageop + '</td>' +
-                                                 '<td class="editable" id="CP_rpor">' + data_T_port.operation[io].values.cp_reporteop + ',000</td>' +
+                                                 '<td class="editable" id="CP_rpor">' + data_T_port.operation[io].values.cp_reporteop + '</td>' +
                                                  '<td class="editable" id="CP_not">' + data_T_port.operation[io].values.cp_notifieop + '</td>' +
-                                                 '<td class="editable" id="CP_consom">' + data_T_port.operation[io].values.cp_consomeop + ',000</td>' +
+                                                 '<td class="editable" id="CP_consom">' + data_T_port.operation[io].values.cp_consomeop + '</td>' +
                                                  '</tr>';
                                              io++;
                                          }
                                      }
                                      if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
                                         var land=data_T_port.sousOperation[iso].code.length-5;
-                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
+                                     
+                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
                                                  '<td scope="row"  class="code">' + key + '</td>' +
-                                                 '<td><p>' + val[0] + '</p> </td>' +
+                                                 '<td><p>' +    val[0] + '</p> </td>' +
                                                  '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
                                                  '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
-                                                 '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + ',000</td>' +
+                                                 '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + '</td>' +
                                                  '<td class="editable" id="AE_enga">' + data_T_port.sousOperation[iso].values.ae_engagesousop + '</td>' +
-                                                 '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + ',000</td>' +
+                                                 '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + '</td>' +
                                                  '<td class="editable" id="CP_not">' + data_T_port.sousOperation[iso].values.cp_notifiesousop + '</td>' +
-                                                 '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + ',000</td>' +
+                                                 '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
                                                  '</tr>';
                                              iso++;
+                                         }
+                                         else
+                                         { 
+                                            if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
+                                            {
+                                                only_def(data_T_port.sousOperation[iso].code)
+                                            row = '<tr class="ref'+splitcode(data_T_port.sousOperation[iso].code, land)+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                                            '<td scope="row"  class="code">' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land) + '</td>' +
+                                            '<td id="def"> </td>' +
+                                            '<td id="sous_def" style="display: flex;align-items: center; justify-content: space-between;"></td>' +
+                                            '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
+                                            '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + '</td>' +
+                                            '<td class="editable" id="AE_enga">' + data_T_port.sousOperation[iso].values.ae_engagesousop + '</td>' +
+                                            '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + '</td>' +
+                                            '<td class="editable" id="CP_not">' + data_T_port.sousOperation[iso].values.cp_notifiesousop + '</td>' +
+                                            '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
+                                            '</tr>';
+                                            iso++;
+                                            $('#T-tables tbody').append(row);
+                                            row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                                            '<td scope="row"  class="code">' + key + '</td>' +
+                                            '<td><p>' +val[0] + '</p> </td>' +
+                                            '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
+                                            '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
+                                            '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + '</td>' +
+                                            '<td class="editable" id="AE_enga">' + data_T_port.sousOperation[iso].values.ae_engagesousop + '</td>' +
+                                            '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + '</td>' +
+                                            '<td class="editable" id="CP_not">' + data_T_port.sousOperation[iso].values.cp_notifiesousop + '</td>' +
+                                            '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
+                                            '</tr>';
+                                        iso++;
+                                        }
                                          }
                                      }
                                      }
@@ -2844,7 +2814,7 @@
                                      if(Object.keys(data_T_port).length > 0){
                                      if (data_T_port.group.length > 0 && data_T_port.group.length > ig) {
                                         var land=data_T_port.group[ig].code.length-5;
-                                         if (key == splitcode(data_T_port.group[ig].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.group[ig].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.group[ig].code + '">' +
                                                  '<td scope="row" class="code" >' + key + '</td>' +
                                                  '<td><p>' + value + '</p></td>' +
@@ -2858,7 +2828,7 @@
                                      }
                                      if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
                                         var land=data_T_port.operation[io].code.length-5;
-                                         if (key == splitcode(data_T_port.operation[io].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.operation[io].code, land)) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.operation[io].code + '">' +
                                                  '<td scope="row" class="code" >' + key + '</td>' +
                                                  '<td ><p>' + value + '</p></td>' +
@@ -2872,7 +2842,7 @@
                                      }
                                      if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
                                         var land=data_T_port.sousOperation[iso].code.length-5;
-                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)[1].substring) {
+                                         if (key == splitcode(data_T_port.sousOperation[iso].code, land)  ) {
                                              row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
                                                  '<td scope="row" class="code" >' + key + '</td>' +
                                                  '<td ><p>' + value + '</p></td>' +
@@ -2883,7 +2853,33 @@
                                                  '</tr>';
                                              iso++;
                                          }
-                                     }}
+                                         else{
+                                            if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
+                                            {
+                                                only_def(data_T_port.sousOperation[iso].code)
+                                               row = '<tr class="ref'+data_T_port.sousOperation[iso].code+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                                            '<td scope="row" class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
+                                            '<td id="def"></td>' +
+                                            '<td id="sous_def" ></td>'+
+                                            '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
+                                            '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
+                                            '</tr>';
+                                        iso++;  
+                                        $('#T-tables tbody').append(row);
+                                        row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                                        '<td scope="row" class="code" >' + key + '</td>' +
+                                        '<td ><p>' + value + '</p></td>' +
+
+                                        '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
+                                        '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
+                                        '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
+                                        '</tr>';
+                                    iso++;
+                                        
+                                    }
+                                         }
+                                     }
+                                    }
                                      // Append the row to the table body
 
                                      $('#T-tables tbody').append(row);

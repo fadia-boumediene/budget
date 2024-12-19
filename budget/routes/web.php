@@ -98,6 +98,7 @@ Route::controller(sousOperationController::class)->group(function(){
     Route::get('/testing/S_action/{port}/{prog}/{sous_prog}/{act}/{s_act}','AffichePortsSousAct');
     Route::get('/testing/{port}/{prog}/{sous_prog}/{act}/{s_act}/pdf','impressionpdf');
     Route::get('/testing/{port}/{prog}/{sous_prog}/{act}/pdf','impressionpdf');
+    Route::get('/opsinfo/{id}','getdef_sop');
 });
 //===============ROUTE modification==============================
 Route::controller(modificationController::class)->group(function(){
