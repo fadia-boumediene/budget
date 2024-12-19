@@ -211,29 +211,29 @@
                          function add_newOPs_T3(id, value, key,) {
                             id=id+'-'+counter;
                             $("#dispo").text('');
-                            $('.desp').text('Intituler');
+                            $('.desp').text("INTITULE DE L'OPERATION");
                             var champ='<div class="Tsop_add_handle">'+
                             '<form id="add_sops">'+
                             '<div class="form-group">'+
-                            '<label class="desp">descrption</label>'+
-                             '<input type="text" class="form-control" id="dispo" placeholder="Entrer La description">'+
-                             '<label class="desp">Intituler</label>'+
-                             '<input type="text" class="form-control" id="int-T3" placeholder="Entrer La description">'+
+                            '<label class="desp">N° de Décision </label>'+
+                             '<input type="text" class="form-control" id="dispo" placeholder="Entrer N° de décision">'+
+                             '<label class="desp">INTITULE DE Ll&#39;OPERATION </label>'+
+                             '<input type="text" class="form-control" id="int-T3" placeholder="Entrer l&#39;intitulé de l&#39;opération">'+
                              '</div>'+
                              '<div class="T3-ops_inpt_handle">' +
-                             '<div><label>AE Reportter</label>'+
+                             '<div><label>AE REPORTEE </label>'+
                                       '<input type="number" class="form-control" id="add_AE_rpor">'+
-                                      '<label>AE Notifier</label>'+
+                                      '<label>AE NOTIFIEE</label>'+
                                       '<input type="number" class="form-control" id="add_AE_not">'+
-                                      '<label>AE Engager</label>'+
+                                      '<label>AE ENGAGEE </label>'+
                                       '<input type="number" class="form-control" id="add_AE_enga">'+
                                       '</div>'+
                                       '<div>'+
-                                      '<label>CP Reporter</label>'+
+                                      '<label>CP REPORTES</label>'+
                                       '<input type="number" class="form-control" id="add_CP_rpor">'+
-                                      '<label>CP Notifier</label>'+
+                                      '<label>CP NOTIFIES</label>'+
                                       '<input type="number" class="form-control" id="add_CP_not">'+
-                                      '<label>CP Consumer</label>'+
+                                      '<label>CP CONSOMMES</label>'+
                                       '<input type="number" class="form-control" id="add_CP_consom">'+
                                       '</div>'+
                             '</div>'+
@@ -313,17 +313,16 @@
                             var champ='<div class="Tsop_add_handle">'+
                                         '<form id="add_sops">'+
                                         '<div class="form-group">'+
-                                        '<label class="desp">Dispositive ou bien la description</label>'+
-                                     '<input type="text" class="form-control" id="dispo" placeholder="Entrer La description">'+
+                                        '<label class="desp">Dispositifs d&#39;interventions</label>'+
+                                     '<input type="text" class="form-control" id="dispo" placeholder="Entrer le dispositif d&#39;intervention">'+
                                     '</div>'+
 
                                     '<div class="form-group" id="Tport-vals">'+
-                                    '<label>definition</label><input type="text" class="form-control" id="def_T4">'+
                                       '<div><label>AE</label>'+
                                      '<input type="number" class="form-control" id="add_AE_T4">'+
                                      '</div>'+
                                      '<div>'+
-                                     '<label>CP Reporter</label>'+
+                                     '<label>CP </label>'+
                                     '<input type="number" class="form-control" id="add_CP_T4">'+
                                     '</div>'+
                                     '</div>'+
