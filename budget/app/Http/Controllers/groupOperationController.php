@@ -786,7 +786,7 @@ foreach ($intil as $code => $value) {
         $codeOp = floor($code / 100) * 100;
         $codeGp = floor($code / 1000) * 1000;
         // Insertion dans la table sousoperation
-        dd("$codeGp","$codeOp",$code,$finalcode);
+       // dd("$codeGp","$codeOp",$code,$finalcode);
         $codeGp="$codeGp";
         $codeOp="$codeOp";
         GroupOperation::updateOrCreate(
@@ -1070,7 +1070,7 @@ foreach ($jsonData as $codeStr => $nom) {
                    // dd( $DPIA);
           }
           // si c est un dispositif
-            else{
+         /*   else{
                 // Vérifier si la variable contient un seul tiret
                 if (strpos($code, '-') !== false) {
                     // Supprimer tout ce qui suit le premier tiret (y compris le tiret)
@@ -1085,7 +1085,7 @@ foreach ($jsonData as $codeStr => $nom) {
                       'CP_sous_operation' => floatval(str_replace(',', '', $cp))
                       , 'date_insert_SOUSoperation' => $currentDateTime]
                 );
-            }
+            }*/
         }
 
         return response()->json([

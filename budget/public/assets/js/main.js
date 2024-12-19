@@ -362,6 +362,7 @@
 
                                 $('.Tsop_handler').addClass('Tsop_handler_h')
                                 $('#Tport-vals').empty()
+                                $('.Tsop_handler').empty();
                                 alert('cancel op')
                             })
                          }
@@ -2725,7 +2726,7 @@
                                                  $('.ref' + preve + ' #add_op').append(newbtn)
                                                  $('.ref' + preve + ' #add_op').on('click', function () {
                                                     var newKey=$(this).parent().attr('id');
-                                                    var ads = newKey.split('ref')[1] + '1';
+                                                    var ads = newKey.split('ref')[1]
                                                     $('.Tsop_handler').removeClass('Tsop_handler_h')
                                                      add_newOPs_T3(ads, 2500, newKey);
 
@@ -2742,7 +2743,7 @@
                                              $('.ref' + key + ' #add_op').append(newbtn)
                                              $('.ref' + key + ' #add_op').on('click', function () {
                                                 var newKey=$(this).parent().attr('id');
-                                                var ads = newKey.split('ref')[1] + '1';
+                                                var ads = newKey.split('ref')[1] 
                                                 $('.Tsop_handler').removeClass('Tsop_handler_h')
                                                  add_newOPs_T3(ads, 2500, preve);
                                              })
