@@ -9,6 +9,7 @@ use App\Models\Operation;
 use App\Models\SousOperation;
 use App\Models\ConstruireDPIA;
 use App\Models\ConstruireDPIC;
+use App\Models\SousAction;
 use Carbon\Carbon;
 class groupOperationController extends Controller
 {
@@ -17,6 +18,12 @@ class groupOperationController extends Controller
 //===================================================================================
     public function insertDPA(Request $request,$port,$prog,$sous_prog,$act, $s_act,$T )
 {
+    if(isset($s_act)&& $act == $s_act ){
+        $s_actt=SousAction::where('num_action',$act)->first();
+        $s_act=$s_actt->num_sous_action;
+        
+    }
+   // dd($s_act);
    $currentDateTime = Carbon::now();
    $port=intval($port);
   // dd($port);
@@ -813,6 +820,50 @@ foreach ($intil as $code => $value) {
             'CP_consome' => floatval(str_replace(',', '', $cpDataConsome[$finalcode]))
             ,'code_t3' => 30000, 'date_insert_SOUSoperation' => $currentDateTime]
         );
+
+          // creation de la table  construireDPIA
+          $portefeuille = Portefeuille::where('num_portefeuil', $port)->first();
+          // dd($portefeuille);
+
+          if ($portefeuille) {
+
+             $DPIA= ConstruireDPIA::updateOrCreate(
+
+                  [
+                      'code_sous_operation' => $sousoperation->code_sous_operation,
+                      'id_rp' => 1,
+                      'id_ra' => 1,
+                  ],
+
+                  [
+                      'date_creation_dpia' => $portefeuille->Date_portefeuille,
+                      'date_modification_dpia' => now(),
+                      'motif_dpia' => 'Création de DPIA (T3) num decision et intitule à partir du portefeuille ',
+
+                      'AE_dpia_nv' => null,
+                      'CP_dpia_nv' => null,
+
+                      'AE_ouvert_dpia' => null,
+                      'AE_atendu_dpia' => null,
+                      'CP_ouvert_dpia' => null,
+                      'CP_atendu_dpia' => null,
+
+                      'AE_reporte_dpia' => $sousoperation->AE_reporte,
+                      'AE_notifie_dpia' => $sousoperation->AE_notifie,
+                      'AE_engage_dpia' => $sousoperation->AE_engage,
+                      'CP_reporte_dpia' => $sousoperation->CP_reporte,
+                      'CP_notifie_dpia' => $sousoperation->CP_notifie,
+                      'CP_consome_dpia' => $sousoperation->CP_consome,
+                  ]
+              );
+
+          } else {
+
+              dd('Portefeuille non trouvé');
+          }
+
+          // dd( $DPIA);
+              
         
     }
 }
@@ -1161,7 +1212,48 @@ foreach ($disp as $code => $value) {
             'CP_sous_operation' => floatval(str_replace(',', '', $cpData[$finalcode]))
             ,'code_t4' => 40000, 'date_insert_SOUSoperation' => $currentDateTime]
         );
-        
+        // creation de la table  construireDPIA
+        $portefeuille = Portefeuille::where('num_portefeuil', $port)->first();
+        // dd($portefeuille);
+
+         if ($portefeuille) {
+             // Création de la table ConstruireDPIA
+             ConstruireDPIA::updateOrCreate(
+
+                [
+                    'code_sous_operation' => $sousoperation->code_sous_operation,
+                    'id_rp' => 1,
+                    'id_ra' => 1,
+                ],
+
+                [
+                    'date_creation_dpia' => $portefeuille->Date_portefeuille,
+                    'date_modification_dpia' =>now(),
+                    'motif_dpia' => 'Création de DPIA (T4) dispoisitif à partir du portefeuille',
+
+                    'AE_dpia_nv' => $sousoperation->AE_sous_operation,
+                    'CP_dpia_nv' => $sousoperation->CP_sous_operation,
+
+                    'AE_ouvert_dpia' => null,
+                    'AE_atendu_dpia' => null,
+                    'CP_ouvert_dpia' => null,
+                    'CP_atendu_dpia' => null,
+
+                    'AE_reporte_dpia' => null,
+                    'AE_notifie_dpia' => null,
+                    'AE_engage_dpia' => null,
+                    'CP_reporte_dpia' => null,
+                    'CP_notifie_dpia' => null,
+                    'CP_consome_dpia' => null,
+
+
+                ]
+            );
+         } else {
+             // si le portefeuille n'existe pas
+             dd('Portefeuille non trouvé');
+         }
+         // dd( $DPIA);
     }
 }
 

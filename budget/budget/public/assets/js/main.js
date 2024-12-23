@@ -323,7 +323,8 @@ function add_newOPs_T3(id, value, key,) {
 }
 
 function add_newOPs_T4(id, value, key,) {
- 
+   id=id+'-'+counter;
+   var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'
     $('.change_app').append(buttons)
    $("#dispo").val('');
    $('.desp').text('Dispositive');
@@ -358,9 +359,7 @@ function add_newOPs_T4(id, value, key,) {
  
    $('#ajt').click(function(){
     mount_chang=true;
-    $('.change_app').empty()
-    id=id+'-'+counter;
-    var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'
+   
        var data_add_ops={
            code:id,
            descrp:$('#dispo').val(),
@@ -383,6 +382,11 @@ function add_newOPs_T4(id, value, key,) {
   /* $('#' + key + ' td').each(function () {
        $(this).removeClass('editable');
    })*/
+ 
+       var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'  
+       $('.change_app').append(buttons)
+       console.log('addbtn'+buttons);
+
        console.log('data T4'+JSON.stringify(data_add_ops))
         $('#Tport-vals').removeClass('T4')
         $("#dispo").val('');
@@ -1050,199 +1054,1188 @@ function Edit(tid, T) {
                             }
 
                             $.ajax({
-                                url:'/opsinfo/'+id,
-                                type:'GET',
-                                success:function(response)
-                                {
-                                    if(response.code == 200)
-                                    {
-                                        defss=response.result.nom_sous_operation 
-                                        console.log('def '+defss)
-                                        newdfs=defss.split('_')
-                                        $('#ref'+id+" #def").text(newdfs[0])
-                                        $('#ref'+id+" #sous_def").text(newdfs[1])
-                                        
-                                    }
-                                }
-                            })
-                            return localverb
-                        }
+                                url: url,
+                                type: 'GET',
+                                data: {
+                                    ae: data.ae,
+                                    cp: data.cp,
 
+                                    ae_ouvert: data.ae_ouvert,
+                                    cp_ouvert: data.cp_ouvert,
+                                    ae_attendu: data.ae_attendu,
+                                    cp_attendu: data.cp_attendu,
 
-                         /**
-                          *
-                          * upload file function
-                          *
-                          */
-                         function upload_file(id_file,id_relat)
-                         {
-
-                            let formDataFa = new FormData();
-                            formDataFa.append('pdf_file', $('#'+id_file)[0].files[0]);
-                            formDataFa.append('related_id',id_relat);
-                            $.ajax({
-                                url:'/upload-pdf',
-                                type:'POST',
-                                data:formDataFa,
-                                processData: false,
-                                contentType: false,
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
+                                    ae_reporte: data.ae_reporte,
+                                    ae_notifie: data.ae_notifie,
+                                    ae_engage: data.ae_engage,
+                                    cp_reporte: data.cp_reporte,
+                                    cp_notifie: data.cp_notifie,
+                                    cp_consome: data.cp_consome,
+                                    //id_sous_action: id_sous_action,
+                                    _token: $('meta[name="csrf-token"]').attr('content'),
+                                    _method: "GET"
                                 },
-                                success:function(response)
-                                {
-                                    if(response.code)
-                                    {
-                                   return response.code
-                                  }
+                                success: function (response) {
+                                    if (response.code == 200 || response.code == 404) {
+                                        window.location.reload();
+                                        //console.log('path' + JSON.stringify(path))
+
+                                    }
                                     else
                                     {
-                                        return response.message;
+                                       console.log(response.message)
                                     }
+                                },
+                                error: function (response) {
+                                    console.log('error')
                                 }
-                            })
-
-                         }
-                         function focus_() {
-                             $('input').focus(function () {
-                                 $(this).removeAttr('style');
-                             });
-                         }
-                         function check_ifnull(button) {
-                             var indice = 0;
-                             var isEmpty = false
-                             var formId = $(button).parents('.form-container').attr('id');
-                             console.log('and form id' + formId);
-                             $('#' + formId + ' form').find('input').each(function () {
-                                 console.log('before the loop')
-                                 var inputValue = $(this).val();
-
-                                 // Check if the input is not empty
-                                 if (inputValue.trim() === "") {
-                                     isEmpty = true;
-                                     indice++;
-                                 }
 
 
-                                 if (isEmpty) {
-                                     if (indice < 2) {
-                                         alert("Veuillez remplir tous les champs obligatoires");
-                                     }
-                                     $(this).css('box-shadow', '0 0 0 0.25rem rgb(255 0 0 / 47%)')
-                                 }
-                             });
-                         }
+                            });
+                            click = 0;
+                        })*/
+                    }
+                    //  console.log('all table'+JSON.stringify(value_chng))
+                    cell.text(newText);
+                }
+                else {
+                    cell.empty();
+                    if(old == 0 || old == "0" || old == '' || old === null)
+                    {
+                       old='0';
+                    }
+                    cell.text(old)
+                }
+                // Set the new value back to the cell
+            });
 
-                         function splitcode(str, length) {
-                             let result = [];
-                             for (let i = 0; i < str.length; i += length) {
-                                 let chunk = str.substring(i, i + length);
-                                 result.push({ substring: chunk, length: chunk.length });
-                             }
-                             var testing =str.split("-");
-                             var last=testing.length-1
-                           
-                             return testing[last];
-                         }
+            // Optionally, save when Enter key is pressed
+            input.keydown(function (event) {
+                if (event.key === 'Enter') {
+                    input.blur();  // Trigger blur event to save and exit input mode
+                }
+            });
+
+            $('.change_app').on('click',function(){
+               var idbtn=$(this).children('#changin').attr('id');
+               if(idbtn == 'changin')
+               {
+// value_chng=new Array()
+$('#reloading').removeClass('reload-hidden')
+//    alert('changing success')
+$('#T-tables tbody tr').each(function () {
+
+if (tid == 'T_port1' || tid == 'T1') {
+
+var code = $(this).find('td').eq(0).text();
+var aeValue = $(this).find('td').eq(2).text();
+var cpValue = $(this).find('td').eq(3).text();
+// Ajoute les valeurs dans les objets
+data.ae[code] = aeValue;
+data.cp[code] = cpValue;
+console.log('Data of T1'+JSON.stringify(data));
 
 
-                         function add_newOPs_T1(id, descr, value, key,) {
-                             var row = '<tr id="ref' + id + '">' +
-                                 '<td class="code" >' + id + '</td>' +
-                                 '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>' + descr + '</p></td>' +
-                                 '<td class="editable" id="AE_T1">' + value + '</td>' +
-                                 '<td class="editable" id="CP_T1">' + 180 + '</td>' +
-                                 '</tr>';
+}
+if (tid == 'T_port2' || tid == 'T2') {
 
-                             $('#' + key).after(row);
-                             $('#' + key + ' td').each(function () {
-                                 $(this).removeClass('editable');
-                             })
-                         }
-                         function add_newOPs_T2(id, descr, value, key) {
-                            var champ='<div><label>AE Overture</label>'+
-                            '<input type="number" class="form-control" id="add_AE_Over">'+
-                            '<label>AE Attendu</label>'+
-                            '<input type="number" class="form-control" id="add_AE_att">'+
-                            '<label>AE Total</label>'+
-                            '<input type="number" class="form-control" id="some_AE" disabled>'+
-                            '</div>'+
-                            '<div>'+
-                            '<label>CP Overture</label>'+
-                            '<input type="number" class="form-control" id="add_CP_Over">'+
-                            '<label>CP Attendu</label>'+
-                            '<input type="number" class="form-control" id="add_CP_att">'+
-                            '<label>CP Toral</label>'+
-                            '<input type="number" class="form-control" id="some_CP" disabled>'+
-                            '</div>';
-                            $('#Tport-vals').append(champ);
-                            var someae=0;
-                            var somecp=0;
-                            $('#add_AE_Over').on('change',function(){
+var code = $(this).find('td').eq(0).text();
+var aeDataOuvert = $(this).find('td').eq(2).text();
+var cpDataOuvert = $(this).find('td').eq(3).text();
+var aeDataAttendu = $(this).find('td').eq(4).text();
+var cpDataAttendu = $(this).find('td').eq(5).text();
+/* var someae = parseFloat(aeDataOuvert) + parseFloat(aeDataAttendu);
+var somecp = parseFloat(cpDataOuvert) + parseFloat(cpDataAttendu);
+*/
+// Ajoute les valeurs dans les objets
+data.ae_ouvert[code] = aeDataOuvert;
+data.cp_ouvert[code] = cpDataOuvert;
+data.ae_attendu[code] = aeDataAttendu;
+data.cp_attendu[code] = cpDataAttendu;
 
-                                someae+=parseInt($(this).val())
-                                $('#some_AE').val(someae);
-                            })
-                            $('#add_AE_att').on('change',function(){
-                                someae+=parseInt($(this).val())
-                                $('#some_AE').val(someae);
-                            })
-                            $('#add_CP_att').on('change',function(){
+}
+if (tid == 'T_port3' || tid == 'T3' || T == 3) {
 
-                                somecp+=parseInt($(this).val())
-                                $('#some_CP').val(somecp)
-                            })
-                            $('#add_CP_Over').on('change',function(){
-                                if($(this).val() !=0 && somecp != 0)
-                                    {
-                                        somecp-=$(this).val()
-                                    }
-                                somecp+=parseInt($(this).val())
-                                $('#some_CP').val(somecp)
-                            })
-                             $('#ajt').click(function(){
-                                var sopdata_add={
-                                    code:id,
-                                    descrp:descr,
-                                    AE_Over:$('#add_AE_Over').val(),
-                                    CP_Over:$('#add_CP_Over').val(),
-                                    AE_att:$('#add_AE_att').val(),
-                                    CP_att:$('#add_CP_att').val(),
-                                    _token: $('meta[name="csrf-token"]').attr("content"),
-                                    _method: "POST",
+var code = $(this).find('td').eq(0).text();
+var descrip=$(this).find('td').eq(1).text();
+var intituel=$(this).find('td').eq(2).text();
+var aeDataReporte = $(this).find('td').eq(3).text();
+var aeDataNotifie = $(this).find('td').eq(4).text();
+var aeDataEngage = $(this).find('td').eq(5).text();
+
+var cpDataReporte = $(this).find('td').eq(6).text();
+var cpDataNotifie = $(this).find('td').eq(7).text();
+var cpDataEngage = $(this).find('td').eq(8).text();
+
+
+// Ajoute les valeurs dans les objet
+//console.log("ddcss");
+data.descrp[code]=descrip
+data.intituel[code]=intituel
+data.ae_reporte[code] = aeDataReporte;
+data.ae_notifie[code] = aeDataNotifie;
+data.ae_engage[code] = aeDataEngage;
+
+data.cp_reporte[code] = cpDataReporte;
+data.cp_notifie[code] = cpDataNotifie;
+data.cp_consome[code] = cpDataEngage;
+
+}
+if (tid == 'T_port4' || tid == 'T4') {
+
+var code = $(this).find('td').eq(0).text();
+var descr= $(this).find('td').eq(1).text();
+var dispo= $(this).find('td').eq(2).text()
+var aeValue = $(this).find('td').eq(3).text();
+var cpValue = $(this).find('td').eq(4).text();
+// Ajoute les valeurs dans les objets
+data.descrp[code]=descr;
+data.disp[code]=dispo;
+data.ae[code] = aeValue;
+data.cp[code] = cpValue;
+console.log('T4'+JSON.stringify(data))
+
+}
+// value_chng.push(rw);
+})
+
+$('.change_app').empty()
+//  console.log('path' + JSON.stringify(path))
+//console.log('path' + JSON.stringify(path3))
+//var url=   '/testing/Action/' + path.join('/');
+console.log(" eat " + path3.length)
+if (path3.length > 4) {
+console.log('URL plus' + url)
+var url = '/testing/S_action/' + path3[0] + '/' + path3[1] + '/' + path3[2] + '/' + path3[3] + '/' + path3[4] + '/' + T;
+//var id_sous_action= path[4];
+} else {
+
+// var id_sous_action= path[3];
+var url = '/testing/S_action/' + path3[0] + '/' + path3[1] + '/' + path3[2] + '/' + path3[3] + '/' + path3[3] + '/' + T;
+console.log('URL less' + url)
+}
+
+$.ajax({
+url: url,
+type: 'GET',
+data: {
+ae: data.ae,
+cp: data.cp,
+
+ae_ouvert: data.ae_ouvert,
+cp_ouvert: data.cp_ouvert,
+ae_attendu: data.ae_attendu,
+cp_attendu: data.cp_attendu,
+
+ae_reporte: data.ae_reporte,
+ae_notifie: data.ae_notifie,
+ae_engage: data.ae_engage,
+cp_reporte: data.cp_reporte,
+cp_notifie: data.cp_notifie,
+cp_consome: data.cp_consome,
+dispo:data.disp,
+intitule:data.intituel,
+descr:data.descrp,
+//id_sous_action: id_sous_action,
+_token: $('meta[name="csrf-token"]').attr('content'),
+_method: "GET"
+},
+success: function (response) {
+if (response.code == 200 || response.code == 404) {
+
+window.location.reload();
+}
+else
+{
+console.log(response.message)
+}
+},
+error: function (response) {
+console.log('error')
+}
+
+
+});
+click = 0;
+
+               }
+            })
+            $('#changin').on('click', function () {
+
+           })
+
+        });
+
+    });
+
+}
+
+function add_T1() {
+    var T1 = '<div class="col-md-15 hover-container" id="T1-card-handle">' +
+        '<div class="card">' +
+        ' <div class="icon-holder">' +
+        '<i class="fas fa-door-closed default-icon icon icon-card"></i>' +
+        '<i class="fas fa-door-open hover-icon icon icon-card"></i>' +
+        '</div>' +
+        '<div class="card-body" id="T-card_button">' +
+        '<h5 class="card-title">Titre 1</h5>' +
+        ' <p class="card-text">Description pour Titre 1.</p>' +
+        '<button class="btn btn-primary bts" id="T1">Vers Les Operation</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T1-handle').append(T1)
+}
+function add_T2() {
+    var T1 = '<div class="col-md-15 hover-container" id="T2-card-handle">' +
+        '<div class="card">' +
+        ' <div class="icon-holder">' +
+        '<i class="fas fa-door-closed default-icon icon icon-card"></i>' +
+        '<i class="fas fa-door-open hover-icon icon icon-card"></i>' +
+        '</div>' +
+        '<div class="card-body" id="T-card_button">' +
+        '<h5 class="card-title">Titre 2</h5>' +
+        ' <p class="card-text">Description pour Titre 2.</p>' +
+        '<button class="btn btn-primary bts" id="T2">Vers Les Operation</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T2-handle').append(T1)
+}
+function add_T3() {
+    var T1 = '<div class="col-md-15 hover-container" id="T3-card-handle">' +
+        '<div class="card">' +
+        ' <div class="icon-holder" >' +
+        '<i class="fas fa-door-closed default-icon icon icon-card"></i>' +
+        '<i class="fas fa-door-open hover-icon icon icon-card"></i>' +
+        '</div>' +
+        '<div class="card-body" id="T-card_button">' +
+        '<h5 class="card-title">Titre 3</h5>' +
+        ' <p class="card-text">Description pour Titre 3.</p>' +
+        '<button class="btn btn-primary bts" id="T3">Vers Les Operation</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T3-handle').append(T1)
+}
+function add_T4() {
+    var T1 = '<div class="col-md-15 hover-container" id="T4-card-handle">' +
+        '<div class="card">' +
+        ' <div class="icon-holder">' +
+        '<i class="fas fa-door-closed default-icon icon icon-card"></i>' +
+        '<i class="fas fa-door-open hover-icon icon icon-card"></i>' +
+        '</div>' +
+        '<div class="card-body" id="T-card_button">' +
+        '<h5 class="card-title">Titre 4</h5>' +
+        ' <p class="card-text">Description pour Titre 4.</p>' +
+        '<button class="btn btn-primary bts" id="T4">Vers Les Operation</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T4-handle').append(T1)
+}
+function T1_newform() {
+    var newT = '<div class="TP-handle">' +
+        ' <div class="card-T">' +
+        '<div class="container-card bg-yellow-box">' +
+        '<!--i class="fas fa-door-closed T-icon"></i-->' +
+        '<i class="fas fa-door-open T-icon"></i>' +
+        '<p class="card-title-T">Titre Port 1</p>' +
+        ' <p class="card-description-T">AE 190 DZ.</p>' +
+        ' <p class="card-description-T">CP 100 DZ.</p>' +
+        ' <button id="T1">...</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T1-handle').append(newT)
+}
+function T2_newform() {
+    var newT = '<div class="TP-handle">' +
+        ' <div class="card-T">' +
+        '<div class="container-card bg-yellow-box">' +
+        '<!--i class="fas fa-door-closed T-icon"></i-->' +
+        '<i class="fas fa-door-open T-icon"></i>' +
+        '<p class="card-title-T">Titre Port 2</p>' +
+        ' <p class="card-description-T">AE 290 DZ.</p>' +
+        ' <p class="card-description-T">CP 100 DZ.</p>' +
+        ' <button id="T2">...</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T2-handle').append(newT)
+}
+function T3_newform() {
+    var newT = '<div class="TP-handle">' +
+        ' <div class="card-T">' +
+        '<div class="container-card bg-yellow-box">' +
+        '<!--i class="fas fa-door-closed T-icon"></i-->' +
+        '<i class="fas fa-door-open T-icon"></i>' +
+        '<p class="card-title-T">Titre Port 3</p>' +
+        ' <p class="card-description-T">AE 390 DZ.</p>' +
+        ' <p class="card-description-T">CP 100 DZ.</p>' +
+        ' <button id="T3">...</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T3-handle').append(newT)
+}
+function T4_newform() {
+    var newT = '<div class="TP-handle">' +
+        ' <div class="card-T">' +
+        '<div class="container-card bg-yellow-box">' +
+        '<!--i class="fas fa-door-closed T-icon"></i-->' +
+        '<i class="fas fa-door-open T-icon"></i>' +
+        '<p class="card-title-T">Titre Port 4</p>' +
+        ' <p class="card-description-T">AE 490 DZ.</p>' +
+        ' <p class="card-description-T">CP 100 DZ.</p>' +
+        ' <button id="T4">...</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $('#T4-handle').append(newT)
+}
+$('a').click(function (e) {
+    var _elem = $(this);
+
+    $('a').parent('li').each(function () {
+        $(this).removeClass('active');
+    });
+
+    _elem.parent('li').addClass('active');
+});
+(function () {
+    $('#msbo').on('click', function () {
+        $('body').toggleClass('msb-x');
+    });
+}());
+$(document).ready(function () {
+    $('.card-photo-holder').on('click', function () {
+        alert('clicks')
+        window.location = '/tech';
+    })
+})
+$(document).ready(function () {
+
+
+    // Vérifie l'existence du portefeuille lorsque le champ de date perd le focus
+    $('#date_crt_portf').on('focusout', function () {
+        var num_portefeuil = $('#num_port').val(); // Récupérer la valeur du portefeuille
+        var Date_portefeuille = $(this).val();  // Récupérer la valeur de la date
+
+        var year = new Date(Date_portefeuille).getFullYear(); // Extraire l'année à partir de la date
+        var numwall_year = num_portefeuil +'-'+ year;
+
+
+        // Vérifie que les deux champs sont remplis avant de continuer
+        if (Date_portefeuille && num_portefeuil) {
+            // Appel AJAX pour vérifier le portefeuille dans la base de données
+            $.ajax({
+                url: '/check-portef',  // Route pour vérifier l'existence du portefeuille
+                type: 'GET',
+                data: {
+                    num_portefeuil: numwall_year,
+                    Date_portefeuille: Date_portefeuille
+                },
+                success: function (response) {
+                    if (response.exists) {
+                        console.log(response); // Vérifiez la réponse
+
+                        console.log('numwall_year path3: ' + JSON.stringify(path3));
+                         $('#file_holder   ').empty()
+
+                        // Remplir les champs du formulaire avec les données récupérées
+                        $('#date_crt_portf').val(response.Date_portefeuille).trigger('change'); // Remplir et déclencher l'événement change
+                        $('#AE_portef').val(response.AE_portef).trigger('change'); // Remplir et déclencher l'événement change
+                        $('#CP_portef').val(response.CP_portef).trigger('change'); // Remplir et déclencher l'événement change
+                        $('#nom_journ').val(response.nom_journal).trigger('change'); // Remplir et déclencher l'événement change
+                        $('#num_journ').val(response.num_journal).trigger('change'); // Remplir et déclencher l'événement change
+
+                        console.log(response.Date_portefeuille);
+                        alert('Le portefeuille existe déjà');
+
+                        //$('.font-bk').removeClass('back-bk')
+                        //$('.wallet-path').css('display', 'flex')
+                        //$('.wallet-handle').empty()
+                        //$('#progam-handle').css('display', 'block')
+                        //$('#progam-handle').removeClass('scale-out')
+                        //$('#progam-handle').addClass('scale-visible')
+                        //$('#w_id').text(num_portefeuil)
+                    } else {
+                        //alert('Le portefeuille n\'existe pas.');
+                    }
+                },
+                error: function () {
+                    alert('Erreur lors de la vérification du portefeuille');
+                }
+            });
+        }
+    });
+
+
+    $("#add-wallet").on("click", function () {
+        var num_wallet = $("#num_port").val();
+        var dateprort = $("#date_crt_portf").val();
+        var year = new Date(dateprort).getFullYear(); // Extraire l'année à partir de la date
+        var numwall_year = num_wallet + '-'+ year;
+        var indice = 0;
+        var isEmpty = false;
+        var formId = $(this).parents(".card-body").attr("id");
+        console.log("and form id" + formId);
+        $("#" + formId + " form")
+            .find("input")
+            .each(function () {
+                console.log("before the loop");
+                var inputValue = $(this).val();
+
+                // Check if the input is not empty
+                if (inputValue.trim() === "") {
+                    isEmpty = true;
+                    indice++;
+                }
+
+                if (isEmpty) {
+                    if (indice < 2) {
+                        alert("Veuillez remplir tous les champs obligatoires");
+                    }
+                    $(this).css(
+                        "box-shadow",
+                        "0 0 0 0.25rem rgb(255 0 0 / 47%)"
+                    );
+                }
+            });
+        // console.log('id'+num_wallet)
+        var formportinsert = {
+            num_portefeuil: numwall_year,
+            Date_portefeuille: $("#date_crt_portf").val(),
+            nom_journal: $("#nom_journ").val(),
+            num_journal: parseInt($("#num_journ").val()),
+            AE_portef: parseFloat($("#AE_portef").val()),
+            CP_portef: parseFloat($("#CP_portef").val()),
+            //year: year,
+            _token: $('meta[name="csrf-token"]').attr("content"),
+            _method: "POST",
+        };
+
+        // Ajouter le fichier s'il est sélectionné HOUDAA
+        var fileInput = $("#inputFile")[0]; // Assurez-vous que l'input de fichier a l'ID `file`
+        if (fileInput && fileInput.files.length > 0) {
+            formportinsert.append("inputFile", fileInput.files[0]);
+        }
+        $.ajax({
+            url: "/creation",
+            type: "POST",
+            data: formportinsert,
+            success: function (response) {
+                if (response.code == 200 ) {
+                   let formDataFa = new FormData();
+                   formDataFa.append('pdf_file', $('#pdf_file')[0].files[0]);
+                   formDataFa.append('related_id',num_wallet);
+                   $.ajax({
+                       url:'/upload-pdf',
+                       type:'POST',
+                       data:formDataFa,
+                       processData: false,
+                       contentType: false,
+                       headers: {
+                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
+                       },
+                       success:function(response)
+                       {
+                           if(response.code){
+                           alert(response.message);
+                           path.push(numwall_year);
+                           path3.push(num_wallet);
+
+                           console.log("numwall_year path: " + JSON.stringify(path));
+
+                           $(".font-bk").removeClass("back-bk");
+                           $(".wallet-path").css("display", "flex");
+                           $(".wallet-handle").empty();
+                           $(".wallet-handle").addClass('wallet-hide');
+                           $("#progam-handle").css("display", "block");
+                           $("#progam-handle").removeClass("scale-out");
+                           $("#progam-handle").addClass("scale-visible");
+                           $("#w_id").text(num_wallet);}
+                           else
+                           {
+                               alert(response.message);
+                           }
+                       }
+                   })
+                } else if( response.code == 404) {
+
+                   alert(response.message);
+                   path.push(numwall_year);
+                   path3.push(num_wallet);
+
+                   console.log("numwall_year path: " + JSON.stringify(path));
+                   $(".font-bk").removeClass("back-bk");
+                   $(".wallet-path").css("display", "flex");
+                   $(".wallet-handle").empty();
+                   $(".wallet-handle").addClass('wallet-hide');
+                   $("#progam-handle").css("display", "block");
+                   $("#progam-handle").removeClass("scale-out");
+                   $("#progam-handle").addClass("scale-visible");
+                   $("#w_id").text(num_wallet);
+               }
+                   else{
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    });
+
+
+
+
+});
+focus_()
+$("#date_insert_portef").on('focusout', function () {
+    var num_prog = $('#num_prog').val(); // Récupérer la valeur du portefeuille
+    var Date_prog = $(this).val();  // Récupérer la valeur de la date
+
+    var year = new Date(Date_prog).getFullYear(); // Extraire l'année à partir de la date
+    var numprog_year = path[0] +'-'+num_prog;
+
+
+    // Vérifie que les deux champs sont remplis avant de continuer
+    if (Date_prog && num_prog) {
+        // Appel AJAX pour vérifier le portefeuille dans la base de données
+
+        console.log('data' + numprog_year)
+        $.ajax({
+            url: '/check-prog',  // Route pour vérifier l'existence du portefeuille
+            type: 'GET',
+            data: {
+                num_portefeuil: path[0],
+                num_prog: numprog_year,
+                Date_prog: Date_prog
+            },
+            success: function (response) {
+                if (response.exists) {
+                    console.log(response); // Vérifiez la réponse
+                    console.log('numwall_year path3: ' + JSON.stringify(path3));
+                    $("#file_holder_prog").empty();
+                    // Remplir les champs du formulaire avec les données récupérées
+                    console.log('response.CP_prog' + response.CP_prog)
+                    $('#date_insert_portef').val(response.date_insert_portef).trigger('change');
+                    $('#nom_prog').val(response.nom_prog).trigger('change'); // Remplir et déclencher l'événement change
+                    $('#AE_prog').val(response.AE_prog).trigger('change'); // Remplir et déclencher l'événement change
+                    $('#CP_prog').val(response.CP_prog).trigger('change'); // Remplir et déclencher l'événement change
+                    $('#nom_journ').val(response.nom_journal).trigger('change'); // Remplir et déclencher l'événement change
+                    $('#num_journ').val(response.num_journal).trigger('change'); // Remplir et déclencher l'événement change
+
+
+                    alert('Le programme existe déjà');
+
+                }
+            },
+            error: function () {
+                alert('Erreur lors de la vérification du programme');
+            }
+        });
+    }
+});
+$("#add-prg").on('click', function () {
+    var id_prog = $('#num_prog').val();
+    var nom_prog = $('#nom_prog').val();
+    var ae_prog = parseFloat($('#AE_prog').val())
+    var cp_prog = parseFloat($('#CP_prog').val())
+    var numprog_year =path[0] +'-'+ id_prog;
+    console.log("path[0]",path[0] );
+    console.log("id_prog",id_prog );
+    console.log("prog",numprog_year );
+    var date_sort_jour = $('#date_insert_portef').val();
+    check_ifnull(this)
+    var formprogdata = {
+        num_prog: numprog_year,
+        nom_prog: nom_prog,
+        ae_prog: parseFloat(ae_prog),
+        cp_prog: parseFloat(cp_prog),
+        num_portefeuil: path[0],
+        date_insert_portef: date_sort_jour,
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        _method: 'POST'
+    }
+    var prg2 = '<div class="form-container" id="creati-sous_prog">' +
+        '<form enctype="multipart/form-data">' +
+        '<div class="form-group">' +
+        '<label for="input1">Code du Sous Programme</label>' +
+        '<input type="text" class="form-control" id="num_sous_prog" placeholder="Entrer le  Code du Sous Programme">' +
+        '</div>' +
+        ' <div class="form-group">' +
+        ' <label for="inputDate">Date du Journal</label>' +
+        '<input type="date" class="form-control" id="date_insert_sousProg">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="input1">Nom du Sous Programme</label>' +
+        '<input type="text" class="form-control" id="nom_sous_prog" placeholder="Entrer le Nom du Sous Programme">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="input1">AE pour Sous Programme</label>' +
+        '<input type="number" class="form-control" id="AE_sous_prog"   placeholder="Entrer AE Sous Programme">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="input1">CP pour Sous Programme</label>' +
+        '<input type="number" class="form-control" id="CP_sous_prog"  placeholder=" Entrer CP Sous Programme">' +
+        '</div>' +
+        '<div class="init_holder">'+
+        '<div class="T_init_port">'+
+        '<div class="ports_init">'+
+        '<div class="form-group">' +
+        '<label for="input1">T1 pour Sous Programme</label>' +
+        '<input type="number" class="form-control" id="T1_AE_init"   placeholder="Entrer T1 AE Sous Programme">' +
+        '<input type="number" class="form-control" id="T1_CP_init"   placeholder="Entrer T1 CP Sous Programme">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="input1">T2 pour Sous Programme</label>' +
+        '<input type="number" class="form-control" id="T2_AE_init"   placeholder="Entrer T2 AE Sous Programme">' +
+        '<input type="number" class="form-control" id="T2_CP_init"   placeholder="Entrer T2 CP Sous Programme">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="input1">T3 pour Sous Programme</label>' +
+        '<input type="number" class="form-control" id="T3_AE_init"   placeholder="Entrer T3 AE Sous Programme">' +
+        '<input type="number" class="form-control" id="T3_CP_init"   placeholder="Entrer T3 CP Sous Programme">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="input1">T4 pour Sous Programme</label>' +
+        '<input type="number" class="form-control" id="T4_AE_init"   placeholder="Entrer T4 AE Sous Programme">' +
+        '<input type="number" class="form-control" id="T4_CP_init"   placeholder="Entrer T4 CP Sous Programme">' +
+        '</div>' +
+        '</div>'+
+        '</div>'+
+        '</div>'+
+        ' </form>' +
+        ' <br>' +
+        '<div id="confirm-holder_sprog">' +
+        ' <div class="file-handle" id="file_holder">' +
+        '<input type="file" class="form-control" id="file" accept=".pdf, .jpg, .jpeg, .png">' +
+        '</div>' +
+         '<hr>' +
+        '<button class="btn btn-primary" id="add-prg2">Ajouter</button>' +
+        '</div>'
+    var nexthop = '<div class="pinfo-handle">' +
+        '<i class="fas fa-wallet"></i>' +
+        '<p >Programm :</p>' +
+        '<p>' + id_prog + '</p>' +
+        '</div>' +
+        ' <div class="next-handle">' +
+        '<i class="fas fa-angle-double-right waiting-icon"></i>' +
+        '</div>';
+    $.ajax({
+        url: '/creationProg',
+        type: "POST",
+        data: formprogdata,
+        success: function (response) {
+            if (response.code == 200 || response.code == 404) {
+
+               if(response.code == 200){
+               if(upload_file('file',id_prog) == 200)
+               {
+                   alert(response.message)
+               }}
+                path.push(numprog_year);
+                path3.push(id_prog);
+                console.log('numprog_year path: ' + JSON.stringify(path));
+                console.log('numprog path: ' + JSON.stringify(path3));
+                $('.next-handle svg').removeClass('waiting-icon')
+                $('.next-handle svg').addClass('complet-icon')
+                $('.the-path').append(nexthop)
+                $('#progam-handle').append(prg2)
+                $('#confirm-holder').empty()
+                $('#confirm-holder').append('<i class="fas fa-wrench"></i>')
+
+                // Vérifie l'existence du programme lorsque le champ de programme perd le focus
+                $('#date_insert_sousProg').on('focusout', function () {
+                    var Date_sou_program = $(this).val(); // Récupérer la valeur du programme
+                    //var year = new Date(Date_sou_program).getFullYear(); // Extraire l'année à partir de la date
+                    var num_sou_prog = $('#num_sous_prog').val(); // Récupérer la valeur de la date du programme
+                    // Vérifie que les deux champs sont remplis avant de continuer
+                    var num_sou_program = path[1] +'-'+ num_sou_prog;
+                    if (Date_sou_program && num_sou_prog) {
+                        // Appel AJAX pour vérifier le programme dans la base de données
+                        $.ajax({
+                            url: '/check-sousprog',  // Route pour vérifier l'existence du programme
+                            type: 'GET',
+                            data: {
+                                num_sous_prog: num_sou_program,
+                            },
+                            success: function (response) {
+                               if (response.exists) {
+                                   console.log(response); // Vérifiez la réponse
+
+                                   // Remplir les champs du formulaire avec les données récupérées
+                                   $('#nom_sous_prog').val(response.nom_sous_prog).trigger('change');
+                                   $('#AE_sous_prog').val(response.AE_sous_prog).trigger('change');
+                                   $('#CP_sous_prog').val(response.CP_sous_prog).trigger('change');
+
+                                   $('#T1_AE_init').val(response.T1_AE_init).trigger('change');
+                                   $('#T1_CP_init').val(response.T1_CP_init).trigger('change');
+
+                                   $('#T2_AE_init').val(response.T2_AE_init).trigger('change');
+                                   $('#T2_CP_init').val(response.T2_CP_init).trigger('change');
+
+                                   $('#T3_AE_init').val(response.T3_AE_init).trigger('change');
+                                   $('#T3_CP_init').val(response.T3_CP_init).trigger('change');
+
+                                   $('#T4_AE_init').val(response.T4_AE_init).trigger('change');
+                                   $('#T4_CP_init').val(response.T4_CP_init).trigger('change');
+
+                                   alert('Le sous-programme existe déjà.');
+                               }  else {
+                                    // alert('Le programme n\'existe pas.');
                                 }
-                                $.ajax({
-                                    url:'',
-                                    type:'POST',
-                                    data:sopdata_add,
-                                    success:function(response)
-                                    {
-                                        var row = '<tr class="ref'+id+'" id="ref' + id + '">' +
-                                        '<td class="code">' + id + '</td>' +
-                                        '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"> <p>' + descr + '</p> </td>' +
-                                        '<td class="editable" id="AE_Over">' + value + '</td>' +
-                                        '<td class="editable" id="CP_Over">' + 180 + '</td>' +
-                                        '<td class="editable" id="AE_att">' + value + '</td>' +
-                                        '<td class="editable" id="CP_att">' + 180 + '</td>' +
-                                        '<td  id="AE_TT" diseabled>' + some + '</td>' +
-                                        '<td  id="CP_TT" diseabled>' + 360 + '</td>' +
-                                        '</tr>';
-                                    $('#' + key).after(row);
-                                    $('#' + key + ' td').each(function () {
-                                        $(this).removeClass('editable');
-                                    })
+                            },
+                            error: function () {
+                                alert('Erreur lors de la vérification du programme');
+                            }
+                        });
+                    }
+                });
+                focus_()
+                /**  sous prog insert */
+                $('#add-prg2').on('click', function () {
+                    var sou_prog = $('#num_sous_prog').val()
+                    var nom_sou_prog = $('#nom_sous_prog').val();
+                    var dat_sou_prog = $('#date_insert_sousProg').val()
+                    var AE_sous_prog = $('#AE_sous_prog').val()
+                    var T1_AE_init = $('#T1_AE_init').val()
+                    var T1_CP_init = $('#T1_CP_init').val()
+
+                    var T2_AE_init = $('#T2_AE_init').val()
+                    var T2_CP_init = $('#T2_CP_init').val()
+
+                    var T3_AE_init = $('#T3_AE_init').val()
+                    var T3_CP_init = $('#T3_CP_init').val()
+
+                    var T4_AE_init = $('#T4_AE_init').val()
+                    var T4_CP_init = $('#T4_CP_init').val()
+
+                    var CP_sous_prog = $('#CP_sous_prog').val()
+                    var id_prog = path[1];
+                    var numsouprog_year = id_prog +'-'+sou_prog ;
+                    check_ifnull('#add-prg2')
+                    //var id_port = path[0];
+                    var nexthop = '<div class="pinfo-handle">' +
+                        '<i class="fas fa-wallet"></i>' +
+                        '<p >S_Program :</p>' +
+                        '<p>' + sou_prog + '</p>' +
+                        '</div>' +
+                        ' <div class="next-handle">' +
+                        '<i class="fas fa-angle-double-right waiting-icon"></i>' +
+                        '</div>'
+                    var prg3 = '<div class="form-container" id="creati-act">' +
+                        '<form>' +
+                        '<div class="form-group">' +
+                        '<label for="input1">Code  d\'ACTION</label>' +
+                        '<input type="text" class="form-control" id="num_act" placeholder="Entrer le Code  d\'ACTION">' +
+                        '</div>' +
+                        ' <div class="form-group">' +
+                        ' <label for="inputDate">Date du Journal</label>' +
+                        '<input type="date" class="form-control" id="date_insert_action">' +
+                        '</div>' +
+                        '<div class="form-group">' +
+                        '<label for="input1">Nom  d\'ACTION</label>' +
+                        '<input type="text" class="form-control" id="nom_act" placeholder="Entrer le Nom  d\'ACTION">' +
+                        '</div>' +
+                        '<div class="form-group" id="ElAE_act">' +
+                        '<label for="input1">AE pour Action</label>' +
+                        '<input type="number" class="form-control" id="AE_act" placeholder="Entrer AE Action">' +
+                        '</div>' +
+                        '<div class="form-group" id="ElCP_act">' +
+                        '<label for="input1">CP pour Action</label>' +
+                        '<input type="number" class="form-control" id="CP_act" placeholder="Entrer CP Action">' +
+                        '</div>' +
+                        ' </form>' +
+                        ' <br>' +
+                        '<div id="confirm-holder_sprog">' +
+                        ' <div class="file-handle" id="file_holder">' +
+                        '<input type="file" class="form-control" id="file" accept=".pdf, .jpg, .jpeg, .png">' +
+                        '</div>' +
+                        '<hr>' +
+                        '<div id="confirm-holder_act">' +
+                        '<button class="btn btn-primary" id="add-prg3">Ajouter</button>' +
+                        '</div>'
+                    var formdatasou_prog = {
+                        num_sous_prog: numsouprog_year,
+                        nom_sous_prog: nom_sou_prog,
+                        AE_sous_prog: AE_sous_prog,
+                        CP_sous_prog: CP_sous_prog,
+                        date_insert_sousProg: dat_sou_prog,
+                        id_program: id_prog,
+
+                        T1_AE_init: T1_AE_init,
+                        T1_CP_init: T1_CP_init,
+                        code_t1: 10000,
+
+                        T2_AE_init: T2_AE_init,
+                        T2_CP_init: T2_CP_init,
+                        code_t2: 20000,
+
+                        T3_AE_init: T3_AE_init,
+                        T3_CP_init: T3_CP_init,
+                        code_t3: 30000,
+
+                        T4_AE_init: T4_AE_init,
+                        T4_CP_init: T4_CP_init,
+                        code_t4: 40000,
+
+                        //id_porte: id_port,
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        _method: 'POST'
+                    }
+                    var formatinitports=
+                    {
+                       num_sous_prog: numsouprog_year,
+                       code_t1:10000,
+                       T1_AE_init:$('#T1_AE_init').val(),
+                       T1_CP_init:$('#T1_CP_init').val(),
+
+                       code_t2:20000,
+                       T2_AE_init:$('#T2_AE_init').val(),
+                       T2_CP_init:$('#T2_CP_init').val(),
+
+                       code_t3:30000,
+                       AE_init_t3:$('#T3_AE_init').val(),
+                       CP_init_t3:$('#T3_CP_init').val(),
+
+                       code_t4:40000,
+                       AE_init_t4:$('#T4_AE_init').val(),
+                       CP_init_t4:$('#T4_CP_init').val(),
+                       date_init:dat_sou_prog,
+                       _token: $('meta[name="csrf-token"]').attr('content'),
+                       _method: 'POST'
+                    }
+                    console.log('data' + JSON.stringify(formdatasou_prog))
+                    $.ajax({
+                        url: '/creationSousProg',
+                        type: "POST",
+                        data: formdatasou_prog,
+                        success: function (response) {
+                            if (response.code == 200 || response.code == 404) {
+                               if(response.code == 200){
+                                   if(upload_file('file',sou_prog) == 200)
+                                   {
+
+                                       alert(response.message)
+                                   }
+                                  /* $.ajax({
+                                       url:'/init_ports',
+                                       type:'POST',
+                                       data:formatinitports,
+                                       success:function(response)
+                                       {
+                                           if(response.code == 200)
+                                           {
+
+                                           }
+                                           else
+                                           {
+
+                                           }
+                                       }
+                                   })*/
+                               }
+                                alert(response.message)
+                                path.push(numsouprog_year);
+                                path3.push(sou_prog);
+                                console.log('num_sou_program path: ' + JSON.stringify(path));
+
+                                $('.next-handle svg').removeClass('waiting-icon')
+                                $('.next-handle svg').addClass('complet-icon')
+                                $('.the-path').append(nexthop)
+                                $('#progam-handle').append(prg3)
+                                $('#confirm-holder_sprog').empty()
+                                $('#confirm-holder_sprog').append('<i class="fas fa-wrench"></i>')
+                                focus_()
+
+
+
+                                $('#date_insert_action').on('focusout', function () {
+                                    console.log('out')
+                                    var date_act = $(this).val();
+                                    var num_act = $('#num_act').val();
+                                    //  var date_act=  new Date(date_act).getFullYear();
+                                    var numact_year = path[2] +'-'+num_act ;
+                                    console.log('the new id' + numact_year + ' with ' + JSON.stringify(path))
+                                    console.log('jhvgf');
+                                    if (date_act && num_act) {
+                                        $.ajax({
+                                            url: '/check-action',  // Route pour vérifier l'existence du programme
+                                            type: 'GET',
+                                            data: {
+                                                num_action: numact_year,
+                                            },
+                                            success: function (response) {
+                                                if (response.exists) {
+                                                    $('#nom_act').val(response.nom_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                     $('#date_insert_action').val(response.date_insert_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                    $('#AE_act').val(response.AE_act).trigger('change'); // Remplir et déclencher l'événement change
+                                                    $('#CP_act').val(response.CP_act).trigger('change'); // Remplir et déclencher l'événement change
+                                                    alert('L`Action existe déjà');
+
+                                                }
+                                                else {
+                                                    console.log('Erreur d`Opération');
+
+                                                }
+                                            }
+                                        })
                                     }
                                 })
 
+                                /******           ACTION add for under_progam                    *********** */
 
 
-                         })
-                         $('#cancel_ops').click(function(){
+                                $('#add-prg3').on('click', function () {
+                                    /**
+                                     *  this part for chacking if he want to under_action
+                                     *
+                                     */
+                                    // Demande de confirmation pour ajouter une sous-action après l'ajout de l'action
+                                    let userResponse = confirm('Voulez-vous ajouter une sous-action pour cette action ?');
+                                    var nom_act = $('#nom_act').val();
+                                    var num_act = $('#num_act').val();
+                                    var AE_act = $('#AE_act').val()
+                                    var CP_act = $('#CP_act').val()
+                                    var dat_inst = $('#date_insert_action').val();
+                                    var id_sou_prog = path[2];
+                                    check_ifnull('#add-prg3')
+                                    var numaction_year = id_sou_prog +'-'+num_act ;
+                                        var nexthop = '<div class="pinfo-handle">' +
+                                            '<i class="fas fa-wallet"></i>' +
+                                            '<p >Action :</p>' +
+                                            '<p>' + num_act + '</p>' +
+                                            '</div>' +
+                                            ' <div class="next-handle">' +
+                                            '<i class="fas fa-angle-double-right waiting-icon"></i>' +
+                                            '</div>'
+                                        // Création du formData pour l'action
+                                        console.log('action sous prog '+path[2])
+                                        var formdata_act = {
+                                            num_action: numaction_year,
+                                            nom_action: nom_act,
+                                            AE_act: AE_act,
+                                            CP_act: CP_act,
+                                            date_insert_action: dat_inst,
+                                            id_sous_prog: path[2],
+                                            _token: $('meta[name="csrf-token"]').attr('content'),
+                                            _method: 'POST'
+                                        };
 
-                            $('.Tsop_handler').addClass('Tsop_handler_h')
-                            $('#Tport-vals').empty()
-                            alert('cancel op')
-                     })
+                                    if (userResponse) {
+                                        // Récupération des informations de l'action
+
+
+                                        // Envoi de l'Action via Ajax
+                                        $.ajax({
+                                            url: '/creationAction',
+                                            type: 'POST',
+                                            data: formdata_act,
+                                            success: function (response) {
+                                                if (response.code === 200 || response.code === 404) {
+                                                    // Ajout du numéro de l'action au chemin
+
+                                                    if(response.code == 200){
+                                                       if(upload_file('file',num_act) == 200)
+                                                       {
+                                                           alert(response.message)
+                                                       }
+                                                   }
+                                                    path.push(numaction_year);
+                                                    path3.push(num_act);
+                                                    $('#confirm-holder_act').empty()
+                                                    $('#confirm-holder_act').append('<i class="fas fa-wrench"></i>')
+                                                    console.log('A path: ' + JSON.stringify(path));
+                                                    $('#confirm-holder_act').empty()
+                                                    $('#confirm-holder_act').append('<i class="fas fa-wrench"></i>')
+                                                    // Création du formulaire pour la sous-action après l'ajout de l'action
+                                                    var prg4 = `<div class="form-container" id="creati-act">
+                                                           <form>
+                                                            <div class="form-group">
+                                                            <label for="num_sous_act">Code de Sous ACTION</label>
+                                                            <input type="text" class="form-control" id="num_sous_act" placeholder="Entrer le Code de sous ACTION">
+                                                           </div>
+                                                            <div class="form-group">
+                                                                 <label for="date_insert_sou_action">Date du Journal</label>
+                                                                 <input type="date" class="form-control" id="date_insert_sou_action">
+                                                               </div>
+                                                            <div class="form-group">
+                                                                <label for="nom_sous_act">Nom de  Sous ACTION</label>
+                                                            <input type="text" class="form-control" id="nom_sous_act" placeholder="Entrer le Nom de sous ACTION">
+                                                            </div>
+                                                               <div class="form-group">
+                                                                <label for="AE_sous_act">AE pour Sous Action</label>
+                                                                <input type="number" class="form-control" id="AE_sous_act" placeholder="Entrer AE Sous Action">
+                                                            </div>
+                                                            <div class="form-group">
+                                                              <label for="CP_sous_act">CP pour Sous Action</label>
+                                                            <input type="number" class="form-control" id="CP_sous_act" placeholder="Entrer CP Sous Action">
+                                                               </div>
+
+                                                               </form>
+                                                               <br>
+                                                               <button class="btn btn-primary" id="add-prg4">Ajouter Sous Action</button>
+                                                               </div>`;
+
+                                                    // Insertion du formulaire pour la sous-action dans le DOM
+                                                    $('.the-path').append(nexthop)
+                                                    $('#progam-handle').append(prg4);
+                                                    focus_()
+
+                                                    //===============CHECK SOUS ACTION=====================//
+                                                    $('#date_insert_sou_action').on('focusout', function () {
+                                                       //alert('out')
+                                                       var date_sousact = $(this).val();
+                                                       var num_sousact = $('#num_sous_act').val();
+                                                       //  var date_act=  new Date(date_act).getFullYear();
+                                                       var numsousact_year = path[3] +'-'+num_sousact ;
+                                                       console.log('numsousact_year' + numsousact_year + ' with ' + JSON.stringify(path))
+                                                       if (date_sousact && num_sousact) {
+                                                           $.ajax({
+                                                               url: '/check-sousaction',  // Route pour vérifier l'existence du programme
+                                                               type: 'GET',
+                                                               data: {
+                                                                   num_sous_action: numsousact_year,
+                                                               },
+                                                               success: function (response) {
+                                                                   if (response.exists) {
+                                                                       $('#nom_sous_act').val(response.nom_sous_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                                        $('#date_insert_sou_action').val(response.date_insert_sous_action).trigger('change'); // Remplir et déclencher l'événement change
+                                                                       $('#AE_sous_act').val(response.AE_sous_act).trigger('change'); // Remplir et déclencher l'événement change
+                                                                       $('#CP_sous_act').val(response.CP_sous_act).trigger('change'); // Remplir et déclencher l'événement change
+                                                                       alert('L`Action existe déjà');
+
+                                                                   }
+                                                                   else {
+                                                                       alert('Erreur d`Opération');
+
+                                                                   }
+                                                               }
+                                                           })
+                                                       }
+                                                   })
+                                                    //=============== FIN CHECK SOUS ACTION================//
+                                                    // Ajout de l'événement d'ajout pour la sous-action
+                                                    $('#add-prg4').on('click', function () {
+                                                        console.log('inside sous_action')
+                                                        var nom_sous_act = $('#nom_sous_act').val();
+                                                        var num_sous_act = $('#num_sous_act').val();
+                                                        var AE_sous_act = $('#AE_sous_act').val()
+                                                        var CP_sous_act = $('#CP_sous_act').val()
+                                                        var dat_inst = $('#date_insert_sou_action').val();
+                                                        console.log("ae= ",AE_sous_act,"      " );
+                                                        console.log("cp= ",CP_sous_act );
+                                                        check_ifnull('#add-prg4')
+                                                        var numaction_year = path[3];
+                                                        var numsousaction_year = numaction_year +'-'+num_sous_act ;
+                                                        // Création du formData pour la sous-action
+                                                        var formdata_sous_act = {
+                                                            num_sous_action: numsousaction_year,
+                                                            nom_sous_action: nom_sous_act,
+                                                            AE_sous_act: AE_sous_act,
+                                                            CP_sous_act: CP_sous_act,
+                                                            date_insert_sous_action: dat_inst,
+                                                            num_act: path[3],
+                                                            //id_sous_act: path[2],
+                                                            //id_prog: path[1],
+                                                            // id_porte: path[0],
+                                                            //year: year,
+                                                            _token: $('meta[name="csrf-token"]').attr('content'),
+                                                            _method: 'POST'
+                                                        };
+
+                                                        // Envoi de la sous-action via Ajax
+                                                        $.ajax({
+                                                            url: '/creationsousAction',
+                                                            type: 'POST',
+                                                            data: formdata_sous_act,
+                                                            success: function (response) {
+                                                                if (response.code === 200 || response.code === 404) {
+                                                                    path.push(numsousaction_year);
+                                                                    path3.push(num_sous_act);
+                                                                    console.log('path: ' + JSON.stringify(path));
+
+                                                                    // Redirection vers la page suivante après l'ajout de la sous-action
+                                                                    alert('testing')
+                                                                    window.location.href = 'testing/S_action/' + path[0] + '/' + path[1] + '/' + path[2] + '/' + path[3] + '/' + path[4];
+                                                                }
+                                                            },
+                                                            error: function (response) {
+                                                                alert('Erreur lors de l\'ajout de la sous-action.');
+                                                            }
+                                                        });
+                                                    });
+                                                }
+                                            },
+                                            error: function (response) {
+                                                alert('Erreur lors de l\'ajout de l\'action.');
+                                            }
+                                        });
+                                    } else {
+                                        // Cas où l'utilisateur n'ajoute pas de sous-action
+                                        var nom_act = $('#nom_act').val();
+                                        var num_act = $('#num_act').val();
+                                        var AE_act = $('#AE_act').val()
+                                        var CP_act = $('#CP_act').val()
+                                        var dat_inst = $('#date_insert_action').val();
+                                        var id_sou_prog = path[2];
+                                        var numaction_year = id_sou_prog +'-'+num_act ;
+                                        var formdata_act = {
+                                            num_action: numaction_year,
+                                            nom_action: nom_act,
+                                            AE_act: AE_act,
+                                            CP_act: CP_act,
+                                            date_insert_action: dat_inst,
+                                            id_sous_prog: id_sou_prog,
+                                            //id_prog: path[1],
+                                            //id_porte: path[0],
+                                            _token: $('meta[name="csrf-token"]').attr('content'),
+                                            _method: 'POST'
+                                        };
+
+                                        $.ajax({
+                                            url: '/creationAction',
+                                            type: 'POST',
+                                            data: formdata_act,
+                                            success: function (response) {
+                                                if (response.code === 200 || response.code === 404) {
+                                                   if(response.code == 200){
+                                                       if(upload_file('file',num_act) == 200)
+                                                       {
+                                                           alert(response.message)
+                                                       }
+                                                   }
+                                                    path.push(numaction_year);
+                                                    path3.push(num_act);
+                                                    console.log('response.num_sous_action: ' + response.num_sous_action);
+                                                    if (response.num_sous_action) {
+                                                       path.push(response.num_sous_action);
+                                                       // console.log('path: ' + JSON.stringify(path));
+                                                       window.location.href = '/testing/S_action/' + path.join('/');
+                                                   }else{
+                                                       // console.log('path: ' + JSON.stringify(path));
+                                                   window.location.href = '/testing/Action/' + path.join('/');
+                                                   }
+
+                                                }
+                                            },
+                                            error: function (response) {
+                                                alert('Erreur lors de l\'ajout de l\'action.');
+                                            }
+                                        });
+                                    }
+
+                                    /*********         END ACTION ********************************************** */
+                                })
+
+                            }
+                        },
+                        error: function (response) {
+                            alert('error')
                         }
                     })
 
@@ -2025,28 +3018,29 @@ function T4_table(id, T, id_s_act, port,code) {
                     iso++;
                 }
                 else{
-                    var sousou=true
-                    while (sousou) {
-                        if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
-                            {
-                             
-                            only_def(data_T_port.sousOperation[iso].code)
-                            row = '<tr class="ref'+data_T_port.sousOperation[iso].code+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                            '<td scope="row" class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
-                            '<td id="def"></td>' +
-                            '<td id="sous_def" ></td>'+
-                            '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
-                            '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
-                            '</tr>';
-                            iso++;  
-                            $('#T-tables tbody').append(row);
-                    }
-                    else
-                    {
-                        sousou=false
-                    }
-                    }
-                  
+                   if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
+                   {
+                       only_def(data_T_port.sousOperation[iso].code)
+                      row = '<tr class="ref'+data_T_port.sousOperation[iso].code+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                   '<td scope="row" class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
+                   '<td id="def"></td>' +
+                   '<td id="sous_def" ></td>'+
+                   '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
+                   '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
+                   '</tr>';
+                     iso++;  
+                     $('#T-tables tbody').append(row);
+                    row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                    '<td scope="row" class="code" >' + key + '</td>' +
+                    '<td ><p>' + value + '</p></td>' +
+
+                    '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
+                    '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
+                    '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
+                    '</tr>';
+                    iso++;
+               
+           }
                 }
             }
            }
