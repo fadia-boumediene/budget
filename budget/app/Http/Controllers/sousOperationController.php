@@ -298,6 +298,24 @@ class sousOperationController extends Controller
         }
         return $names;
     }
+
+    function getdef_sop($id)
+    {
+        $ops=SousOperation::where('code_sous_operation',$id)->firstOrFail();
+      //      dd($ops);
+       if(isset($ops)) 
+       {
+        return response()->json([
+            'code'=>200,
+            'result'=>$ops
+        ]);
+        }else
+        {
+            return response()->json([
+                'code'=>404,
+            ]);
+        }
+    }
    }
 
 

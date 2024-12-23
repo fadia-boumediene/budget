@@ -2855,25 +2855,20 @@
                                          else{
                                             if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
                                             {
+                                                var idme=data_T_port.sousOperation[iso].code
+                                                var ka=idme.split('-');
+                                                var lng=ka.length
+                                                console.log(JSON.stringify(ka)+'lan'+lng)
                                                 only_def(data_T_port.sousOperation[iso].code)
                                                row = '<tr class="ref'+data_T_port.sousOperation[iso].code+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                                            '<td scope="row" class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
+                                            '<td scope="row" class="code" >' +ka[lng-2]+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
                                             '<td id="def"></td>' +
                                             '<td id="sous_def" ></td>'+
                                             '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
                                             '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
                                             '</tr>';
-                                        iso++;  
-                                        $('#T-tables tbody').append(row);
-                                        row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                                        '<td scope="row" class="code" >' + key + '</td>' +
-                                        '<td ><p>' + value + '</p></td>' +
-
-                                        '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
-                                        '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
-                                        '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
-                                        '</tr>';
-                                    iso++;
+                                             iso++;  
+                                               
                                         
                                     }
                                          }
