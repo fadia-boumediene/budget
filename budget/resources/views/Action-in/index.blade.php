@@ -247,7 +247,7 @@
       console.log('click')
       $(this).addClass('Tsop_handler_h');
       $('#Tport-vals').removeClass('T4')
-      $('#Tport-vals').empty()
+      $('.Tsop_add_handle').empty()
     })
   })
 </script>
