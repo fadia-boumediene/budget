@@ -42,17 +42,22 @@ class sousOperationController extends Controller
    
             $act=Action::where('num_action',$act)->first();
             $sprog=SousProgramme::where('num_sous_prog',$act->num_sous_prog)->first();
+            $sact=SousAction::where('num_action',$act->num_action)->first();
             $progms=Programme::where('num_prog',$sprog->num_prog)->first();
             $act=$act->num_action;
+            $sact=$sact->num_sous_action;
             $sous_prog=$sprog->num_sous_prog;
             $prog=$progms->num_prog;
             $port=$progms->num_portefeuil;
           
         $years=Portefeuille::where('num_portefeuil',$port)->firstOrFail();
         $years = Carbon::parse($years->Date_portefeuille)->year;
-       
+         if(!isset($sact)){
+            $sact=$act;
+         }
+         //dd($port, $prog, $sous_prog, $act,$sact);
             try{
-                $resultats = $this->CalculDpia->calculdpiaFromPath($port, $prog, $sous_prog, $act,$act);
+                $resultats = $this->CalculDpia->calculdpiaFromPath($port, $prog, $sous_prog, $act,$sact);
                 //dd($port, $prog, $sous_prog, $act,$act);
        
         //dd($resultats);
@@ -143,7 +148,7 @@ class sousOperationController extends Controller
         $namesT2 = $this->prepareNames($operationsT2);
         $namesT3 = $this->prepareNames($operationsT3);
         $namesT4 = $this->prepareNames($operationsT4);
- 
+            //dd($namesT3);
         //envoyer le sousprogramme dans compact avec son code  
            $sousProgramme = SousProgramme::where('num_sous_prog', $sous_prog)->first();
           //dd($sousProgramme );
@@ -292,23 +297,6 @@ class sousOperationController extends Controller
             $names[$code_part] = $name;
         }
         return $names;
-    }
-    function getdef_sop($id)
-    {
-        $ops=SousOperation::where('code_sous_operation',$id)->firstOrFail();
-      //      dd($ops);
-       if(isset($ops)) 
-       {
-        return response()->json([
-            'code'=>200,
-            'result'=>$ops
-        ]);
-        }else
-        {
-            return response()->json([
-                'code'=>404,
-            ]);
-        }
     }
    }
 
