@@ -323,8 +323,7 @@ function add_newOPs_T3(id, value, key,) {
 }
 
 function add_newOPs_T4(id, value, key,) {
-   id=id+'-'+counter;
-   var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'
+ 
     $('.change_app').append(buttons)
    $("#dispo").val('');
    $('.desp').text('Dispositive');
@@ -359,7 +358,9 @@ function add_newOPs_T4(id, value, key,) {
  
    $('#ajt').click(function(){
     mount_chang=true;
-   
+    $('.change_app').empty()
+    id=id+'-'+counter;
+    var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'
        var data_add_ops={
            code:id,
            descrp:$('#dispo').val(),
@@ -382,11 +383,6 @@ function add_newOPs_T4(id, value, key,) {
   /* $('#' + key + ' td').each(function () {
        $(this).removeClass('editable');
    })*/
- 
-       var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'  
-       $('.change_app').append(buttons)
-       console.log('addbtn'+buttons);
-
        console.log('data T4'+JSON.stringify(data_add_ops))
         $('#Tport-vals').removeClass('T4')
         $("#dispo").val('');
@@ -3018,29 +3014,28 @@ function T4_table(id, T, id_s_act, port,code) {
                     iso++;
                 }
                 else{
-                   if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
-                   {
-                       only_def(data_T_port.sousOperation[iso].code)
-                      row = '<tr class="ref'+data_T_port.sousOperation[iso].code+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                   '<td scope="row" class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
-                   '<td id="def"></td>' +
-                   '<td id="sous_def" ></td>'+
-                   '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
-                   '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
-                   '</tr>';
-                     iso++;  
-                     $('#T-tables tbody').append(row);
-                    row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                    '<td scope="row" class="code" >' + key + '</td>' +
-                    '<td ><p>' + value + '</p></td>' +
-
-                    '<td id="add_op" style="display: flex;align-items: center;justify-content: space-between;"><p>null</p></td>'+
-                    '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
-                    '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
-                    '</tr>';
-                    iso++;
-               
-           }
+                    var sousou=true
+                    while (sousou) {
+                        if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
+                            {
+                             
+                            only_def(data_T_port.sousOperation[iso].code)
+                            row = '<tr class="ref'+data_T_port.sousOperation[iso].code+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                            '<td scope="row" class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land)+ '</td>' +
+                            '<td id="def"></td>' +
+                            '<td id="sous_def" ></td>'+
+                            '<td class="editable" id="AE_T4">' + data_T_port.sousOperation[iso].values.ae_sousop + '</td>' +
+                            '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
+                            '</tr>';
+                            iso++;  
+                            $('#T-tables tbody').append(row);
+                    }
+                    else
+                    {
+                        sousou=false
+                    }
+                    }
+                  
                 }
             }
            }
