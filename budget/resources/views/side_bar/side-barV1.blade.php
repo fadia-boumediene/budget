@@ -32,11 +32,11 @@
       @if( isset($port) && isset($prog) && isset($sous_prog) && isset($act))
       @if(isset($s_act))
     <a class="element" href="/testing/{{$port}}/{{$prog}}/{{$sous_prog}}/{{$act}}/{{$s_act}}/pdf" target="_blank">
-      <i class="fas fa-calendar-check"></i> DPA a imprimer
+      <i class="fas fa-calendar-check"></i> DPA à imprimer
     </a>
     @else
     <a class="element" href="/testing/{{$port}}/{{$prog}}/{{$sous_prog}}/{{$act}}/{{$act}}/pdf" target="_blank">
-      <i class="fas fa-calendar-check"></i> DPA a imprimer
+      <i class="fas fa-calendar-check"></i> DPA à imprimer
     </a>
     @endif
     @endif

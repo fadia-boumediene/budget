@@ -108,7 +108,7 @@
                 $code =explode('-',$programme['code']);
                 $last =count($code)-1;
             // dd($code);
-                $filcode[$i] = '0'.$code[$last].' ';
+                $filcode[$i] = $code[$last].' ';
                 //dd($filcode);
         @endphp
         @endforeach
@@ -160,7 +160,7 @@
                 <tbody>
                     {{-- Ligne principale pour le programme --}}
                     <tr >
-                        <td class="program-title" >{{ '0' .$code }}</td>
+                        <td class="program-title" >{{ $code }}</td>
                         <td class="program-title">Programme :  {{ $programme['nom'] }}</td>
                         <td>{{ $programme['Total']['TotalT1_AE'] }}</td>
                         <td>{{ $programme['Total']['TotalT1_CP'] }}</td>
