@@ -326,8 +326,8 @@ function add_newOPs_T3(id, value, key,) {
 
 function add_newOPs_T4(id, value, key,) {
    id=id+'-'+counter;
-   var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'
-    $('.change_app').append(buttons)
+ 
+    $('.change_app').empty()
    $("#dispo").val('');
    $('.desp').text('Dispositive');
    $('#Tport-vals').addClass('T4')
@@ -360,7 +360,8 @@ function add_newOPs_T4(id, value, key,) {
  
    $('#ajt').click(function(){
     mount_chang=true;
-   
+    var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'  
+       $('.change_app').append(buttons)
        var data_add_ops={
            code:id,
            descrp:$('#dispo').val(),
@@ -380,12 +381,12 @@ function add_newOPs_T4(id, value, key,) {
        '</tr>';
        counter++
    $('#' + key).after(row);
+   dataupdate.push({code:id,value:{ae:data_add_ops.AE_T4,cp:data_add_ops.CP_T4}})
   /* $('#' + key + ' td').each(function () {
        $(this).removeClass('editable');
    })*/
  
-       var buttons = '<button class="btn btn-primary" id="changin-up"> appliquer</button>'  
-       $('.change_app').append(buttons)
+      
        console.log('addbtn'+buttons);
 
        console.log('data T4'+JSON.stringify(data_add_ops))
@@ -2989,6 +2990,7 @@ function T4_table(id, T, id_s_act, port,code) {
                         '<td class="editable" id="CP_T4">' + data_T_port.group[ig].values.cp_grpop + '</td>' +
                         '</tr>';
                     ig++;
+                    $('#T-tables tbody').append(row);
                 }
             }
             if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
@@ -3003,6 +3005,7 @@ function T4_table(id, T, id_s_act, port,code) {
                         '<td class="editable" id="CP_T4">' + data_T_port.operation[io].values.cp_op + '</td>' +
                         '</tr>';
                     io++;
+                    $('#T-tables tbody').append(row);
                 }
             }
             if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
@@ -3017,6 +3020,7 @@ function T4_table(id, T, id_s_act, port,code) {
                         '<td class="editable" id="CP_T4">' + data_T_port.sousOperation[iso].values.cp_sousuop + '</td>' +
                         '</tr>';
                     iso++;
+                    $('#T-tables tbody').append(row);
                 }
                 else{
                     var sousou=true
@@ -3046,7 +3050,7 @@ function T4_table(id, T, id_s_act, port,code) {
            }
             // Append the row to the table body
 
-            $('#T-tables tbody').append(row);
+           
 
             if (current.length == 0) {
                 current = key;
