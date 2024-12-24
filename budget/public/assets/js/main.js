@@ -2756,6 +2756,7 @@ if(code == 200){
                         '<td class="editable" id="CP_consom">' + data_T_port.group[ig].values.cp_consomegrpop + ',00</td>' +
                         '</tr>';
                     ig++;
+                    $('#T-tables tbody').append(row);
                 }
             }
             if (data_T_port.operation.length > 0 && data_T_port.operation.length > io) {
@@ -2775,6 +2776,7 @@ if(code == 200){
                         '<td class="editable" id="CP_consom">' + data_T_port.operation[io].values.cp_consomeop + '</td>' +
                         '</tr>';
                     io++;
+                    $('#T-tables tbody').append(row);
                 }
             }
             if (data_T_port.sousOperation.length > 0 && data_T_port.sousOperation.length > iso) {
@@ -2794,48 +2796,47 @@ if(code == 200){
                         '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
                         '</tr>';
                     iso++;
+                    $('#T-tables tbody').append(row);
                 }
                 else
                 { 
-                   if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
-                   {
-                   
-                    row = '<tr class="ref'+key+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                    '<td scope="row"  class="code" >' + key + '</td>' +
-                    '<td>'  +    val[0] + '</td>' +
-                    '<td>  - </td>' +
-                    '<td id="add_op" style="display: flex;align-items: center; justify-content: space-between;"><p>' + val[1] + '</p></td>' +
-                    '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
-                    '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + '</td>' +
-                    '<td class="editable" id="AE_enga">' + data_T_port.sousOperation[iso].values.ae_engagesousop + '</td>' +
-                    '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + '</td>' +
-                    '<td class="editable" id="CP_not">' + data_T_port.sousOperation[iso].values.cp_notifiesousop + '</td>' +
-                    '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
-                    '</tr>';
-                    iso++;
-                     $('#T-tables tbody').append(row);
-                       only_def(data_T_port.sousOperation[iso].code)
-                   row = '<tr class="ref'+splitcode(data_T_port.sousOperation[iso].code, land)+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
-                   '<td scope="row"  class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land) + '</td>' +
-                   '<td>'  +    val[0] + '</td>' +
-                   '<td id="def"> </td>' +
-                   '<td id="sous_def" style="display: flex;align-items: center; justify-content: space-between;"></td>' +
-                   '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
-                   '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + '</td>' +
-                   '<td class="editable" id="AE_enga">' + data_T_port.sousOperation[iso].values.ae_engagesousop + '</td>' +
-                   '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + '</td>' +
-                   '<td class="editable" id="CP_not">' + data_T_port.sousOperation[iso].values.cp_notifiesousop + '</td>' +
-                   '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
-                   '</tr>';
-                   iso++;
-                 
-               }
+                    var sousou=true
+                    while (sousou) {
+                        if(splitcode(data_T_port.sousOperation[iso].code, land).length < 5 )
+                            {
+                            
+                                only_def(data_T_port.sousOperation[iso].code)
+                            row = '<tr class="ref'+splitcode(data_T_port.sousOperation[iso].code, land)+'" id="ref' + data_T_port.sousOperation[iso].code + '">' +
+                            '<td scope="row"  class="code" >' +key+"-"+splitcode(data_T_port.sousOperation[iso].code, land) + '</td>' +
+                            '<td>'  +    val[0] + '</td>' +
+                            '<td id="def"> </td>' +
+                            '<td id="sous_def" style="display: flex;align-items: center; justify-content: space-between;"></td>' +
+                            '<td class="editable" id="AE_rpor">' + data_T_port.sousOperation[iso].values.ae_reportesousop + '</td>' +
+                            '<td class="editable" id="AE_not">' + data_T_port.sousOperation[iso].values.ae_notifiesousop + '</td>' +
+                            '<td class="editable" id="AE_enga">' + data_T_port.sousOperation[iso].values.ae_engagesousop + '</td>' +
+                            '<td class="editable" id="CP_rpor">' + data_T_port.sousOperation[iso].values.cp_reportesousuop + '</td>' +
+                            '<td class="editable" id="CP_not">' + data_T_port.sousOperation[iso].values.cp_notifiesousop + '</td>' +
+                            '<td class="editable" id="CP_consom">' + data_T_port.sousOperation[iso].values.cp_consomesousop + '</td>' +
+                            '</tr>';
+                            iso++;
+                            $('#T-tables tbody').append(row);
+                        }
+                        else
+                        {
+                            sousou =false;
+                        }
+                    }
+                  
                 }
             }
             }
+            else
+            {
+                $('#T-tables tbody').append(row);
+            }
             // Append the row to the table body
 
-            $('#T-tables tbody').append(row);
+           
             Edit(id, T)
             if (current.length == 0) {
                 current = key;
@@ -3047,6 +3048,10 @@ function T4_table(id, T, id_s_act, port,code) {
                   
                }
             }
+           }
+           else
+           {
+            $('#T-tables tbody').append(row);
            }
             // Append the row to the table body
 
